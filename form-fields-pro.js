@@ -545,9 +545,7 @@ window.formFieldsNumberSlider = async () => {
   `;
 
   const addNumberSliderCss = async () => {
-    const res = await fetch(
-      `https://slawomir-zaziablo.github.io/range-slider/css/rSlider.min.css`,
-    );
+    const res = await fetch(`https://slawomir-zaziablo.github.io/range-slider/css/rSlider.min.css`);
 
     if (res.ok) {
       const cssString = await res.text();
@@ -559,9 +557,7 @@ window.formFieldsNumberSlider = async () => {
   };
 
   const addNumberSliderPackage = async () => {
-    const res = await fetch(
-      "https://slawomir-zaziablo.github.io/range-slider/js/rSlider.min.js",
-    );
+    const res = await fetch("https://slawomir-zaziablo.github.io/range-slider/js/rSlider.min.js");
     if (res.ok) {
       const code = await res.text();
       const script = document.createElement("script");
@@ -572,6 +568,38 @@ window.formFieldsNumberSlider = async () => {
 
       document.getElementsByTagName("head")[0].appendChild(script);
     }
+  };
+
+  /**
+   *
+   * @param {Element} element
+   */
+  const overrideCss = (element) => {
+    const inputName = element.getAttribute("name");
+    const slider = document.querySelector(`[name="${inputName}"] + rs-container`);
+
+    const lightTheme = {
+      sliderColor: element.getAttribute("data-light-theme-slider-color"),
+    };
+
+    const darkTheme = {
+      sliderColor: element.getAttribute("data-dark-theme-slider-color"),
+    };
+
+    const sheet = new CSSStyleSheet();
+    sheet.replaceSync(`
+    [name="${inputName}"] + .rs-container .rs-selected {
+      background: ${lightTheme.sliderColor}
+    }
+
+    @media (prefers-color-scheme: dark) {
+      [name="${inputName}"] + .rs-container .rs-selected {
+        background: ${darkTheme.sliderColor}
+      }
+    }
+    `);
+
+    document.adoptedStyleSheets.push(sheet);
   };
 
   /**
@@ -618,14 +646,14 @@ window.formFieldsNumberSlider = async () => {
   };
 
   const initializeTheSliders = () => {
-    const sliders = document.querySelectorAll(
-      `[form-fields-pro-number-slider]`,
-    );
+    const sliders = document.querySelectorAll(`[form-fields-pro-number-slider]`);
 
     for (let slider of sliders) {
       const rangeSlider = slider.getAttribute("allow-range");
       if (rangeSlider) initializeRangeSlider(slider);
       else initializeRegularSlider(slider);
+
+      overrideCss(slider);
     }
   };
 
