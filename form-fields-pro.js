@@ -515,6 +515,23 @@ window.formFieldsNumberSlider = async () => {
   .rs-scale span::before {
     display: none;
   }
+  .rs-container .rs-bg, .rs-container .rs-selected {
+    height: 12px;
+    border-radius: 13.5px;
+  }
+
+  .rs-container .rs-pointer {
+    width: 22px;
+    height: 22px;
+    top: 1px;
+    border-radius: 50%;
+  }
+
+  .rs-container .rs-pointer::after, .rs-container .rs-pointer::before {
+    display: none;
+  }
+
+
   .form-fields-dropdown-item:hover {
     background: lightgray;
   }
