@@ -535,6 +535,11 @@ window.formFieldsNumberSlider = async () => {
     display: none;
   }
 
+  .rs-tooltip {
+    min-width: fit-content;
+    border: none;
+  }
+
 
   .form-fields-dropdown-item:hover {
     background: lightgray;
@@ -576,7 +581,6 @@ window.formFieldsNumberSlider = async () => {
    */
   const overrideCss = (element) => {
     const inputName = element.getAttribute("name");
-    const slider = document.querySelector(`[name="${inputName}"] + rs-container`);
 
     const lightTheme = {
       sliderColor: element.getAttribute("data-light-theme-slider-color"),
@@ -591,9 +595,15 @@ window.formFieldsNumberSlider = async () => {
     [name="${inputName}"] + .rs-container .rs-selected {
       background: ${lightTheme.sliderColor}
     }
+    [name="${inputName}"] + .rs-container .rs-tooltip {
+      background: ${lightTheme.sliderColor}
+    }
 
     @media (prefers-color-scheme: dark) {
       [name="${inputName}"] + .rs-container .rs-selected {
+        background: ${darkTheme.sliderColor}
+      }
+      [name="${inputName}"] + .rs-container .rs-tooltip {
         background: ${darkTheme.sliderColor}
       }
     }
