@@ -342,9 +342,7 @@ window.formFieldsDateInput = async () => {
 
     return {
       element,
-      css: [
-        "https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.1/dist/index.css",
-      ],
+      css: ["https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.1/dist/index.css"],
       grid,
       calendars,
       firstDay,
@@ -354,16 +352,51 @@ window.formFieldsDateInput = async () => {
     };
   };
 
+  /**
+   *
+   * @param {Element} element
+   */
+  const overrideCss = (element) => {
+    const inputName = element.getAttribute("name");
+    const datePicker = document.querySelector(`[name="${inputName}"] + span.easepick-wrapper`);
+
+    const lightTheme = {
+      selectedDateBackgroundColor: element.getAttribute("data-light-theme-selected-date-color"),
+      todayColor: element.getAttribute("data-light-theme-today-color"),
+    };
+
+    const darkTheme = {
+      selectedDateBackgroundColor: element.getAttribute("data-dark-theme-selected-date-color"),
+      todayColor: element.getAttribute("data-dark-theme-today-color"),
+    };
+
+    const sheet = new CSSStyleSheet();
+    sheet.replaceSync(`
+    .calendar>.days-grid>.day.selected {
+      background-color: ${lightTheme.selectedDateBackgroundColor}; 
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .calendar>.days-grid>.day.selected {
+        background-color: ${darkTheme.selectedDateBackgroundColor}; 
+      }
+    }
+    `);
+    datePicker.shadowRoot.adoptedStyleSheets = [sheet];
+
+    console.log("input: ", inputName, "datePicker: ", datePicker, datePicker.shadowRoot);
+  };
+
   const initializeDatePickers = () => {
     const datePickers = document.querySelectorAll(selectors.DATE_PICKER);
 
     for (let datePicker of datePickers) {
       const config = getCommonConfig(datePicker);
-      console.log("config: ", config);
       new easepick.create({
         ...config,
         date: new Date(),
       });
+      overrideCss(datePicker);
     }
   };
 
@@ -385,9 +418,7 @@ window.formFieldsDateInput = async () => {
   };
 
   const addDatePickerPackage = async () => {
-    const res = await fetch(
-      "https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.1/dist/index.umd.min.js",
-    );
+    const res = await fetch("https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.1/dist/index.umd.min.js");
     if (res.ok) {
       const code = await res.text();
       const script = document.createElement("script");
