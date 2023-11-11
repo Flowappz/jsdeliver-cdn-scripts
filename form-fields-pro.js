@@ -426,6 +426,7 @@ window.formFieldsDateInput = async () => {
           endDate: new Date(),
         },
       });
+      overrideCss(datePicker);
     }
   };
 
