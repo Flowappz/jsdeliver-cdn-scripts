@@ -527,6 +527,10 @@ window.formFieldsNumberSlider = async () => {
     border-radius: 50%;
   }
 
+  .rs-container .rs-selected {
+    border: none;
+  }
+
   .rs-container .rs-pointer::after, .rs-container .rs-pointer::before {
     display: none;
   }
