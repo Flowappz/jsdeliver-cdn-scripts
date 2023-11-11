@@ -372,13 +372,25 @@ window.formFieldsDateInput = async () => {
 
     const sheet = new CSSStyleSheet();
     sheet.replaceSync(`
+    .calendar>.days-grid>.day.today {
+      color: ${lightTheme.todayColor}
+    }
     .calendar>.days-grid>.day.selected {
       background-color: ${lightTheme.selectedDateBackgroundColor}; 
     }
+    .calendar>.days-grid>.day:hover {
+      border-color: ${lightTheme.selectedDateBackgroundColor}
+    }
 
     @media (prefers-color-scheme: dark) {
+      .calendar>.days-grid>.day.today {
+        color: ${darkTheme.todayColor}
+      }
       .calendar>.days-grid>.day.selected {
         background-color: ${darkTheme.selectedDateBackgroundColor}; 
+      }
+      .calendar>.days-grid>.day:hover {
+        border-color: ${darkTheme.selectedDateBackgroundColor}
       }
     }
     `);
