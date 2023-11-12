@@ -413,27 +413,73 @@ window.formFieldsDateInput = async () => {
       todayColor: element.getAttribute("data-dark-theme-today-color"),
     };
 
+    console.log(
+      darkTheme.selectedDateBackgroundColor.replace("rgb", "rgba").replace(")", " 0.7)").split(" ").join(", ")
+    );
+
     const sheet = new CSSStyleSheet();
     sheet.replaceSync(`
     .calendar>.days-grid>.day.today {
       color: ${lightTheme.todayColor}
     }
-    .calendar>.days-grid>.day.selected {
+
+    .calendar>.days-grid>.day.selected, 
+    .container.range-plugin .calendar>.days-grid>.day.end, 
+    .container.range-plugin .calendar>.days-grid>.day.start {
       background-color: ${lightTheme.selectedDateBackgroundColor}; 
     }
+
+    .container.range-plugin .calendar>.days-grid>.day.start:after {
+      border-left-color: ${lightTheme.selectedDateBackgroundColor}; 
+    }
+
+    .container.range-plugin .calendar>.days-grid>.day.end:after {
+      border-right-color: ${lightTheme.selectedDateBackgroundColor}; 
+    }
+
     .calendar>.days-grid>.day:hover {
       border-color: ${lightTheme.selectedDateBackgroundColor}
     }
+
+    .container.range-plugin .calendar>.days-grid>.day.in-range {
+      background-color: ${lightTheme.selectedDateBackgroundColor
+        .replace("rgb", "rgba")
+        .replace(")", " 0.7)")
+        .split(" ")
+        .join(", ")}; 
+    }
+
+
 
     @media (prefers-color-scheme: dark) {
       .calendar>.days-grid>.day.today {
         color: ${darkTheme.todayColor}
       }
-      .calendar>.days-grid>.day.selected {
+
+      .calendar>.days-grid>.day.selected,
+      .container.range-plugin .calendar>.days-grid>.day.end, 
+      .container.range-plugin .calendar>.days-grid>.day.start {
         background-color: ${darkTheme.selectedDateBackgroundColor}; 
       }
+
       .calendar>.days-grid>.day:hover {
         border-color: ${darkTheme.selectedDateBackgroundColor}
+      }
+
+      .container.range-plugin .calendar>.days-grid>.day.start:after {
+        border-left-color: ${darkTheme.selectedDateBackgroundColor}; 
+      }
+
+      .container.range-plugin .calendar>.days-grid>.day.end:after {
+        border-right-color: ${darkTheme.selectedDateBackgroundColor}; 
+      }
+
+      .container.range-plugin .calendar>.days-grid>.day.in-range {
+        background-color: ${darkTheme.selectedDateBackgroundColor
+          .replace("rgb", "rgba")
+          .replace(")", " 0.7)")
+          .split(" ")
+          .join(", ")}; 
       }
     }
     `);
