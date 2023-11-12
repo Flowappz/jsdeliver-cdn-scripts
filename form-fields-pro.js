@@ -413,6 +413,12 @@ window.formFieldsDateInput = async () => {
       todayColor: element.getAttribute("data-dark-theme-today-color"),
     };
 
+    console.log("\n---");
+    console.log("element: ", element);
+    console.log("lightTheme: ", lightTheme);
+    console.log("darkTheme: ", darkTheme);
+    console.log("---\n");
+
     const sheet = new CSSStyleSheet();
     sheet.replaceSync(`
     .calendar>.days-grid>.day.today {
