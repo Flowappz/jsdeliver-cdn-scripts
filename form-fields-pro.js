@@ -413,10 +413,6 @@ window.formFieldsDateInput = async () => {
       todayColor: element.getAttribute("data-dark-theme-today-color"),
     };
 
-    console.log(
-      darkTheme.selectedDateBackgroundColor.replace("rgb", "rgba").replace(")", " 0.7)").split(" ").join(", ")
-    );
-
     const sheet = new CSSStyleSheet();
     sheet.replaceSync(`
     .calendar>.days-grid>.day.today {
@@ -485,7 +481,6 @@ window.formFieldsDateInput = async () => {
     `);
     datePicker.shadowRoot.adoptedStyleSheets = [sheet];
 
-    console.log("input: ", inputName, "datePicker: ", datePicker, datePicker.shadowRoot);
   };
 
   const initializeDatePickers = () => {
