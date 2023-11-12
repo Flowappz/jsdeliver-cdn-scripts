@@ -413,12 +413,6 @@ window.formFieldsDateInput = async () => {
       todayColor: element.getAttribute("data-dark-theme-today-color"),
     };
 
-    console.log("\n---");
-    console.log("element: ", element);
-    console.log("lightTheme: ", lightTheme);
-    console.log("darkTheme: ", darkTheme);
-    console.log("---\n");
-
     const sheet = new CSSStyleSheet();
     sheet.replaceSync(`
     .calendar>.days-grid>.day.today {
@@ -428,7 +422,8 @@ window.formFieldsDateInput = async () => {
     .calendar>.days-grid>.day.selected, 
     .container.range-plugin .calendar>.days-grid>.day.end, 
     .container.range-plugin .calendar>.days-grid>.day.start {
-      background-color: ${lightTheme.selectedDateBackgroundColor}; 
+      background-color: ${lightTheme.selectedDateBackgroundColor};
+      color: rgb(255, 255, 255);
     }
 
     .container.range-plugin .calendar>.days-grid>.day.start:after {
@@ -461,7 +456,8 @@ window.formFieldsDateInput = async () => {
       .calendar>.days-grid>.day.selected,
       .container.range-plugin .calendar>.days-grid>.day.end, 
       .container.range-plugin .calendar>.days-grid>.day.start {
-        background-color: ${darkTheme.selectedDateBackgroundColor}; 
+        background-color: ${darkTheme.selectedDateBackgroundColor};
+        color: rgb(255, 255, 255);
       }
 
       .calendar>.days-grid>.day:hover {
