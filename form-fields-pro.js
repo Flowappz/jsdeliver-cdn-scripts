@@ -9,6 +9,53 @@ window.formFieldsDropdown = () => {
     DROPDOWN_TOGGLERS_SELECTED_VALUE: "[form-field-dropdown-toggler-selected-value]",
   };
 
+  const defaultDropdownStyle = () => {
+    const cssString = `
+    .form-fields-dropdown-item:hover {
+      background: lightgray;
+    }
+    [form-field-searchable-dropdown-no-item-found] .form-fields-dropdown-item:hover {
+      background: initial;
+    }
+    `;
+
+    const style = document.createElement("style");
+    style.innerHTML = `${cssString}`;
+
+    document.getElementsByTagName("head")[0].appendChild(style);
+  };
+
+  /**
+   *
+   * @param {Element} element
+   */
+  const overrideCss = (element) => {
+    const inputName = element.getAttribute("dropdown-name");
+
+    const lightTheme = {
+      hoverBackground: element.getAttribute("data-light-theme-hover-color"),
+    };
+
+    const darkTheme = {
+      hoverBackground: element.getAttribute("data-dark-theme-hover-color"),
+    };
+
+    const sheet = new CSSStyleSheet();
+    sheet.replaceSync(`
+      [input-field="${inputName}"].form-fields-dropdown-item:hover {
+        background: ${lightTheme.hoverBackground}
+      }
+  
+      @media (prefers-color-scheme: dark) {
+        [input-field="${inputName}"].form-fields-dropdown-item:hover {
+          background: ${darkTheme.hoverBackground}
+        }
+      }
+      `);
+
+    document.adoptedStyleSheets.push(sheet);
+  };
+
   const togglerAttributes = {
     NAME: "dropdown-name",
   };
@@ -77,6 +124,7 @@ window.formFieldsDropdown = () => {
     for (let list of dropdownLists) {
       const name = list.getAttribute(togglerAttributes.NAME);
       DROPDOWN_LISTS[name] = list;
+      overrideCss(list);
     }
   }
 
@@ -138,6 +186,8 @@ window.formFieldsDropdown = () => {
     setInputValueOnItemClick();
   }
 
+  defaultDropdownStyle();
+
   selectDropdownTogglers();
   selectDropdownLists();
   selectDropdownInputs();
@@ -155,8 +205,7 @@ window.showHideDropdown = () => {
     DROPDOWN_INPUT: "[form-field-dropdown-input]",
     DROPDOWN_ITEM: "[form-field-dropdown-item]",
     DROPDOWN_LIST: "[form-field-dropdown-item-list]",
-    DROPDOWN_TOGGLERS_SELECTED_VALUE:
-      "[form-field-dropdown-toggler-selected-value]",
+    DROPDOWN_TOGGLERS_SELECTED_VALUE: "[form-field-dropdown-toggler-selected-value]",
     NO_DATA_FOUND: "[form-field-searchable-dropdown-no-item-found]",
   };
 
@@ -211,18 +260,14 @@ window.showHideDropdown = () => {
     DROPDOWN_TOGGLERS[name] = toggler;
   }
 
-  const selectedValueLabelForRegularDropdown = document.querySelectorAll(
-    selectors.DROPDOWN_TOGGLERS_SELECTED_VALUE,
-  );
+  const selectedValueLabelForRegularDropdown = document.querySelectorAll(selectors.DROPDOWN_TOGGLERS_SELECTED_VALUE);
 
   for (let selectedValueLabel of selectedValueLabelForRegularDropdown) {
     const name = selectedValueLabel.getAttribute(togglerAttributes.NAME);
     DROPDOWN_TOGGLERS_SELECTED_VALUE[name] = selectedValueLabel;
   }
 
-  const searchableTogglers = document.querySelectorAll(
-    selectors.SEARCHABLE_DROPDOWN_TOGGLER,
-  );
+  const searchableTogglers = document.querySelectorAll(selectors.SEARCHABLE_DROPDOWN_TOGGLER);
 
   for (let searchableToggler of searchableTogglers) {
     const name = searchableToggler.getAttribute(togglerAttributes.NAME);
@@ -307,13 +352,11 @@ window.showHideDropdown = () => {
       document.body.addEventListener("click", function (e) {
         if (!closest(e.target, list)) {
           list.style.display = "none";
-          if (NO_DATA_FOUND[inputName])
-            NO_DATA_FOUND[inputName].style.display = "none";
+          if (NO_DATA_FOUND[inputName]) NO_DATA_FOUND[inputName].style.display = "none";
         }
       });
     }
   };
-
 
   filterItemsOnInputChange();
   hideDropdownOnOutsideClick();
@@ -457,9 +500,7 @@ window.formFieldsUserIp = async () => {
     /**
      * @type {HTMLElement[]}
      */
-    const alertElements = document.querySelectorAll(
-      "[form-fields-pro-user-ip-admin-alert]",
-    );
+    const alertElements = document.querySelectorAll("[form-fields-pro-user-ip-admin-alert]");
 
     for (let element of alertElements) element.style.display = "none";
   };
@@ -480,9 +521,7 @@ window.formFieldsUserIp = async () => {
     /**
      * @type {HTMLInputElement[]}
      */
-    const inputElements = document.querySelectorAll(
-      "[form-fields-pro-user-ip-input]",
-    );
+    const inputElements = document.querySelectorAll("[form-fields-pro-user-ip-input]");
 
     for (let input of inputElements) {
       input.value = ip;
@@ -538,14 +577,6 @@ window.formFieldsNumberSlider = async () => {
   .rs-tooltip {
     min-width: fit-content;
     border: none;
-  }
-
-
-  .form-fields-dropdown-item:hover {
-    background: lightgray;
-  }
-  [form-field-searchable-dropdown-no-item-found] .form-fields-dropdown-item:hover {
-    background: initial;
   }
   `;
 
