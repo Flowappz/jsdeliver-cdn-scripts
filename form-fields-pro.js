@@ -409,13 +409,13 @@ window.formFieldsDateInput = async () => {
 
     const lightTheme = {
       selectedDateTextColor: element.getAttribute("data-light-theme-selected-date-text-color"),
-      selectedDateBackgroundColor: element.getAttribute("data-light-theme-selected-date-color"),
+      selectedDateBackgroundColor: element.getAttribute("data-light-theme-selected-date-background-color"),
       todayColor: element.getAttribute("data-light-theme-today-color"),
     };
 
     const darkTheme = {
       selectedDateTextColor: element.getAttribute("data-dark-theme-selected-date-text-color"),
-      selectedDateBackgroundColor: element.getAttribute("data-dark-theme-selected-date-color"),
+      selectedDateBackgroundColor: element.getAttribute("data-dark-theme-selected-date-background-color"),
       todayColor: element.getAttribute("data-dark-theme-today-color"),
     };
 
