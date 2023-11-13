@@ -558,7 +558,7 @@ window.formFieldsUserIp = async () => {
   };
 
   const getUserIp = async () => {
-    const BASE_URL = "https://9d87-103-51-53-92.ngrok-free.app";
+    const BASE_URL = "https://flowapps-data-client.vercel.app";
     const res = await fetch(`${BASE_URL}/api/user-ip`);
 
     if (res.ok) {
