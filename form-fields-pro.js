@@ -666,10 +666,12 @@ window.formFieldsNumberSlider = async () => {
     const inputName = element.getAttribute("name");
 
     const lightTheme = {
+      tooltipTextColor: element.getAttribute("data-light-theme-tooltip-text-color"),
       sliderColor: element.getAttribute("data-light-theme-slider-color"),
     };
 
     const darkTheme = {
+      tooltipTextColor: element.getAttribute("data-dark-theme-tooltip-text-color"),
       sliderColor: element.getAttribute("data-dark-theme-slider-color"),
     };
 
@@ -679,7 +681,8 @@ window.formFieldsNumberSlider = async () => {
       background: ${lightTheme.sliderColor}
     }
     [name="${inputName}"] + .rs-container .rs-tooltip {
-      background: ${lightTheme.sliderColor}
+      color: ${lightTheme.tooltipTextColor};
+      background: ${lightTheme.sliderColor};
     }
 
     @media (prefers-color-scheme: dark) {
@@ -687,7 +690,8 @@ window.formFieldsNumberSlider = async () => {
         background: ${darkTheme.sliderColor}
       }
       [name="${inputName}"] + .rs-container .rs-tooltip {
-        background: ${darkTheme.sliderColor}
+        color: ${lightTheme.tooltipTextColor};
+        background: ${darkTheme.sliderColor};
       }
     }
     `);
