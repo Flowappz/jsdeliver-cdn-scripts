@@ -33,21 +33,25 @@ window.formFieldsDropdown = () => {
     const inputName = element.getAttribute("dropdown-name");
 
     const lightTheme = {
+      hoverTextColor: element.getAttribute("data-light-theme-hover-text-color"),
       hoverBackground: element.getAttribute("data-light-theme-hover-color"),
     };
 
     const darkTheme = {
+      hoverTextColor: element.getAttribute("data-light-theme-hover-text-color"),
       hoverBackground: element.getAttribute("data-dark-theme-hover-color"),
     };
 
     const sheet = new CSSStyleSheet();
     sheet.replaceSync(`
       [input-field="${inputName}"].form-fields-dropdown-item:hover {
+        color: ${lightTheme.hoverTextColor};
         background: ${lightTheme.hoverBackground}
       }
   
       @media (prefers-color-scheme: dark) {
         [input-field="${inputName}"].form-fields-dropdown-item:hover {
+          color: ${darkTheme.hoverTextColor};
           background: ${darkTheme.hoverBackground}
         }
       }
