@@ -38,7 +38,7 @@ window.formFieldsDropdown = () => {
     };
 
     const darkTheme = {
-      hoverTextColor: element.getAttribute("data-light-theme-hover-text-color"),
+      hoverTextColor: element.getAttribute("data-dark-theme-hover-text-color"),
       hoverBackground: element.getAttribute("data-dark-theme-hover-color"),
     };
 
@@ -408,11 +408,13 @@ window.formFieldsDateInput = async () => {
     const datePicker = document.querySelector(`[name="${inputName}"] + span.easepick-wrapper`);
 
     const lightTheme = {
+      selectedDateTextColor: element.getAttribute("data-light-theme-selected-date-text-color"),
       selectedDateBackgroundColor: element.getAttribute("data-light-theme-selected-date-color"),
       todayColor: element.getAttribute("data-light-theme-today-color"),
     };
 
     const darkTheme = {
+      selectedDateTextColor: element.getAttribute("data-dark-theme-selected-date-text-color"),
       selectedDateBackgroundColor: element.getAttribute("data-dark-theme-selected-date-color"),
       todayColor: element.getAttribute("data-dark-theme-today-color"),
     };
@@ -426,6 +428,7 @@ window.formFieldsDateInput = async () => {
     .calendar>.days-grid>.day.selected, 
     .container.range-plugin .calendar>.days-grid>.day.end, 
     .container.range-plugin .calendar>.days-grid>.day.start {
+      color: ${lightTheme.selectedDateTextColor};
       background-color: ${lightTheme.selectedDateBackgroundColor};
       color: rgb(255, 255, 255);
     }
@@ -443,6 +446,7 @@ window.formFieldsDateInput = async () => {
     }
 
     .container.range-plugin .calendar>.days-grid>.day.in-range {
+      color: ${lightTheme.selectedDateTextColor};
       background-color: ${lightTheme.selectedDateBackgroundColor
         .replace("rgb", "rgba")
         .replace(")", " 0.7)")
@@ -460,6 +464,7 @@ window.formFieldsDateInput = async () => {
       .calendar>.days-grid>.day.selected,
       .container.range-plugin .calendar>.days-grid>.day.end, 
       .container.range-plugin .calendar>.days-grid>.day.start {
+        color: ${darkTheme.selectedDateTextColor};
         background-color: ${darkTheme.selectedDateBackgroundColor};
         color: rgb(255, 255, 255);
       }
@@ -477,6 +482,7 @@ window.formFieldsDateInput = async () => {
       }
 
       .container.range-plugin .calendar>.days-grid>.day.in-range {
+        color: ${darkTheme.selectedDateTextColor};
         background-color: ${darkTheme.selectedDateBackgroundColor
           .replace("rgb", "rgba")
           .replace(")", " 0.7)")
@@ -486,7 +492,6 @@ window.formFieldsDateInput = async () => {
     }
     `);
     datePicker.shadowRoot.adoptedStyleSheets = [sheet];
-
   };
 
   const initializeDatePickers = () => {
