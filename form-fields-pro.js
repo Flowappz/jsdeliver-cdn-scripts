@@ -34,12 +34,12 @@ window.formFieldsDropdown = () => {
 
     const lightTheme = {
       hoverTextColor: element.getAttribute("data-light-theme-hover-text-color"),
-      hoverBackground: element.getAttribute("data-light-theme-hover-color"),
+      hoverBackground: element.getAttribute("data-light-theme-hover-background-color"),
     };
 
     const darkTheme = {
       hoverTextColor: element.getAttribute("data-dark-theme-hover-text-color"),
-      hoverBackground: element.getAttribute("data-dark-theme-hover-color"),
+      hoverBackground: element.getAttribute("data-dark-theme-hover-background-color"),
     };
 
     const sheet = new CSSStyleSheet();
