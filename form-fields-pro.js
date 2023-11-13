@@ -430,7 +430,6 @@ window.formFieldsDateInput = async () => {
     .container.range-plugin .calendar>.days-grid>.day.start {
       color: ${lightTheme.selectedDateTextColor};
       background-color: ${lightTheme.selectedDateBackgroundColor};
-      color: rgb(255, 255, 255);
     }
 
     .container.range-plugin .calendar>.days-grid>.day.start:after {
@@ -466,7 +465,6 @@ window.formFieldsDateInput = async () => {
       .container.range-plugin .calendar>.days-grid>.day.start {
         color: ${darkTheme.selectedDateTextColor};
         background-color: ${darkTheme.selectedDateBackgroundColor};
-        color: rgb(255, 255, 255);
       }
 
       .calendar>.days-grid>.day:hover {
