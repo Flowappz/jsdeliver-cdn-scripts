@@ -446,11 +446,7 @@ window.formFieldsDateInput = async () => {
 
     .container.range-plugin .calendar>.days-grid>.day.in-range {
       color: ${lightTheme.selectedDateTextColor};
-      background-color: ${lightTheme.selectedDateBackgroundColor
-        .replace("rgb", "rgba")
-        .replace(")", " 0.7)")
-        .split(" ")
-        .join(", ")}; 
+      background-color: ${lightTheme.selectedDateBackgroundColor.replace("rgb", "rgba").replace(")", ", 0.65)")}; 
     }
 
 
@@ -481,11 +477,7 @@ window.formFieldsDateInput = async () => {
 
       .container.range-plugin .calendar>.days-grid>.day.in-range {
         color: ${darkTheme.selectedDateTextColor};
-        background-color: ${darkTheme.selectedDateBackgroundColor
-          .replace("rgb", "rgba")
-          .replace(")", " 0.7)")
-          .split(" ")
-          .join(", ")}; 
+        background-color: ${darkTheme.selectedDateBackgroundColor.replace("rgb", "rgba").replace(")", ", 0.65)")}; 
       }
     }
     `);
