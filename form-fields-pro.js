@@ -793,6 +793,45 @@ window.formFieldsSelect = () => {
 
   /**
    *
+   * @param {HTMLInputElement} input
+   * @param {HTMLElement[]} selectItems
+   * @param {HTMLElement} selectList
+   */
+  function filterItemsOnInputChange(input, selectItems, selectList) {
+    input.addEventListener("click", (e) => {
+      e.stopPropagation();
+
+      const listDisplayed = selectList.style.display === "block";
+
+      if (listDisplayed) selectList.style.display = "none";
+      else selectList.style.display = "block";
+    });
+
+    input.addEventListener("input", (e) => {
+      const val = e.target.value;
+
+      if (val.trim()) {
+        let count = 0;
+        for (let item of selectItems) {
+          if (item.innerText.toLowerCase().includes(val.toLowerCase())) {
+            item.style.display = "block";
+            count++;
+          } else item.style.display = "none";
+        }
+        // if (count === 0) {
+        //   NO_DATA_FOUND[key].style.display = "block";
+        // } else NO_DATA_FOUND[key].style.display = "none";
+      } else {
+        for (let item of selectItems) {
+          item.style.display = "block";
+        }
+        // if (NO_DATA_FOUND[key]) NO_DATA_FOUND[key].style.display = "none";
+      }
+    });
+  }
+
+  /**
+   *
    * @param {HTMLElement} selectWrapper
    * @param {HTMLElement} selectList
    */
@@ -860,6 +899,8 @@ window.formFieldsSelect = () => {
       selectedItemDisplayLabel,
       isSearchable,
     });
+
+    if (isSearchable) filterItemsOnInputChange(input, selectItems, selectList);
   };
 
   // find all select inputs with list
