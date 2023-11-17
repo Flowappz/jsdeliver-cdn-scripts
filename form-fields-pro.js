@@ -580,180 +580,180 @@ window.showHideDropdown = () => {
 
 // window.formFieldsUserIp();
 
-// // range slider
-// window.formFieldsNumberSlider = async () => {
-//   const additionalCss = `
-//   .rs-noscale .rs-scale {
-//     display: none;
-//   }
-//   .rs-scale {
-//     display: flex;
-//     justify-content: space-between;
-//     width: 100%;
-//   }
-//   .rs-scale span {
-//     display: none;
-//   }
-//   .rs-scale span:first-child, .rs-scale span:last-child {
-//     display: initial;
-//   }
-//   .rs-scale span::before {
-//     display: none;
-//   }
-//   .rs-container .rs-bg, .rs-container .rs-selected {
-//     height: 12px;
-//     border-radius: 13.5px;
-//   }
+// range slider
+window.formFieldsNumberSlider = async () => {
+  const additionalCss = `
+  .rs-noscale .rs-scale {
+    display: none;
+  }
+  .rs-scale {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .rs-scale span {
+    display: none;
+  }
+  .rs-scale span:first-child, .rs-scale span:last-child {
+    display: initial;
+  }
+  .rs-scale span::before {
+    display: none;
+  }
+  .rs-container .rs-bg, .rs-container .rs-selected {
+    height: 12px;
+    border-radius: 13.5px;
+  }
 
-//   .rs-container .rs-pointer {
-//     width: 22px;
-//     height: 22px;
-//     top: 1px;
-//     border-radius: 50%;
-//   }
+  .rs-container .rs-pointer {
+    width: 22px;
+    height: 22px;
+    top: 1px;
+    border-radius: 50%;
+  }
 
-//   .rs-container .rs-selected {
-//     border: none;
-//   }
+  .rs-container .rs-selected {
+    border: none;
+  }
 
-//   .rs-container .rs-pointer::after, .rs-container .rs-pointer::before {
-//     display: none;
-//   }
+  .rs-container .rs-pointer::after, .rs-container .rs-pointer::before {
+    display: none;
+  }
 
-//   .rs-tooltip {
-//     min-width: fit-content;
-//     border: none;
-//   }
-//   `;
+  .rs-tooltip {
+    min-width: fit-content;
+    border: none;
+  }
+  `;
 
-//   const addNumberSliderCss = async () => {
-//     const res = await fetch(`https://slawomir-zaziablo.github.io/range-slider/css/rSlider.min.css`);
+  const addNumberSliderCss = async () => {
+    const res = await fetch(`https://slawomir-zaziablo.github.io/range-slider/css/rSlider.min.css`);
 
-//     if (res.ok) {
-//       const cssString = await res.text();
-//       const style = document.createElement("style");
-//       style.innerHTML = `${cssString} ${additionalCss}`;
+    if (res.ok) {
+      const cssString = await res.text();
+      const style = document.createElement("style");
+      style.innerHTML = `${cssString} ${additionalCss}`;
 
-//       document.getElementsByTagName("head")[0].appendChild(style);
-//     }
-//   };
+      document.getElementsByTagName("head")[0].appendChild(style);
+    }
+  };
 
-//   const addNumberSliderPackage = async () => {
-//     const res = await fetch("https://slawomir-zaziablo.github.io/range-slider/js/rSlider.min.js");
-//     if (res.ok) {
-//       const code = await res.text();
-//       const script = document.createElement("script");
-//       script.text = code;
-//       script.type = "text/javascript";
+  const addNumberSliderPackage = async () => {
+    const res = await fetch("https://slawomir-zaziablo.github.io/range-slider/js/rSlider.min.js");
+    if (res.ok) {
+      const code = await res.text();
+      const script = document.createElement("script");
+      script.text = code;
+      script.type = "text/javascript";
 
-//       script.setAttribute("form-fields-number-slider-package", "true");
+      script.setAttribute("form-fields-number-slider-package", "true");
 
-//       document.getElementsByTagName("head")[0].appendChild(script);
-//     }
-//   };
+      document.getElementsByTagName("head")[0].appendChild(script);
+    }
+  };
 
-//   /**
-//    *
-//    * @param {Element} element
-//    */
-//   const overrideCss = (element) => {
-//     const inputName = element.getAttribute("name");
+  /**
+   *
+   * @param {Element} element
+   */
+  const overrideCss = (element) => {
+    const inputName = element.getAttribute("name");
 
-//     const lightTheme = {
-//       tooltipTextColor: element.getAttribute("data-light-theme-tooltip-text-color"),
-//       sliderColor: element.getAttribute("data-light-theme-slider-color"),
-//     };
+    const lightTheme = {
+      tooltipTextColor: element.getAttribute("data-light-theme-tooltip-text-color"),
+      sliderColor: element.getAttribute("data-light-theme-slider-color"),
+    };
 
-//     const darkTheme = {
-//       tooltipTextColor: element.getAttribute("data-dark-theme-tooltip-text-color"),
-//       sliderColor: element.getAttribute("data-dark-theme-slider-color"),
-//     };
+    const darkTheme = {
+      tooltipTextColor: element.getAttribute("data-dark-theme-tooltip-text-color"),
+      sliderColor: element.getAttribute("data-dark-theme-slider-color"),
+    };
 
-//     const sheet = new CSSStyleSheet();
-//     sheet.replaceSync(`
-//     [name="${inputName}"] + .rs-container .rs-selected {
-//       background: ${lightTheme.sliderColor}
-//     }
-//     [name="${inputName}"] + .rs-container .rs-tooltip {
-//       color: ${lightTheme.tooltipTextColor};
-//       background: ${lightTheme.sliderColor};
-//     }
+    const sheet = new CSSStyleSheet();
+    sheet.replaceSync(`
+    [name="${inputName}"] + .rs-container .rs-selected {
+      background: ${lightTheme.sliderColor}
+    }
+    [name="${inputName}"] + .rs-container .rs-tooltip {
+      color: ${lightTheme.tooltipTextColor};
+      background: ${lightTheme.sliderColor};
+    }
 
-//     @media (prefers-color-scheme: dark) {
-//       [name="${inputName}"] + .rs-container .rs-selected {
-//         background: ${darkTheme.sliderColor}
-//       }
-//       [name="${inputName}"] + .rs-container .rs-tooltip {
-//         color: ${lightTheme.tooltipTextColor};
-//         background: ${darkTheme.sliderColor};
-//       }
-//     }
-//     `);
+    @media (prefers-color-scheme: dark) {
+      [name="${inputName}"] + .rs-container .rs-selected {
+        background: ${darkTheme.sliderColor}
+      }
+      [name="${inputName}"] + .rs-container .rs-tooltip {
+        color: ${darkTheme.tooltipTextColor};
+        background: ${darkTheme.sliderColor};
+      }
+    }
+    `);
 
-//     document.adoptedStyleSheets.push(sheet);
-//   };
+    document.adoptedStyleSheets.push(sheet);
+  };
 
-//   /**
-//    *
-//    * @param {Element} sliderInput
-//    */
-//   const initializeRegularSlider = (sliderInput) => {
-//     const min = Number(sliderInput.getAttribute("data-min"));
-//     const max = Number(sliderInput.getAttribute("data-max"));
-//     const defaultValue = Number(sliderInput.getAttribute("data-default"));
+  /**
+   *
+   * @param {Element} sliderInput
+   */
+  const initializeRegularSlider = (sliderInput) => {
+    const min = Number(sliderInput.getAttribute("data-min"));
+    const max = Number(sliderInput.getAttribute("data-max"));
+    const defaultValue = Number(sliderInput.getAttribute("data-default"));
 
-//     new rSlider({
-//       target: sliderInput,
-//       values: { min, max },
-//       set: [defaultValue],
-//       range: false,
-//       tooltip: true,
-//       scale: true,
-//       label: false,
-//       step: 1,
-//     });
-//   };
+    new rSlider({
+      target: sliderInput,
+      values: { min, max },
+      set: [defaultValue],
+      range: false,
+      tooltip: true,
+      scale: true,
+      label: false,
+      step: 1,
+    });
+  };
 
-//   /**
-//    *
-//    * @param {Element} sliderInput
-//    */
-//   const initializeRangeSlider = (sliderInput) => {
-//     const min = Number(sliderInput.getAttribute("data-min"));
-//     const max = Number(sliderInput.getAttribute("data-max"));
-//     const defaultmin = Number(sliderInput.getAttribute("data-min-default"));
-//     const defaultmax = Number(sliderInput.getAttribute("data-max-default"));
+  /**
+   *
+   * @param {Element} sliderInput
+   */
+  const initializeRangeSlider = (sliderInput) => {
+    const min = Number(sliderInput.getAttribute("data-min"));
+    const max = Number(sliderInput.getAttribute("data-max"));
+    const defaultmin = Number(sliderInput.getAttribute("data-min-default"));
+    const defaultmax = Number(sliderInput.getAttribute("data-max-default"));
 
-//     new rSlider({
-//       target: sliderInput,
-//       values: { min, max },
-//       set: [defaultmin, defaultmax],
-//       range: true,
-//       tooltip: true,
-//       scale: true,
-//       label: false,
-//       step: 1,
-//     });
-//   };
+    new rSlider({
+      target: sliderInput,
+      values: { min, max },
+      set: [defaultmin, defaultmax],
+      range: true,
+      tooltip: true,
+      scale: true,
+      label: false,
+      step: 1,
+    });
+  };
 
-//   const initializeTheSliders = () => {
-//     const sliders = document.querySelectorAll(`[form-fields-pro-number-slider]`);
+  const initializeTheSliders = () => {
+    const sliders = document.querySelectorAll(`[form-fields-pro-number-slider]`);
 
-//     for (let slider of sliders) {
-//       const rangeSlider = slider.getAttribute("allow-range");
-//       if (rangeSlider) initializeRangeSlider(slider);
-//       else initializeRegularSlider(slider);
+    for (let slider of sliders) {
+      const rangeSlider = slider.getAttribute("allow-range");
+      if (rangeSlider) initializeRangeSlider(slider);
+      else initializeRegularSlider(slider);
 
-//       overrideCss(slider);
-//     }
-//   };
+      overrideCss(slider);
+    }
+  };
 
-//   await Promise.all([addNumberSliderCss(), addNumberSliderPackage()]);
+  await Promise.all([addNumberSliderCss(), addNumberSliderPackage()]);
 
-//   initializeTheSliders();
-// };
+  initializeTheSliders();
+};
 
-// window.formFieldsNumberSlider();
+window.formFieldsNumberSlider();
 
 window.formFieldsSelect = () => {
 
