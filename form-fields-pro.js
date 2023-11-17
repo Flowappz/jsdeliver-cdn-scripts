@@ -659,6 +659,9 @@ window.formFieldsNumberSlider = async () => {
   const overrideCss = (element) => {
     const inputName = element.getAttribute("name");
 
+    const formFieldsId = `${inputName}-${Date.now()}`;
+    element.setAttribute("form-fields-id", formFieldsId);
+
     const lightTheme = {
       tooltipTextColor: element.getAttribute("data-light-theme-tooltip-text-color"),
       sliderColor: element.getAttribute("data-light-theme-slider-color"),
@@ -671,19 +674,19 @@ window.formFieldsNumberSlider = async () => {
 
     const sheet = new CSSStyleSheet();
     sheet.replaceSync(`
-    [name="${inputName}"] + .rs-container .rs-selected {
+    [form-fields-id="${formFieldsId}"] + .rs-container .rs-selected {
       background: ${lightTheme.sliderColor}
     }
-    [name="${inputName}"] + .rs-container .rs-tooltip {
+    [form-fields-id="${formFieldsId}"] + .rs-container .rs-tooltip {
       color: ${lightTheme.tooltipTextColor};
       background: ${lightTheme.sliderColor};
     }
 
     @media (prefers-color-scheme: dark) {
-      [name="${inputName}"] + .rs-container .rs-selected {
+      [form-fields-id="${formFieldsId}"] + .rs-container .rs-selected {
         background: ${darkTheme.sliderColor}
       }
-      [name="${inputName}"] + .rs-container .rs-tooltip {
+      [form-fields-id="${formFieldsId}"] + .rs-container .rs-tooltip {
         color: ${darkTheme.tooltipTextColor};
         background: ${darkTheme.sliderColor};
       }
