@@ -758,6 +758,41 @@ window.showHideDropdown = () => {
 window.formFieldsSelect = () => {
   /**
    *
+   * @param {Element} element select list element
+   */
+  const overrideCss = (element) => {
+    const inputName = element.getAttribute("dropdown-name");
+
+    const lightTheme = {
+      hoverTextColor: element.getAttribute("data-light-theme-hover-text-color"),
+      hoverBackground: element.getAttribute("data-light-theme-hover-background-color"),
+    };
+
+    const darkTheme = {
+      hoverTextColor: element.getAttribute("data-dark-theme-hover-text-color"),
+      hoverBackground: element.getAttribute("data-dark-theme-hover-background-color"),
+    };
+
+    const sheet = new CSSStyleSheet();
+    sheet.replaceSync(`
+      [input-field="${inputName}"].form-fields-dropdown-item:hover {
+        color: ${lightTheme.hoverTextColor};
+        background: ${lightTheme.hoverBackground}
+      }
+  
+      @media (prefers-color-scheme: dark) {
+        [input-field="${inputName}"].form-fields-dropdown-item:hover {
+          color: ${darkTheme.hoverTextColor};
+          background: ${darkTheme.hoverBackground}
+        }
+      }
+      `);
+
+    document.adoptedStyleSheets.push(sheet);
+  };
+
+  /**
+   *
    * @param {HTMLElement} e
    * @param {HTMLElement} t
    * @returns
@@ -824,6 +859,7 @@ window.formFieldsSelect = () => {
 
     showHideListOnTogglerClick(toggler, selectList);
     hideListOnOutsideClick(selectList);
+    overrideCss(selectList);
 
     setInputValueOnClick({
       selectItems,
