@@ -369,176 +369,176 @@ window.showHideDropdown = () => {
 // window.showHideDropdown();
 
 // date picker & range
-// window.formFieldsDateInput = async () => {
-//   const selectors = {
-//     DATE_PICKER: "[form-fields-pro-date-picker]",
-//     DATE_RANGE_PICKER: "[form-fields-pro-date-range-picker]",
-//   };
+window.formFieldsDateInput = async () => {
+  const selectors = {
+    DATE_PICKER: "[form-fields-pro-date-picker]",
+    DATE_RANGE_PICKER: "[form-fields-pro-date-range-picker]",
+  };
 
-//   /**
-//    *
-//    * @param {Element} element
-//    */
-//   const getCommonConfig = (element) => {
-//     const grid = Number(element.getAttribute("data-columns"));
-//     const calendars = Number(element.getAttribute("data-months"));
-//     const firstDay = Number(element.getAttribute("data-firstDay"));
-//     const format = element.getAttribute("data-format");
-//     const lang = element.getAttribute("data-language");
-//     const zIndex = element.getAttribute("data-zIndex");
+  /**
+   *
+   * @param {Element} element
+   */
+  const getCommonConfig = (element) => {
+    const grid = Number(element.getAttribute("data-columns"));
+    const calendars = Number(element.getAttribute("data-months"));
+    const firstDay = Number(element.getAttribute("data-firstDay"));
+    const format = element.getAttribute("data-format");
+    const lang = element.getAttribute("data-language");
+    const zIndex = element.getAttribute("data-zIndex");
 
-//     return {
-//       element,
-//       css: ["https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.1/dist/index.css"],
-//       grid,
-//       calendars,
-//       firstDay,
-//       format,
-//       lang,
-//       zIndex,
-//     };
-//   };
+    return {
+      element,
+      css: ["https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.1/dist/index.css"],
+      grid,
+      calendars,
+      firstDay,
+      format,
+      lang,
+      zIndex,
+    };
+  };
 
-//   /**
-//    *
-//    * @param {Element} element
-//    */
-//   const overrideCss = (element) => {
-//     const inputName = element.getAttribute("name");
-//     const datePicker = document.querySelector(`[name="${inputName}"] + span.easepick-wrapper`);
+  /**
+   *
+   * @param {Element} element
+   */
+  const overrideCss = (element) => {
+    const inputName = element.getAttribute("name");
+    const datePicker = document.querySelector(`[name="${inputName}"] + span.easepick-wrapper`);
 
-//     const lightTheme = {
-//       selectedDateTextColor: element.getAttribute("data-light-theme-selected-date-text-color"),
-//       selectedDateBackgroundColor: element.getAttribute("data-light-theme-selected-date-background-color"),
-//       todayColor: element.getAttribute("data-light-theme-today-color"),
-//     };
+    const lightTheme = {
+      selectedDateTextColor: element.getAttribute("data-light-theme-selected-date-text-color"),
+      selectedDateBackgroundColor: element.getAttribute("data-light-theme-selected-date-background-color"),
+      todayColor: element.getAttribute("data-light-theme-today-color"),
+    };
 
-//     const darkTheme = {
-//       selectedDateTextColor: element.getAttribute("data-dark-theme-selected-date-text-color"),
-//       selectedDateBackgroundColor: element.getAttribute("data-dark-theme-selected-date-background-color"),
-//       todayColor: element.getAttribute("data-dark-theme-today-color"),
-//     };
+    const darkTheme = {
+      selectedDateTextColor: element.getAttribute("data-dark-theme-selected-date-text-color"),
+      selectedDateBackgroundColor: element.getAttribute("data-dark-theme-selected-date-background-color"),
+      todayColor: element.getAttribute("data-dark-theme-today-color"),
+    };
 
-//     const sheet = new CSSStyleSheet();
-//     sheet.replaceSync(`
-//     .container {
-//       font-family: "inherit";
-//     }
+    const sheet = new CSSStyleSheet();
+    sheet.replaceSync(`
+    .container {
+      font-family: "inherit";
+    }
 
-//     .calendar>.days-grid>.day.today {
-//       color: ${lightTheme.todayColor}
-//     }
+    .calendar>.days-grid>.day.today {
+      color: ${lightTheme.todayColor}
+    }
 
-//     .calendar>.days-grid>.day.selected, 
-//     .container.range-plugin .calendar>.days-grid>.day.end, 
-//     .container.range-plugin .calendar>.days-grid>.day.start {
-//       color: ${lightTheme.selectedDateTextColor};
-//       background-color: ${lightTheme.selectedDateBackgroundColor};
-//     }
+    .calendar>.days-grid>.day.selected, 
+    .container.range-plugin .calendar>.days-grid>.day.end, 
+    .container.range-plugin .calendar>.days-grid>.day.start {
+      color: ${lightTheme.selectedDateTextColor};
+      background-color: ${lightTheme.selectedDateBackgroundColor};
+    }
 
-//     .container.range-plugin .calendar>.days-grid>.day.start:after {
-//       border-left-color: ${lightTheme.selectedDateBackgroundColor}; 
-//     }
+    .container.range-plugin .calendar>.days-grid>.day.start:after {
+      border-left-color: ${lightTheme.selectedDateBackgroundColor}; 
+    }
 
-//     .container.range-plugin .calendar>.days-grid>.day.end:after {
-//       border-right-color: ${lightTheme.selectedDateBackgroundColor}; 
-//     }
+    .container.range-plugin .calendar>.days-grid>.day.end:after {
+      border-right-color: ${lightTheme.selectedDateBackgroundColor}; 
+    }
 
-//     .calendar>.days-grid>.day:hover {
-//       border-color: ${lightTheme.selectedDateBackgroundColor}
-//     }
+    .calendar>.days-grid>.day:hover {
+      border-color: ${lightTheme.selectedDateBackgroundColor}
+    }
 
-//     .container.range-plugin .calendar>.days-grid>.day.in-range {
-//       color: ${lightTheme.selectedDateTextColor};
-//       background-color: ${lightTheme.selectedDateBackgroundColor.replace("rgb", "rgba").replace(")", ", 0.65)")}; 
-//     }
+    .container.range-plugin .calendar>.days-grid>.day.in-range {
+      color: ${lightTheme.selectedDateTextColor};
+      background-color: ${lightTheme.selectedDateBackgroundColor.replace("rgb", "rgba").replace(")", ", 0.65)")}; 
+    }
 
 
 
-//     @media (prefers-color-scheme: dark) {
-//       .calendar>.days-grid>.day.today {
-//         color: ${darkTheme.todayColor}
-//       }
+    @media (prefers-color-scheme: dark) {
+      .calendar>.days-grid>.day.today {
+        color: ${darkTheme.todayColor}
+      }
 
-//       .calendar>.days-grid>.day.selected,
-//       .container.range-plugin .calendar>.days-grid>.day.end, 
-//       .container.range-plugin .calendar>.days-grid>.day.start {
-//         color: ${darkTheme.selectedDateTextColor};
-//         background-color: ${darkTheme.selectedDateBackgroundColor};
-//       }
+      .calendar>.days-grid>.day.selected,
+      .container.range-plugin .calendar>.days-grid>.day.end, 
+      .container.range-plugin .calendar>.days-grid>.day.start {
+        color: ${darkTheme.selectedDateTextColor};
+        background-color: ${darkTheme.selectedDateBackgroundColor};
+      }
 
-//       .calendar>.days-grid>.day:hover {
-//         border-color: ${darkTheme.selectedDateBackgroundColor}
-//       }
+      .calendar>.days-grid>.day:hover {
+        border-color: ${darkTheme.selectedDateBackgroundColor}
+      }
 
-//       .container.range-plugin .calendar>.days-grid>.day.start:after {
-//         border-left-color: ${darkTheme.selectedDateBackgroundColor}; 
-//       }
+      .container.range-plugin .calendar>.days-grid>.day.start:after {
+        border-left-color: ${darkTheme.selectedDateBackgroundColor}; 
+      }
 
-//       .container.range-plugin .calendar>.days-grid>.day.end:after {
-//         border-right-color: ${darkTheme.selectedDateBackgroundColor}; 
-//       }
+      .container.range-plugin .calendar>.days-grid>.day.end:after {
+        border-right-color: ${darkTheme.selectedDateBackgroundColor}; 
+      }
 
-//       .container.range-plugin .calendar>.days-grid>.day.in-range {
-//         color: ${darkTheme.selectedDateTextColor};
-//         background-color: ${darkTheme.selectedDateBackgroundColor.replace("rgb", "rgba").replace(")", ", 0.65)")}; 
-//       }
-//     }
-//     `);
-//     datePicker.shadowRoot.adoptedStyleSheets = [sheet];
-//   };
+      .container.range-plugin .calendar>.days-grid>.day.in-range {
+        color: ${darkTheme.selectedDateTextColor};
+        background-color: ${darkTheme.selectedDateBackgroundColor.replace("rgb", "rgba").replace(")", ", 0.65)")}; 
+      }
+    }
+    `);
+    datePicker.shadowRoot.adoptedStyleSheets = [sheet];
+  };
 
-//   const initializeDatePickers = () => {
-//     const datePickers = document.querySelectorAll(selectors.DATE_PICKER);
+  const initializeDatePickers = () => {
+    const datePickers = document.querySelectorAll(selectors.DATE_PICKER);
 
-//     for (let datePicker of datePickers) {
-//       const config = getCommonConfig(datePicker);
-//       new easepick.create({
-//         ...config,
-//         date: new Date(),
-//       });
-//       overrideCss(datePicker);
-//     }
-//   };
+    for (let datePicker of datePickers) {
+      const config = getCommonConfig(datePicker);
+      new easepick.create({
+        ...config,
+        date: new Date(),
+      });
+      overrideCss(datePicker);
+    }
+  };
 
-//   const initializeDateRangePickers = () => {
-//     const datePickers = document.querySelectorAll(selectors.DATE_RANGE_PICKER);
+  const initializeDateRangePickers = () => {
+    const datePickers = document.querySelectorAll(selectors.DATE_RANGE_PICKER);
 
-//     for (let datePicker of datePickers) {
-//       const config = getCommonConfig(datePicker);
-//       console.log("config: ", config);
-//       new easepick.create({
-//         ...config,
-//         plugins: ["RangePlugin"],
-//         RangePlugin: {
-//           startDate: new Date(),
-//           endDate: new Date(),
-//         },
-//       });
-//       overrideCss(datePicker);
-//     }
-//   };
+    for (let datePicker of datePickers) {
+      const config = getCommonConfig(datePicker);
+      console.log("config: ", config);
+      new easepick.create({
+        ...config,
+        plugins: ["RangePlugin"],
+        RangePlugin: {
+          startDate: new Date(),
+          endDate: new Date(),
+        },
+      });
+      overrideCss(datePicker);
+    }
+  };
 
-//   const addDatePickerPackage = async () => {
-//     const res = await fetch("https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.1/dist/index.umd.min.js");
-//     if (res.ok) {
-//       const code = await res.text();
-//       const script = document.createElement("script");
-//       script.text = code;
-//       script.type = "text/javascript";
+  const addDatePickerPackage = async () => {
+    const res = await fetch("https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.1/dist/index.umd.min.js");
+    if (res.ok) {
+      const code = await res.text();
+      const script = document.createElement("script");
+      script.text = code;
+      script.type = "text/javascript";
 
-//       script.setAttribute("form-fields-date-picker-package", "true");
+      script.setAttribute("form-fields-date-picker-package", "true");
 
-//       document.getElementsByTagName("head")[0].appendChild(script);
-//     }
-//   };
+      document.getElementsByTagName("head")[0].appendChild(script);
+    }
+  };
 
-//   await addDatePickerPackage();
-//   initializeDatePickers();
-//   initializeDateRangePickers();
-// };
+  await addDatePickerPackage();
+  initializeDatePickers();
+  initializeDateRangePickers();
+};
 
-// window.formFieldsDateInput();
+window.formFieldsDateInput();
 
 // user ip
 // window.formFieldsUserIp = async () => {
