@@ -797,6 +797,22 @@ window.formFieldsSelect = () => {
 
   /**
    *
+   * @param {{ selectItems: HTMLElement[], selectList: HTMLElement, selectedItemDisplayLabel: HTMLElement, input: HTMLInputElement}} param0
+   */
+  function setInputValueOnClick({ selectItems, selectList, input, selectedItemDisplayLabel }) {
+    selectItems.forEach((item) => {
+      item.addEventListener("click", () => {
+        const data = item.getAttribute("input-data");
+        input.value = data;
+
+        selectedItemDisplayLabel.innerHTML = data;
+        selectList.style.display = "none";
+      });
+    });
+  }
+
+  /**
+   *
    * @param {Element} selectWrapper
    */
   const makeTheSelectInteractive = (selectWrapper) => {
@@ -804,9 +820,18 @@ window.formFieldsSelect = () => {
     const toggler = selectWrapper.querySelector(`[form-field-dropdown-toggler]`);
     const selectList = selectWrapper.querySelector(`[form-field-dropdown-item-list]`);
     const selectItems = selectWrapper.querySelectorAll(`[form-field-dropdown-item]`);
+    const selectedItemDisplayLabel = selectWrapper.querySelector(`[form-field-dropdown-toggler-selected-value]`);
 
     showHideListOnTogglerClick(toggler, selectList);
     hideListOnOutsideClick(selectList);
+
+    setInputValueOnClick({
+      selectItems,
+      input,
+      selectList,
+      toggler,
+      selectedItemDisplayLabel,
+    });
   };
 
   // find all select inputs with list
