@@ -199,7 +199,7 @@ window.formFieldsDropdown = () => {
   makeTheDropdownsInteractive();
 };
 
-window.formFieldsDropdown();
+// window.formFieldsDropdown();
 
 // dropdown show hide
 window.showHideDropdown = () => {
@@ -366,393 +366,427 @@ window.showHideDropdown = () => {
   hideDropdownOnOutsideClick();
 };
 
-window.showHideDropdown();
+// window.showHideDropdown();
 
 // date picker & range
-window.formFieldsDateInput = async () => {
-  const selectors = {
-    DATE_PICKER: "[form-fields-pro-date-picker]",
-    DATE_RANGE_PICKER: "[form-fields-pro-date-range-picker]",
-  };
+// window.formFieldsDateInput = async () => {
+//   const selectors = {
+//     DATE_PICKER: "[form-fields-pro-date-picker]",
+//     DATE_RANGE_PICKER: "[form-fields-pro-date-range-picker]",
+//   };
 
-  /**
-   *
-   * @param {Element} element
-   */
-  const getCommonConfig = (element) => {
-    const grid = Number(element.getAttribute("data-columns"));
-    const calendars = Number(element.getAttribute("data-months"));
-    const firstDay = Number(element.getAttribute("data-firstDay"));
-    const format = element.getAttribute("data-format");
-    const lang = element.getAttribute("data-language");
-    const zIndex = element.getAttribute("data-zIndex");
+//   /**
+//    *
+//    * @param {Element} element
+//    */
+//   const getCommonConfig = (element) => {
+//     const grid = Number(element.getAttribute("data-columns"));
+//     const calendars = Number(element.getAttribute("data-months"));
+//     const firstDay = Number(element.getAttribute("data-firstDay"));
+//     const format = element.getAttribute("data-format");
+//     const lang = element.getAttribute("data-language");
+//     const zIndex = element.getAttribute("data-zIndex");
 
-    return {
-      element,
-      css: ["https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.1/dist/index.css"],
-      grid,
-      calendars,
-      firstDay,
-      format,
-      lang,
-      zIndex,
-    };
-  };
+//     return {
+//       element,
+//       css: ["https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.1/dist/index.css"],
+//       grid,
+//       calendars,
+//       firstDay,
+//       format,
+//       lang,
+//       zIndex,
+//     };
+//   };
 
-  /**
-   *
-   * @param {Element} element
-   */
-  const overrideCss = (element) => {
-    const inputName = element.getAttribute("name");
-    const datePicker = document.querySelector(`[name="${inputName}"] + span.easepick-wrapper`);
+//   /**
+//    *
+//    * @param {Element} element
+//    */
+//   const overrideCss = (element) => {
+//     const inputName = element.getAttribute("name");
+//     const datePicker = document.querySelector(`[name="${inputName}"] + span.easepick-wrapper`);
 
-    const lightTheme = {
-      selectedDateTextColor: element.getAttribute("data-light-theme-selected-date-text-color"),
-      selectedDateBackgroundColor: element.getAttribute("data-light-theme-selected-date-background-color"),
-      todayColor: element.getAttribute("data-light-theme-today-color"),
-    };
+//     const lightTheme = {
+//       selectedDateTextColor: element.getAttribute("data-light-theme-selected-date-text-color"),
+//       selectedDateBackgroundColor: element.getAttribute("data-light-theme-selected-date-background-color"),
+//       todayColor: element.getAttribute("data-light-theme-today-color"),
+//     };
 
-    const darkTheme = {
-      selectedDateTextColor: element.getAttribute("data-dark-theme-selected-date-text-color"),
-      selectedDateBackgroundColor: element.getAttribute("data-dark-theme-selected-date-background-color"),
-      todayColor: element.getAttribute("data-dark-theme-today-color"),
-    };
+//     const darkTheme = {
+//       selectedDateTextColor: element.getAttribute("data-dark-theme-selected-date-text-color"),
+//       selectedDateBackgroundColor: element.getAttribute("data-dark-theme-selected-date-background-color"),
+//       todayColor: element.getAttribute("data-dark-theme-today-color"),
+//     };
 
-    const sheet = new CSSStyleSheet();
-    sheet.replaceSync(`
-    .container {
-      font-family: "inherit";
-    }
-    
-    .calendar>.days-grid>.day.today {
-      color: ${lightTheme.todayColor}
-    }
+//     const sheet = new CSSStyleSheet();
+//     sheet.replaceSync(`
+//     .container {
+//       font-family: "inherit";
+//     }
 
-    .calendar>.days-grid>.day.selected, 
-    .container.range-plugin .calendar>.days-grid>.day.end, 
-    .container.range-plugin .calendar>.days-grid>.day.start {
-      color: ${lightTheme.selectedDateTextColor};
-      background-color: ${lightTheme.selectedDateBackgroundColor};
-    }
+//     .calendar>.days-grid>.day.today {
+//       color: ${lightTheme.todayColor}
+//     }
 
-    .container.range-plugin .calendar>.days-grid>.day.start:after {
-      border-left-color: ${lightTheme.selectedDateBackgroundColor}; 
-    }
+//     .calendar>.days-grid>.day.selected, 
+//     .container.range-plugin .calendar>.days-grid>.day.end, 
+//     .container.range-plugin .calendar>.days-grid>.day.start {
+//       color: ${lightTheme.selectedDateTextColor};
+//       background-color: ${lightTheme.selectedDateBackgroundColor};
+//     }
 
-    .container.range-plugin .calendar>.days-grid>.day.end:after {
-      border-right-color: ${lightTheme.selectedDateBackgroundColor}; 
-    }
+//     .container.range-plugin .calendar>.days-grid>.day.start:after {
+//       border-left-color: ${lightTheme.selectedDateBackgroundColor}; 
+//     }
 
-    .calendar>.days-grid>.day:hover {
-      border-color: ${lightTheme.selectedDateBackgroundColor}
-    }
+//     .container.range-plugin .calendar>.days-grid>.day.end:after {
+//       border-right-color: ${lightTheme.selectedDateBackgroundColor}; 
+//     }
 
-    .container.range-plugin .calendar>.days-grid>.day.in-range {
-      color: ${lightTheme.selectedDateTextColor};
-      background-color: ${lightTheme.selectedDateBackgroundColor.replace("rgb", "rgba").replace(")", ", 0.65)")}; 
-    }
+//     .calendar>.days-grid>.day:hover {
+//       border-color: ${lightTheme.selectedDateBackgroundColor}
+//     }
+
+//     .container.range-plugin .calendar>.days-grid>.day.in-range {
+//       color: ${lightTheme.selectedDateTextColor};
+//       background-color: ${lightTheme.selectedDateBackgroundColor.replace("rgb", "rgba").replace(")", ", 0.65)")}; 
+//     }
 
 
 
-    @media (prefers-color-scheme: dark) {
-      .calendar>.days-grid>.day.today {
-        color: ${darkTheme.todayColor}
-      }
+//     @media (prefers-color-scheme: dark) {
+//       .calendar>.days-grid>.day.today {
+//         color: ${darkTheme.todayColor}
+//       }
 
-      .calendar>.days-grid>.day.selected,
-      .container.range-plugin .calendar>.days-grid>.day.end, 
-      .container.range-plugin .calendar>.days-grid>.day.start {
-        color: ${darkTheme.selectedDateTextColor};
-        background-color: ${darkTheme.selectedDateBackgroundColor};
-      }
+//       .calendar>.days-grid>.day.selected,
+//       .container.range-plugin .calendar>.days-grid>.day.end, 
+//       .container.range-plugin .calendar>.days-grid>.day.start {
+//         color: ${darkTheme.selectedDateTextColor};
+//         background-color: ${darkTheme.selectedDateBackgroundColor};
+//       }
 
-      .calendar>.days-grid>.day:hover {
-        border-color: ${darkTheme.selectedDateBackgroundColor}
-      }
+//       .calendar>.days-grid>.day:hover {
+//         border-color: ${darkTheme.selectedDateBackgroundColor}
+//       }
 
-      .container.range-plugin .calendar>.days-grid>.day.start:after {
-        border-left-color: ${darkTheme.selectedDateBackgroundColor}; 
-      }
+//       .container.range-plugin .calendar>.days-grid>.day.start:after {
+//         border-left-color: ${darkTheme.selectedDateBackgroundColor}; 
+//       }
 
-      .container.range-plugin .calendar>.days-grid>.day.end:after {
-        border-right-color: ${darkTheme.selectedDateBackgroundColor}; 
-      }
+//       .container.range-plugin .calendar>.days-grid>.day.end:after {
+//         border-right-color: ${darkTheme.selectedDateBackgroundColor}; 
+//       }
 
-      .container.range-plugin .calendar>.days-grid>.day.in-range {
-        color: ${darkTheme.selectedDateTextColor};
-        background-color: ${darkTheme.selectedDateBackgroundColor.replace("rgb", "rgba").replace(")", ", 0.65)")}; 
-      }
-    }
-    `);
-    datePicker.shadowRoot.adoptedStyleSheets = [sheet];
-  };
+//       .container.range-plugin .calendar>.days-grid>.day.in-range {
+//         color: ${darkTheme.selectedDateTextColor};
+//         background-color: ${darkTheme.selectedDateBackgroundColor.replace("rgb", "rgba").replace(")", ", 0.65)")}; 
+//       }
+//     }
+//     `);
+//     datePicker.shadowRoot.adoptedStyleSheets = [sheet];
+//   };
 
-  const initializeDatePickers = () => {
-    const datePickers = document.querySelectorAll(selectors.DATE_PICKER);
+//   const initializeDatePickers = () => {
+//     const datePickers = document.querySelectorAll(selectors.DATE_PICKER);
 
-    for (let datePicker of datePickers) {
-      const config = getCommonConfig(datePicker);
-      new easepick.create({
-        ...config,
-        date: new Date(),
-      });
-      overrideCss(datePicker);
-    }
-  };
+//     for (let datePicker of datePickers) {
+//       const config = getCommonConfig(datePicker);
+//       new easepick.create({
+//         ...config,
+//         date: new Date(),
+//       });
+//       overrideCss(datePicker);
+//     }
+//   };
 
-  const initializeDateRangePickers = () => {
-    const datePickers = document.querySelectorAll(selectors.DATE_RANGE_PICKER);
+//   const initializeDateRangePickers = () => {
+//     const datePickers = document.querySelectorAll(selectors.DATE_RANGE_PICKER);
 
-    for (let datePicker of datePickers) {
-      const config = getCommonConfig(datePicker);
-      console.log("config: ", config);
-      new easepick.create({
-        ...config,
-        plugins: ["RangePlugin"],
-        RangePlugin: {
-          startDate: new Date(),
-          endDate: new Date(),
-        },
-      });
-      overrideCss(datePicker);
-    }
-  };
+//     for (let datePicker of datePickers) {
+//       const config = getCommonConfig(datePicker);
+//       console.log("config: ", config);
+//       new easepick.create({
+//         ...config,
+//         plugins: ["RangePlugin"],
+//         RangePlugin: {
+//           startDate: new Date(),
+//           endDate: new Date(),
+//         },
+//       });
+//       overrideCss(datePicker);
+//     }
+//   };
 
-  const addDatePickerPackage = async () => {
-    const res = await fetch("https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.1/dist/index.umd.min.js");
-    if (res.ok) {
-      const code = await res.text();
-      const script = document.createElement("script");
-      script.text = code;
-      script.type = "text/javascript";
+//   const addDatePickerPackage = async () => {
+//     const res = await fetch("https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.1/dist/index.umd.min.js");
+//     if (res.ok) {
+//       const code = await res.text();
+//       const script = document.createElement("script");
+//       script.text = code;
+//       script.type = "text/javascript";
 
-      script.setAttribute("form-fields-date-picker-package", "true");
+//       script.setAttribute("form-fields-date-picker-package", "true");
 
-      document.getElementsByTagName("head")[0].appendChild(script);
-    }
-  };
+//       document.getElementsByTagName("head")[0].appendChild(script);
+//     }
+//   };
 
-  await addDatePickerPackage();
-  initializeDatePickers();
-  initializeDateRangePickers();
-};
+//   await addDatePickerPackage();
+//   initializeDatePickers();
+//   initializeDateRangePickers();
+// };
 
-window.formFieldsDateInput();
+// window.formFieldsDateInput();
 
 // user ip
-window.formFieldsUserIp = async () => {
-  const hideAdminAlert = () => {
-    /**
-     * @type {HTMLElement[]}
-     */
-    const alertElements = document.querySelectorAll("[form-fields-pro-user-ip-admin-alert]");
+// window.formFieldsUserIp = async () => {
+//   const hideAdminAlert = () => {
+//     /**
+//      * @type {HTMLElement[]}
+//      */
+//     const alertElements = document.querySelectorAll("[form-fields-pro-user-ip-admin-alert]");
 
-    for (let element of alertElements) element.style.display = "none";
+//     for (let element of alertElements) element.style.display = "none";
+//   };
+
+//   const getUserIp = async () => {
+//     const BASE_URL = "https://flowapps-data-client.vercel.app";
+//     const res = await fetch(`${BASE_URL}/api/user-ip`);
+
+//     if (res.ok) {
+//       const { ip } = await res.json();
+//       return ip;
+//     } else return "";
+//   };
+
+//   const collectUserIp = async () => {
+//     const ip = await getUserIp();
+
+//     /**
+//      * @type {HTMLInputElement[]}
+//      */
+//     const inputElements = document.querySelectorAll("[form-fields-pro-user-ip-input]");
+
+//     for (let input of inputElements) {
+//       input.value = ip;
+//     }
+//   };
+
+//   hideAdminAlert();
+//   collectUserIp();
+// };
+
+// window.formFieldsUserIp();
+
+// // range slider
+// window.formFieldsNumberSlider = async () => {
+//   const additionalCss = `
+//   .rs-noscale .rs-scale {
+//     display: none;
+//   }
+//   .rs-scale {
+//     display: flex;
+//     justify-content: space-between;
+//     width: 100%;
+//   }
+//   .rs-scale span {
+//     display: none;
+//   }
+//   .rs-scale span:first-child, .rs-scale span:last-child {
+//     display: initial;
+//   }
+//   .rs-scale span::before {
+//     display: none;
+//   }
+//   .rs-container .rs-bg, .rs-container .rs-selected {
+//     height: 12px;
+//     border-radius: 13.5px;
+//   }
+
+//   .rs-container .rs-pointer {
+//     width: 22px;
+//     height: 22px;
+//     top: 1px;
+//     border-radius: 50%;
+//   }
+
+//   .rs-container .rs-selected {
+//     border: none;
+//   }
+
+//   .rs-container .rs-pointer::after, .rs-container .rs-pointer::before {
+//     display: none;
+//   }
+
+//   .rs-tooltip {
+//     min-width: fit-content;
+//     border: none;
+//   }
+//   `;
+
+//   const addNumberSliderCss = async () => {
+//     const res = await fetch(`https://slawomir-zaziablo.github.io/range-slider/css/rSlider.min.css`);
+
+//     if (res.ok) {
+//       const cssString = await res.text();
+//       const style = document.createElement("style");
+//       style.innerHTML = `${cssString} ${additionalCss}`;
+
+//       document.getElementsByTagName("head")[0].appendChild(style);
+//     }
+//   };
+
+//   const addNumberSliderPackage = async () => {
+//     const res = await fetch("https://slawomir-zaziablo.github.io/range-slider/js/rSlider.min.js");
+//     if (res.ok) {
+//       const code = await res.text();
+//       const script = document.createElement("script");
+//       script.text = code;
+//       script.type = "text/javascript";
+
+//       script.setAttribute("form-fields-number-slider-package", "true");
+
+//       document.getElementsByTagName("head")[0].appendChild(script);
+//     }
+//   };
+
+//   /**
+//    *
+//    * @param {Element} element
+//    */
+//   const overrideCss = (element) => {
+//     const inputName = element.getAttribute("name");
+
+//     const lightTheme = {
+//       tooltipTextColor: element.getAttribute("data-light-theme-tooltip-text-color"),
+//       sliderColor: element.getAttribute("data-light-theme-slider-color"),
+//     };
+
+//     const darkTheme = {
+//       tooltipTextColor: element.getAttribute("data-dark-theme-tooltip-text-color"),
+//       sliderColor: element.getAttribute("data-dark-theme-slider-color"),
+//     };
+
+//     const sheet = new CSSStyleSheet();
+//     sheet.replaceSync(`
+//     [name="${inputName}"] + .rs-container .rs-selected {
+//       background: ${lightTheme.sliderColor}
+//     }
+//     [name="${inputName}"] + .rs-container .rs-tooltip {
+//       color: ${lightTheme.tooltipTextColor};
+//       background: ${lightTheme.sliderColor};
+//     }
+
+//     @media (prefers-color-scheme: dark) {
+//       [name="${inputName}"] + .rs-container .rs-selected {
+//         background: ${darkTheme.sliderColor}
+//       }
+//       [name="${inputName}"] + .rs-container .rs-tooltip {
+//         color: ${lightTheme.tooltipTextColor};
+//         background: ${darkTheme.sliderColor};
+//       }
+//     }
+//     `);
+
+//     document.adoptedStyleSheets.push(sheet);
+//   };
+
+//   /**
+//    *
+//    * @param {Element} sliderInput
+//    */
+//   const initializeRegularSlider = (sliderInput) => {
+//     const min = Number(sliderInput.getAttribute("data-min"));
+//     const max = Number(sliderInput.getAttribute("data-max"));
+//     const defaultValue = Number(sliderInput.getAttribute("data-default"));
+
+//     new rSlider({
+//       target: sliderInput,
+//       values: { min, max },
+//       set: [defaultValue],
+//       range: false,
+//       tooltip: true,
+//       scale: true,
+//       label: false,
+//       step: 1,
+//     });
+//   };
+
+//   /**
+//    *
+//    * @param {Element} sliderInput
+//    */
+//   const initializeRangeSlider = (sliderInput) => {
+//     const min = Number(sliderInput.getAttribute("data-min"));
+//     const max = Number(sliderInput.getAttribute("data-max"));
+//     const defaultmin = Number(sliderInput.getAttribute("data-min-default"));
+//     const defaultmax = Number(sliderInput.getAttribute("data-max-default"));
+
+//     new rSlider({
+//       target: sliderInput,
+//       values: { min, max },
+//       set: [defaultmin, defaultmax],
+//       range: true,
+//       tooltip: true,
+//       scale: true,
+//       label: false,
+//       step: 1,
+//     });
+//   };
+
+//   const initializeTheSliders = () => {
+//     const sliders = document.querySelectorAll(`[form-fields-pro-number-slider]`);
+
+//     for (let slider of sliders) {
+//       const rangeSlider = slider.getAttribute("allow-range");
+//       if (rangeSlider) initializeRangeSlider(slider);
+//       else initializeRegularSlider(slider);
+
+//       overrideCss(slider);
+//     }
+//   };
+
+//   await Promise.all([addNumberSliderCss(), addNumberSliderPackage()]);
+
+//   initializeTheSliders();
+// };
+
+// window.formFieldsNumberSlider();
+
+window.formFieldsSelect = () => {
+  /**
+   *
+   * @param {HTMLElement} toggler
+   * @param {HTMLElement} selectList
+   */
+  function showHideListOnTogglerClick(toggler, selectList) {
+    toggler.addEventListener("click", (e) => {
+      e.stopPropagation();
+
+      const listDisplayed = selectList.style.display === "block";
+      if (listDisplayed) selectList.style.display = "none";
+      else selectList.style.display = "block";
+    });
+  }
+
+  /**
+   *
+   * @param {Element} selectWrapper
+   */
+  const makeTheSelectInteractive = (selectWrapper) => {
+    const input = selectWrapper.querySelector(`[form-field-dropdown-input]`);
+    const toggler = selectWrapper.querySelector(`[form-field-dropdown-toggler]`);
+    const selectList = selectWrapper.querySelector(`[form-field-dropdown-item-list]`);
+    const selectItems = selectWrapper.querySelectorAll(`[form-field-dropdown-item]`);
+
+    showHideListOnTogglerClick(toggler, selectList);
   };
 
-  const getUserIp = async () => {
-    const BASE_URL = "https://flowapps-data-client.vercel.app";
-    const res = await fetch(`${BASE_URL}/api/user-ip`);
-
-    if (res.ok) {
-      const { ip } = await res.json();
-      return ip;
-    } else return "";
-  };
-
-  const collectUserIp = async () => {
-    const ip = await getUserIp();
-
-    /**
-     * @type {HTMLInputElement[]}
-     */
-    const inputElements = document.querySelectorAll("[form-fields-pro-user-ip-input]");
-
-    for (let input of inputElements) {
-      input.value = ip;
-    }
-  };
-
-  hideAdminAlert();
-  collectUserIp();
+  // find all select inputs with list
+  const selectWrappers = document.querySelectorAll(`[form-fields-type="select"]`);
+  for (let select of selectWrappers) makeTheSelectInteractive(select);
 };
 
-window.formFieldsUserIp();
-
-// range slider
-window.formFieldsNumberSlider = async () => {
-  const additionalCss = `
-  .rs-noscale .rs-scale {
-    display: none;
-  }
-  .rs-scale {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-  }
-  .rs-scale span {
-    display: none;
-  }
-  .rs-scale span:first-child, .rs-scale span:last-child {
-    display: initial;
-  }
-  .rs-scale span::before {
-    display: none;
-  }
-  .rs-container .rs-bg, .rs-container .rs-selected {
-    height: 12px;
-    border-radius: 13.5px;
-  }
-
-  .rs-container .rs-pointer {
-    width: 22px;
-    height: 22px;
-    top: 1px;
-    border-radius: 50%;
-  }
-
-  .rs-container .rs-selected {
-    border: none;
-  }
-
-  .rs-container .rs-pointer::after, .rs-container .rs-pointer::before {
-    display: none;
-  }
-
-  .rs-tooltip {
-    min-width: fit-content;
-    border: none;
-  }
-  `;
-
-  const addNumberSliderCss = async () => {
-    const res = await fetch(`https://slawomir-zaziablo.github.io/range-slider/css/rSlider.min.css`);
-
-    if (res.ok) {
-      const cssString = await res.text();
-      const style = document.createElement("style");
-      style.innerHTML = `${cssString} ${additionalCss}`;
-
-      document.getElementsByTagName("head")[0].appendChild(style);
-    }
-  };
-
-  const addNumberSliderPackage = async () => {
-    const res = await fetch("https://slawomir-zaziablo.github.io/range-slider/js/rSlider.min.js");
-    if (res.ok) {
-      const code = await res.text();
-      const script = document.createElement("script");
-      script.text = code;
-      script.type = "text/javascript";
-
-      script.setAttribute("form-fields-number-slider-package", "true");
-
-      document.getElementsByTagName("head")[0].appendChild(script);
-    }
-  };
-
-  /**
-   *
-   * @param {Element} element
-   */
-  const overrideCss = (element) => {
-    const inputName = element.getAttribute("name");
-
-    const lightTheme = {
-      tooltipTextColor: element.getAttribute("data-light-theme-tooltip-text-color"),
-      sliderColor: element.getAttribute("data-light-theme-slider-color"),
-    };
-
-    const darkTheme = {
-      tooltipTextColor: element.getAttribute("data-dark-theme-tooltip-text-color"),
-      sliderColor: element.getAttribute("data-dark-theme-slider-color"),
-    };
-
-    const sheet = new CSSStyleSheet();
-    sheet.replaceSync(`
-    [name="${inputName}"] + .rs-container .rs-selected {
-      background: ${lightTheme.sliderColor}
-    }
-    [name="${inputName}"] + .rs-container .rs-tooltip {
-      color: ${lightTheme.tooltipTextColor};
-      background: ${lightTheme.sliderColor};
-    }
-
-    @media (prefers-color-scheme: dark) {
-      [name="${inputName}"] + .rs-container .rs-selected {
-        background: ${darkTheme.sliderColor}
-      }
-      [name="${inputName}"] + .rs-container .rs-tooltip {
-        color: ${lightTheme.tooltipTextColor};
-        background: ${darkTheme.sliderColor};
-      }
-    }
-    `);
-
-    document.adoptedStyleSheets.push(sheet);
-  };
-
-  /**
-   *
-   * @param {Element} sliderInput
-   */
-  const initializeRegularSlider = (sliderInput) => {
-    const min = Number(sliderInput.getAttribute("data-min"));
-    const max = Number(sliderInput.getAttribute("data-max"));
-    const defaultValue = Number(sliderInput.getAttribute("data-default"));
-
-    new rSlider({
-      target: sliderInput,
-      values: { min, max },
-      set: [defaultValue],
-      range: false,
-      tooltip: true,
-      scale: true,
-      label: false,
-      step: 1,
-    });
-  };
-
-  /**
-   *
-   * @param {Element} sliderInput
-   */
-  const initializeRangeSlider = (sliderInput) => {
-    const min = Number(sliderInput.getAttribute("data-min"));
-    const max = Number(sliderInput.getAttribute("data-max"));
-    const defaultmin = Number(sliderInput.getAttribute("data-min-default"));
-    const defaultmax = Number(sliderInput.getAttribute("data-max-default"));
-
-    new rSlider({
-      target: sliderInput,
-      values: { min, max },
-      set: [defaultmin, defaultmax],
-      range: true,
-      tooltip: true,
-      scale: true,
-      label: false,
-      step: 1,
-    });
-  };
-
-  const initializeTheSliders = () => {
-    const sliders = document.querySelectorAll(`[form-fields-pro-number-slider]`);
-
-    for (let slider of sliders) {
-      const rangeSlider = slider.getAttribute("allow-range");
-      if (rangeSlider) initializeRangeSlider(slider);
-      else initializeRegularSlider(slider);
-
-      overrideCss(slider);
-    }
-  };
-
-  await Promise.all([addNumberSliderCss(), addNumberSliderPackage()]);
-
-  initializeTheSliders();
-};
-
-window.formFieldsNumberSlider();
-
-
+window.formFieldsSelect();
