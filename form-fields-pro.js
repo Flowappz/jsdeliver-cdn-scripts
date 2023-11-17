@@ -793,25 +793,13 @@ window.formFieldsSelect = () => {
 
   /**
    *
-   * @param {HTMLElement} e
-   * @param {HTMLElement} t
-   * @returns
-   */
-  function closest(e, t) {
-    return !e ? false : e === t ? true : closest(e.parentNode, t);
-  }
-
-  /**
-   *
+   * @param {HTMLElement} selectWrapper
    * @param {HTMLElement} selectList
    */
-  function hideListOnOutsideClick(selectList) {
-    selectList.addEventListener("click", (e) => e.stopPropagation());
-
-    document.body.addEventListener("click", function (e) {
-      if (!closest(e.target, selectList)) {
-        selectList.style.display = "none";
-      }
+  function hideListOnOutsideClick(selectWrapper, selectList) {
+    selectWrapper.addEventListener("click", (e) => selectWrapper.focus());
+    selectWrapper.addEventListener("blur", (e) => {
+      selectList.style.display = "none";
     });
   }
 
@@ -822,9 +810,8 @@ window.formFieldsSelect = () => {
    */
   function showHideListOnTogglerClick(toggler, selectList) {
     toggler.addEventListener("click", (e) => {
-      e.stopPropagation();
-
       const listDisplayed = selectList.style.display === "block";
+
       if (listDisplayed) selectList.style.display = "none";
       else selectList.style.display = "block";
     });
@@ -858,7 +845,7 @@ window.formFieldsSelect = () => {
     const selectedItemDisplayLabel = selectWrapper.querySelector(`[form-field-dropdown-toggler-selected-value]`);
 
     showHideListOnTogglerClick(toggler, selectList);
-    hideListOnOutsideClick(selectList);
+    hideListOnOutsideClick(selectWrapper, selectList);
     overrideCss(selectList);
 
     setInputValueOnClick({
