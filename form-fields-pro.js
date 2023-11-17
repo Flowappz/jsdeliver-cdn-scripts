@@ -819,16 +819,19 @@ window.formFieldsSelect = () => {
 
   /**
    *
-   * @param {{ selectItems: HTMLElement[], selectList: HTMLElement, selectedItemDisplayLabel: HTMLElement, input: HTMLInputElement}} param0
+   * @param {{ selectItems: HTMLElement[], selectList: HTMLElement, selectedItemDisplayLabel: HTMLElement, input: HTMLInputElement, isSearchable: boolean}} param0
    */
-  function setInputValueOnClick({ selectItems, selectList, input, selectedItemDisplayLabel }) {
+  function setInputValueOnClick({ selectItems, selectList, input, selectedItemDisplayLabel, isSearchable }) {
     selectItems.forEach((item) => {
       item.addEventListener("click", () => {
         const data = item.getAttribute("input-data");
         input.value = data;
 
-        selectedItemDisplayLabel.innerHTML = data;
         selectList.style.display = "none";
+
+        if (!isSearchable) {
+          selectedItemDisplayLabel.innerHTML = data;
+        }
       });
     });
   }
@@ -843,6 +846,7 @@ window.formFieldsSelect = () => {
     const selectList = selectWrapper.querySelector(`[form-field-dropdown-item-list]`);
     const selectItems = selectWrapper.querySelectorAll(`[form-field-dropdown-item]`);
     const selectedItemDisplayLabel = selectWrapper.querySelector(`[form-field-dropdown-toggler-selected-value]`);
+    const isSearchable = selectWrapper.getAttribute("data-searchable");
 
     showHideListOnTogglerClick(toggler, selectList);
     hideListOnOutsideClick(selectWrapper, selectList);
@@ -854,6 +858,7 @@ window.formFieldsSelect = () => {
       selectList,
       toggler,
       selectedItemDisplayLabel,
+      isSearchable,
     });
   };
 
