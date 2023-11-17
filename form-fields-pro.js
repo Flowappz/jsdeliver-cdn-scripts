@@ -541,44 +541,44 @@ window.formFieldsDateInput = async () => {
 window.formFieldsDateInput();
 
 // user ip
-// window.formFieldsUserIp = async () => {
-//   const hideAdminAlert = () => {
-//     /**
-//      * @type {HTMLElement[]}
-//      */
-//     const alertElements = document.querySelectorAll("[form-fields-pro-user-ip-admin-alert]");
+window.formFieldsUserIp = async () => {
+  const hideAdminAlert = () => {
+    /**
+     * @type {HTMLElement[]}
+     */
+    const alertElements = document.querySelectorAll("[form-fields-pro-user-ip-admin-alert]");
 
-//     for (let element of alertElements) element.style.display = "none";
-//   };
+    for (let element of alertElements) element.style.display = "none";
+  };
 
-//   const getUserIp = async () => {
-//     const BASE_URL = "https://flowapps-data-client.vercel.app";
-//     const res = await fetch(`${BASE_URL}/api/user-ip`);
+  const getUserIp = async () => {
+    const BASE_URL = "https://flowapps-data-client.vercel.app";
+    const res = await fetch(`${BASE_URL}/api/user-ip`);
 
-//     if (res.ok) {
-//       const { ip } = await res.json();
-//       return ip;
-//     } else return "";
-//   };
+    if (res.ok) {
+      const { ip } = await res.json();
+      return ip;
+    } else return "";
+  };
 
-//   const collectUserIp = async () => {
-//     const ip = await getUserIp();
+  const collectUserIp = async () => {
+    const ip = await getUserIp();
 
-//     /**
-//      * @type {HTMLInputElement[]}
-//      */
-//     const inputElements = document.querySelectorAll("[form-fields-pro-user-ip-input]");
+    /**
+     * @type {HTMLInputElement[]}
+     */
+    const inputElements = document.querySelectorAll("[form-fields-pro-user-ip-input]");
 
-//     for (let input of inputElements) {
-//       input.value = ip;
-//     }
-//   };
+    for (let input of inputElements) {
+      input.value = ip;
+    }
+  };
 
-//   hideAdminAlert();
-//   collectUserIp();
-// };
+  hideAdminAlert();
+  collectUserIp();
+};
 
-// window.formFieldsUserIp();
+window.formFieldsUserIp();
 
 // range slider
 window.formFieldsNumberSlider = async () => {
