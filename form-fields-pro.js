@@ -421,6 +421,10 @@ window.formFieldsDateInput = async () => {
 
     const sheet = new CSSStyleSheet();
     sheet.replaceSync(`
+    .container {
+      font-family: "inherit";
+    }
+    
     .calendar>.days-grid>.day.today {
       color: ${lightTheme.todayColor}
     }
