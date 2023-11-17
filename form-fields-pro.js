@@ -758,6 +758,30 @@ window.showHideDropdown = () => {
 window.formFieldsSelect = () => {
   /**
    *
+   * @param {HTMLElement} e
+   * @param {HTMLElement} t
+   * @returns
+   */
+  function closest(e, t) {
+    return !e ? false : e === t ? true : closest(e.parentNode, t);
+  }
+
+  /**
+   *
+   * @param {HTMLElement} selectList
+   */
+  function hideListOnOutsideClick(selectList) {
+    selectList.addEventListener("click", (e) => e.stopPropagation());
+
+    document.body.addEventListener("click", function (e) {
+      if (!closest(e.target, selectList)) {
+        selectList.style.display = "none";
+      }
+    });
+  }
+
+  /**
+   *
    * @param {HTMLElement} toggler
    * @param {HTMLElement} selectList
    */
@@ -782,6 +806,7 @@ window.formFieldsSelect = () => {
     const selectItems = selectWrapper.querySelectorAll(`[form-field-dropdown-item]`);
 
     showHideListOnTogglerClick(toggler, selectList);
+    hideListOnOutsideClick(selectList);
   };
 
   // find all select inputs with list
