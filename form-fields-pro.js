@@ -796,8 +796,9 @@ window.formFieldsSelect = () => {
    * @param {HTMLInputElement} input
    * @param {HTMLElement[]} selectItems
    * @param {HTMLElement} selectList
+   * @param {HTMLElement} noItemFoundDiv
    */
-  function filterItemsOnInputChange(input, selectItems, selectList) {
+  function filterItemsOnInputChange(input, selectItems, selectList, noItemFoundDiv) {
     input.addEventListener("click", (e) => {
       e.stopPropagation();
 
@@ -818,14 +819,14 @@ window.formFieldsSelect = () => {
             count++;
           } else item.style.display = "none";
         }
-        // if (count === 0) {
-        //   NO_DATA_FOUND[key].style.display = "block";
-        // } else NO_DATA_FOUND[key].style.display = "none";
+        if (count === 0) {
+          noItemFoundDiv.style.display = "block";
+        } else noItemFoundDiv.style.display = "none";
       } else {
         for (let item of selectItems) {
           item.style.display = "block";
         }
-        // if (NO_DATA_FOUND[key]) NO_DATA_FOUND[key].style.display = "none";
+        noItemFoundDiv.style.display = "none";
       }
     });
   }
@@ -886,6 +887,7 @@ window.formFieldsSelect = () => {
     const selectItems = selectWrapper.querySelectorAll(`[form-field-dropdown-item]`);
     const selectedItemDisplayLabel = selectWrapper.querySelector(`[form-field-dropdown-toggler-selected-value]`);
     const isSearchable = selectWrapper.getAttribute("data-searchable");
+    const noItemFoundDiv = selectWrapper.querySelector(`[form-field-searchable-dropdown-no-item-found]`);
 
     showHideListOnTogglerClick(toggler, selectList);
     hideListOnOutsideClick(selectWrapper, selectList);
@@ -900,7 +902,7 @@ window.formFieldsSelect = () => {
       isSearchable,
     });
 
-    if (isSearchable) filterItemsOnInputChange(input, selectItems, selectList);
+    if (isSearchable) filterItemsOnInputChange(input, selectItems, selectList, noItemFoundDiv);
   };
 
   // find all select inputs with list
