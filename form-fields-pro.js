@@ -756,6 +756,23 @@ window.showHideDropdown = () => {
 // window.formFieldsNumberSlider();
 
 window.formFieldsSelect = () => {
+
+  function closest(e, t) {
+    return !e ? false : e === t ? true : closest(e.parentNode, t);
+  }
+
+  const hideDropdownOnOutsideClick = (selectWrapper, selectList, noItemFoundDiv) => {
+    selectList.addEventListener("click", (e) => {
+      e.stopPropagation();
+    });
+    document.body.addEventListener("click", function (e) {
+      if (!closest(e.target, selectWrapper)) {
+        selectList.style.display = "none";
+        if (noItemFoundDiv) noItemFoundDiv.style.display = "none";
+      }
+    });
+  };
+
   /**
    *
    * @param {Element} element select list element
@@ -800,12 +817,13 @@ window.formFieldsSelect = () => {
    */
   function filterItemsOnInputChange(input, selectItems, selectList, noItemFoundDiv) {
     input.addEventListener("click", (e) => {
-      e.stopPropagation();
+      if (selectList.style.display === "block") {
+        e.stopPropagation();
+      }
+      // const listDisplayed = selectList.style.display === "block";
 
-      const listDisplayed = selectList.style.display === "block";
-
-      if (listDisplayed) selectList.style.display = "none";
-      else selectList.style.display = "block";
+      // if (listDisplayed) selectList.style.display = "none";
+      // else selectList.style.display = "block";
     });
 
     input.addEventListener("input", (e) => {
@@ -890,7 +908,7 @@ window.formFieldsSelect = () => {
     const noItemFoundDiv = selectWrapper.querySelector(`[form-field-searchable-dropdown-no-item-found]`);
 
     showHideListOnTogglerClick(toggler, selectList);
-    hideListOnOutsideClick(selectWrapper, selectList);
+    hideDropdownOnOutsideClick(selectWrapper, selectList, noItemFoundDiv);
     overrideCss(selectList);
 
     setInputValueOnClick({
