@@ -783,6 +783,9 @@ window.formFieldsSelect = () => {
   const overrideCss = (element) => {
     const inputName = element.getAttribute("dropdown-name");
 
+    const formFieldsId = `${inputName}-${Date.now()}`;
+    element.setAttribute("form-fields-id", formFieldsId);
+
     const lightTheme = {
       hoverTextColor: element.getAttribute("data-light-theme-hover-text-color"),
       hoverBackground: element.getAttribute("data-light-theme-hover-background-color"),
@@ -795,13 +798,13 @@ window.formFieldsSelect = () => {
 
     const sheet = new CSSStyleSheet();
     sheet.replaceSync(`
-      [input-field="${inputName}"].form-fields-dropdown-item:hover {
+      [form-fields-id="${formFieldsId}"] .form-fields-dropdown-item:hover {
         color: ${lightTheme.hoverTextColor};
         background: ${lightTheme.hoverBackground}
       }
   
       @media (prefers-color-scheme: dark) {
-        [input-field="${inputName}"].form-fields-dropdown-item:hover {
+        [form-fields-id="${formFieldsId}"] .form-fields-dropdown-item:hover {
           color: ${darkTheme.hoverTextColor};
           background: ${darkTheme.hoverBackground}
         }
