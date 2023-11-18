@@ -370,6 +370,8 @@ window.showHideDropdown = () => {
 
 // date picker & range
 window.formFieldsDateInput = async () => {
+  let datePickerPackageCss = "";
+
   const selectors = {
     DATE_PICKER: "[form-fields-pro-date-picker]",
     DATE_RANGE_PICKER: "[form-fields-pro-date-range-picker]",
@@ -389,7 +391,7 @@ window.formFieldsDateInput = async () => {
 
     return {
       element,
-      css: ["https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.1/dist/index.css"],
+      // css: ["https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.1/dist/index.css"],
       grid,
       calendars,
       firstDay,
@@ -403,7 +405,7 @@ window.formFieldsDateInput = async () => {
    *
    * @param {Element} element
    */
-  const overrideCss = (element) => {
+  const getCustomCSS = (element) => {
     const inputName = element.getAttribute("name");
     const datePicker = document.querySelector(`[name="${inputName}"] + span.easepick-wrapper`);
 
@@ -419,8 +421,9 @@ window.formFieldsDateInput = async () => {
       todayColor: element.getAttribute("data-dark-theme-today-color"),
     };
 
-    const sheet = new CSSStyleSheet();
-    sheet.replaceSync(`
+    // const sheet = new CSSStyleSheet();
+    // sheet.replaceSync(`
+    const sheet = `
     .container {
       font-family: "inherit";
     }
@@ -483,9 +486,15 @@ window.formFieldsDateInput = async () => {
         color: ${darkTheme.selectedDateTextColor};
         background-color: ${darkTheme.selectedDateBackgroundColor.replace("rgb", "rgba").replace(")", ", 0.65)")}; 
       }
-    }
-    `);
-    datePicker.shadowRoot.adoptedStyleSheets = [sheet];
+    }`;
+    // `);
+    // datePicker.shadowRoot.adoptedStyleSheets = [sheet];
+
+    return `
+    ${datePickerPackageCss}
+
+    ${sheet}
+    `;
   };
 
   const initializeDatePickers = () => {
@@ -493,11 +502,13 @@ window.formFieldsDateInput = async () => {
 
     for (let datePicker of datePickers) {
       const config = getCommonConfig(datePicker);
+      const css = getCustomCSS(datePicker);
       new easepick.create({
         ...config,
         date: new Date(),
+        css,
       });
-      overrideCss(datePicker);
+      // overrideCss(datePicker);
     }
   };
 
@@ -506,16 +517,25 @@ window.formFieldsDateInput = async () => {
 
     for (let datePicker of datePickers) {
       const config = getCommonConfig(datePicker);
-      console.log("config: ", config);
+      const css = getCustomCSS(datePicker);
+
       new easepick.create({
         ...config,
+        css,
         plugins: ["RangePlugin"],
         RangePlugin: {
           startDate: new Date(),
           endDate: new Date(),
         },
       });
-      overrideCss(datePicker);
+      // overrideCss(datePicker);
+    }
+  };
+
+  const loadDatePickerPackageCSS = async () => {
+    const res = await fetch("https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.1/dist/index.css");
+    if (res.ok) {
+      datePickerPackageCss = await res.text();
     }
   };
 
@@ -534,6 +554,7 @@ window.formFieldsDateInput = async () => {
   };
 
   await addDatePickerPackage();
+  await loadDatePickerPackageCSS();
   initializeDatePickers();
   initializeDateRangePickers();
 };
