@@ -603,6 +603,11 @@ window.formFieldsUserIp();
 
 // range slider
 window.formFieldsNumberSlider = async () => {
+  const sleep = () =>
+    new Promise((resolve) => {
+      setTimeout(() => resolve(true), 5);
+    });
+
   const additionalCss = `
   .rs-noscale .rs-scale {
     display: none;
@@ -760,7 +765,7 @@ window.formFieldsNumberSlider = async () => {
     });
   };
 
-  const initializeTheSliders = () => {
+  const initializeTheSliders = async () => {
     const sliders = document.querySelectorAll(`[form-fields-pro-number-slider]`);
 
     for (let slider of sliders) {
@@ -769,6 +774,7 @@ window.formFieldsNumberSlider = async () => {
       else initializeRegularSlider(slider);
 
       overrideCss(slider);
+      await sleep();
     }
   };
 
@@ -779,7 +785,11 @@ window.formFieldsNumberSlider = async () => {
 
 window.formFieldsNumberSlider();
 
-window.formFieldsSelect = () => {
+window.formFieldsSelect = async () => {
+  const sleep = () =>
+    new Promise((resolve) => {
+      setTimeout(() => resolve(true), 5);
+    });
 
   function closest(e, t) {
     return !e ? false : e === t ? true : closest(e.parentNode, t);
@@ -925,7 +935,7 @@ window.formFieldsSelect = () => {
    *
    * @param {Element} selectWrapper
    */
-  const makeTheSelectInteractive = (selectWrapper) => {
+  const makeTheSelectInteractive = async (selectWrapper) => {
     const input = selectWrapper.querySelector(`[form-field-dropdown-input]`);
     const toggler = selectWrapper.querySelector(`[form-field-dropdown-toggler]`);
     const selectList = selectWrapper.querySelector(`[form-field-dropdown-item-list]`);
@@ -952,7 +962,10 @@ window.formFieldsSelect = () => {
 
   // find all select inputs with list
   const selectWrappers = document.querySelectorAll(`[form-fields-type="select"]`);
-  for (let select of selectWrappers) makeTheSelectInteractive(select);
+  for (let select of selectWrappers) {
+    makeTheSelectInteractive(select);
+    await sleep();
+  }
 };
 
 window.formFieldsSelect();
