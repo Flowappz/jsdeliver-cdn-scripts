@@ -425,7 +425,7 @@ window.formFieldsDateInput = async () => {
     // sheet.replaceSync(`
     const sheet = `
     .container {
-      font-family: "inherit";
+      font-family: inherit;
     }
 
     .calendar>.days-grid>.day.today {
