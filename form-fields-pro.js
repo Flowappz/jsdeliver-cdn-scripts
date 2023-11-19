@@ -689,14 +689,16 @@ window.formFieldsNumberSlider = async () => {
     const formFieldsId = `${inputName}-${Date.now()}`;
     element.setAttribute("form-fields-id", formFieldsId);
 
+    const { backgroundColor: parentBackgroundColor, color: parentTextColor } = getComputedStyle(element.parentElement);
+
     const lightTheme = {
-      tooltipTextColor: element.getAttribute("data-light-theme-tooltip-text-color"),
-      sliderColor: element.getAttribute("data-light-theme-slider-color"),
+      tooltipTextColor: element.getAttribute("data-light-theme-tooltip-text-color") || parentTextColor,
+      sliderColor: element.getAttribute("data-light-theme-slider-color") || parentBackgroundColor,
     };
 
     const darkTheme = {
-      tooltipTextColor: element.getAttribute("data-dark-theme-tooltip-text-color"),
-      sliderColor: element.getAttribute("data-dark-theme-slider-color"),
+      tooltipTextColor: element.getAttribute("data-dark-theme-tooltip-text-color") || parentTextColor,
+      sliderColor: element.getAttribute("data-dark-theme-slider-color") || parentBackgroundColor,
     };
 
     const sheet = new CSSStyleSheet();
