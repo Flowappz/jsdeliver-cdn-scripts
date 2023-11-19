@@ -406,19 +406,20 @@ window.formFieldsDateInput = async () => {
    * @param {Element} element
    */
   const getCustomCSS = (element) => {
-    const inputName = element.getAttribute("name");
-    const datePicker = document.querySelector(`[name="${inputName}"] + span.easepick-wrapper`);
+    const { backgroundColor: parentBackgroundColor, color: parentTextColor } = getComputedStyle(element.parentElement);
 
     const lightTheme = {
-      selectedDateTextColor: element.getAttribute("data-light-theme-selected-date-text-color"),
-      selectedDateBackgroundColor: element.getAttribute("data-light-theme-selected-date-background-color"),
-      todayColor: element.getAttribute("data-light-theme-today-color"),
+      selectedDateTextColor: element.getAttribute("data-light-theme-selected-date-text-color") || parentTextColor,
+      selectedDateBackgroundColor:
+        element.getAttribute("data-light-theme-selected-date-background-color") || parentBackgroundColor,
+      todayColor: element.getAttribute("data-light-theme-today-color") || parentTextColor,
     };
 
     const darkTheme = {
-      selectedDateTextColor: element.getAttribute("data-dark-theme-selected-date-text-color"),
-      selectedDateBackgroundColor: element.getAttribute("data-dark-theme-selected-date-background-color"),
-      todayColor: element.getAttribute("data-dark-theme-today-color"),
+      selectedDateTextColor: element.getAttribute("data-dark-theme-selected-date-text-color") || parentTextColor,
+      selectedDateBackgroundColor:
+        element.getAttribute("data-dark-theme-selected-date-background-color") || parentBackgroundColor,
+      todayColor: element.getAttribute("data-dark-theme-today-color") || parentTextColor,
     };
 
     // const sheet = new CSSStyleSheet();
