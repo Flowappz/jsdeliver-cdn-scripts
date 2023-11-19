@@ -635,12 +635,15 @@ window.formFieldsNumberSlider = async () => {
   .rs-container .rs-pointer {
     width: 22px;
     height: 22px;
-    top: 1px;
+    top: 0.5px;
+    border: none;
     border-radius: 50%;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
   }
 
   .rs-container .rs-selected {
     border: none;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
   }
 
   .rs-container .rs-pointer::after, .rs-container .rs-pointer::before {
@@ -650,6 +653,7 @@ window.formFieldsNumberSlider = async () => {
   .rs-tooltip {
     min-width: fit-content;
     border: none;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
   }
   `;
 
@@ -711,6 +715,10 @@ window.formFieldsNumberSlider = async () => {
       background: ${lightTheme.sliderColor};
     }
 
+    [form-fields-id="${formFieldsId}"] + .rs-container .rs-scale span ins {
+      color: ${lightTheme.tooltipTextColor};
+    }
+
     @media (prefers-color-scheme: dark) {
       [form-fields-id="${formFieldsId}"] + .rs-container .rs-selected {
         background: ${darkTheme.sliderColor}
@@ -718,6 +726,10 @@ window.formFieldsNumberSlider = async () => {
       [form-fields-id="${formFieldsId}"] + .rs-container .rs-tooltip {
         color: ${darkTheme.tooltipTextColor};
         background: ${darkTheme.sliderColor};
+      }
+
+      [form-fields-id="${formFieldsId}"] + .rs-container .rs-scale span ins {
+        color: ${darkTheme.tooltipTextColor}
       }
     }
     `);
