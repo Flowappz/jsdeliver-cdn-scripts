@@ -272,3 +272,617 @@ try {
 } catch (err) {
   console.log("Error attaching date picker library to DOM: ", err);
 }
+
+
+/**
+ * INITIALIZE DATE PICKERS
+ */
+try {
+  window.formFieldsDateInput = async () => {
+    let datePickerPackageCss = "";
+  
+    const selectors = {
+      DATE_PICKER: "[form-fields-pro-date-picker]",
+      DATE_RANGE_PICKER: "[form-fields-pro-date-range-picker]",
+    };
+  
+    /**
+     *
+     * @param {Element} element
+     */
+    const getCommonConfig = (element) => {
+      const grid = Number(element.getAttribute("data-columns"));
+      const calendars = Number(element.getAttribute("data-months"));
+      const firstDay = Number(element.getAttribute("data-firstDay"));
+      const format = element.getAttribute("data-format");
+      const lang = element.getAttribute("data-language");
+      const zIndex = element.getAttribute("data-zIndex");
+  
+      return {
+        element,
+        // css: ["https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.1/dist/index.css"],
+        grid,
+        calendars,
+        firstDay,
+        format,
+        lang,
+        zIndex,
+      };
+    };
+  
+    /**
+     *
+     * @param {Element} element
+     */
+    const getCustomCSS = (element) => {
+      const { backgroundColor: parentBackgroundColor, color: parentTextColor } = getComputedStyle(element.parentElement);
+  
+      const lightTheme = {
+        selectedDateTextColor: element.getAttribute("data-light-theme-selected-date-text-color") || parentTextColor,
+        selectedDateBackgroundColor:
+          element.getAttribute("data-light-theme-selected-date-background-color") || parentBackgroundColor,
+        todayColor: element.getAttribute("data-light-theme-today-color") || parentTextColor,
+      };
+  
+      const darkTheme = {
+        selectedDateTextColor: element.getAttribute("data-dark-theme-selected-date-text-color") || parentTextColor,
+        selectedDateBackgroundColor:
+          element.getAttribute("data-dark-theme-selected-date-background-color") || parentBackgroundColor,
+        todayColor: element.getAttribute("data-dark-theme-today-color") || parentTextColor,
+      };
+  
+      // const sheet = new CSSStyleSheet();
+      // sheet.replaceSync(`
+      const sheet = `
+      .container {
+        font-family: inherit;
+      }
+  
+      .calendar>.days-grid>.day.today {
+        color: ${lightTheme.todayColor}
+      }
+  
+      .calendar>.days-grid>.day.selected, 
+      .container.range-plugin .calendar>.days-grid>.day.end, 
+      .container.range-plugin .calendar>.days-grid>.day.start {
+        color: ${lightTheme.selectedDateTextColor};
+        background-color: ${lightTheme.selectedDateBackgroundColor};
+      }
+  
+      .container.range-plugin .calendar>.days-grid>.day.start:after {
+        border-left-color: ${lightTheme.selectedDateBackgroundColor}; 
+      }
+  
+      .container.range-plugin .calendar>.days-grid>.day.end:after {
+        border-right-color: ${lightTheme.selectedDateBackgroundColor}; 
+      }
+  
+      .calendar>.days-grid>.day:hover {
+        border-color: ${lightTheme.selectedDateBackgroundColor}
+      }
+  
+      .container.range-plugin .calendar>.days-grid>.day.in-range {
+        color: ${lightTheme.selectedDateTextColor};
+        background-color: ${lightTheme.selectedDateBackgroundColor.replace("rgb", "rgba").replace(")", ", 0.65)")}; 
+      }
+  
+  
+  
+      @media (prefers-color-scheme: dark) {
+        .calendar>.days-grid>.day.today {
+          color: ${darkTheme.todayColor}
+        }
+  
+        .calendar>.days-grid>.day.selected,
+        .container.range-plugin .calendar>.days-grid>.day.end, 
+        .container.range-plugin .calendar>.days-grid>.day.start {
+          color: ${darkTheme.selectedDateTextColor};
+          background-color: ${darkTheme.selectedDateBackgroundColor};
+        }
+  
+        .calendar>.days-grid>.day:hover {
+          border-color: ${darkTheme.selectedDateBackgroundColor}
+        }
+  
+        .container.range-plugin .calendar>.days-grid>.day.start:after {
+          border-left-color: ${darkTheme.selectedDateBackgroundColor}; 
+        }
+  
+        .container.range-plugin .calendar>.days-grid>.day.end:after {
+          border-right-color: ${darkTheme.selectedDateBackgroundColor}; 
+        }
+  
+        .container.range-plugin .calendar>.days-grid>.day.in-range {
+          color: ${darkTheme.selectedDateTextColor};
+          background-color: ${darkTheme.selectedDateBackgroundColor.replace("rgb", "rgba").replace(")", ", 0.65)")}; 
+        }
+      }`;
+      // `);
+      // datePicker.shadowRoot.adoptedStyleSheets = [sheet];
+  
+      return `
+      ${datePickerPackageCss}
+  
+      ${sheet}
+      `;
+    };
+  
+    const initializeDatePickers = () => {
+      const datePickers = document.querySelectorAll(selectors.DATE_PICKER);
+  
+      for (let datePicker of datePickers) {
+        const config = getCommonConfig(datePicker);
+        const css = getCustomCSS(datePicker);
+        new easepick.create({
+          ...config,
+          date: new Date(),
+          css,
+        });
+        // overrideCss(datePicker);
+      }
+    };
+  
+    const initializeDateRangePickers = () => {
+      const datePickers = document.querySelectorAll(selectors.DATE_RANGE_PICKER);
+  
+      for (let datePicker of datePickers) {
+        const config = getCommonConfig(datePicker);
+        const css = getCustomCSS(datePicker);
+  
+        new easepick.create({
+          ...config,
+          css,
+          plugins: ["RangePlugin"],
+          RangePlugin: {
+            startDate: new Date(),
+            endDate: new Date(),
+          },
+        });
+        // overrideCss(datePicker);
+      }
+    };
+  
+    const loadDatePickerPackageCSS = async () => {
+      const res = await fetch("https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.1/dist/index.css");
+      if (res.ok) {
+        datePickerPackageCss = await res.text();
+      }
+    };
+  
+    await loadDatePickerPackageCSS();
+    initializeDatePickers();
+    initializeDateRangePickers();
+  };
+  
+  window.formFieldsDateInput();
+} catch (err) {
+  console.log("Error initializing date pickers: ", err)
+}
+
+/**
+ * INITIALIZE USER IP INPUTS
+ */
+try {
+  window.formFieldsUserIp = async () => {
+    const hideAdminAlert = () => {
+      /**
+       * @type {HTMLElement[]}
+       */
+      const alertElements = document.querySelectorAll("[form-fields-pro-user-ip-admin-alert]");
+  
+      for (let element of alertElements) element.style.display = "none";
+    };
+  
+    const getUserIp = async () => {
+      const BASE_URL = "https://flowapps-data-client.vercel.app";
+      const res = await fetch(`${BASE_URL}/api/user-ip`);
+  
+      if (res.ok) {
+        const { ip } = await res.json();
+        return ip;
+      } else return "";
+    };
+  
+    const collectUserIp = async () => {
+      const ip = await getUserIp();
+  
+      /**
+       * @type {HTMLInputElement[]}
+       */
+      const inputElements = document.querySelectorAll("[form-fields-pro-user-ip-input]");
+  
+      for (let input of inputElements) {
+        input.value = ip;
+      }
+    };
+  
+    hideAdminAlert();
+    collectUserIp();
+  };
+  
+  window.formFieldsUserIp();
+} catch (err) {
+  console.log("Error initializing user ip inputs: ", err);
+}
+
+/**
+ * INITIALIZE RANGE SLIDERS
+ */
+try {
+  window.formFieldsNumberSlider = async () => {
+    const sleep = () =>
+      new Promise((resolve) => {
+        setTimeout(() => resolve(true), 5);
+      });
+  
+    const additionalCss = `
+    .rs-noscale .rs-scale {
+      display: none;
+    }
+    .rs-scale {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+    }
+    .rs-scale span {
+      display: none;
+    }
+    .rs-scale span:first-child, .rs-scale span:last-child {
+      display: initial;
+    }
+    .rs-scale span::before {
+      display: none;
+    }
+    .rs-container .rs-bg, .rs-container .rs-selected {
+      height: 12px;
+      border-radius: 13.5px;
+    }
+  
+    .rs-container .rs-pointer {
+      width: 22px;
+      height: 22px;
+      top: 0.5px;
+      border: none;
+      border-radius: 50%;
+      box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    }
+  
+    .rs-container .rs-selected {
+      border: none;
+      box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    }
+  
+    .rs-container .rs-pointer::after, .rs-container .rs-pointer::before {
+      display: none;
+    }
+  
+    .rs-tooltip {
+      min-width: fit-content;
+      border: none;
+      box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    }
+    `;
+  
+    const addNumberSliderCss = async () => {
+      const res = await fetch(`https://slawomir-zaziablo.github.io/range-slider/css/rSlider.min.css`);
+  
+      if (res.ok) {
+        const cssString = await res.text();
+        const style = document.createElement("style");
+        style.innerHTML = `${cssString} ${additionalCss}`;
+  
+        document.getElementsByTagName("head")[0].appendChild(style);
+      }
+    };
+  
+    /**
+     *
+     * @param {Element} element
+     */
+    const overrideCss = (element) => {
+      const inputName = element.getAttribute("name");
+  
+      const formFieldsId = `${inputName}-${Date.now()}`;
+      element.setAttribute("form-fields-id", formFieldsId);
+  
+      const { backgroundColor: parentBackgroundColor, color: parentTextColor } = getComputedStyle(element.parentElement);
+  
+      const lightTheme = {
+        tooltipTextColor: element.getAttribute("data-light-theme-tooltip-text-color") || parentTextColor,
+        sliderColor: element.getAttribute("data-light-theme-slider-color") || parentBackgroundColor,
+      };
+  
+      const darkTheme = {
+        tooltipTextColor: element.getAttribute("data-dark-theme-tooltip-text-color") || parentTextColor,
+        sliderColor: element.getAttribute("data-dark-theme-slider-color") || parentBackgroundColor,
+      };
+  
+      const sheet = new CSSStyleSheet();
+      sheet.replaceSync(`
+      [form-fields-id="${formFieldsId}"] + .rs-container .rs-selected {
+        background: ${lightTheme.sliderColor}
+      }
+      [form-fields-id="${formFieldsId}"] + .rs-container .rs-tooltip {
+        color: ${lightTheme.tooltipTextColor};
+        background: ${lightTheme.sliderColor};
+      }
+  
+      [form-fields-id="${formFieldsId}"] + .rs-container .rs-scale span ins {
+        color: ${lightTheme.tooltipTextColor};
+      }
+  
+      @media (prefers-color-scheme: dark) {
+        [form-fields-id="${formFieldsId}"] + .rs-container .rs-selected {
+          background: ${darkTheme.sliderColor}
+        }
+        [form-fields-id="${formFieldsId}"] + .rs-container .rs-tooltip {
+          color: ${darkTheme.tooltipTextColor};
+          background: ${darkTheme.sliderColor};
+        }
+  
+        [form-fields-id="${formFieldsId}"] + .rs-container .rs-scale span ins {
+          color: ${darkTheme.tooltipTextColor}
+        }
+      }
+      `);
+  
+      document.adoptedStyleSheets.push(sheet);
+    };
+  
+    /**
+     *
+     * @param {Element} sliderInput
+     */
+    const initializeRegularSlider = (sliderInput) => {
+      const min = Number(sliderInput.getAttribute("data-min"));
+      const max = Number(sliderInput.getAttribute("data-max"));
+      const defaultValue = Number(sliderInput.getAttribute("data-default"));
+  
+      new rSlider({
+        target: sliderInput,
+        values: { min, max },
+        set: [defaultValue],
+        range: false,
+        tooltip: true,
+        scale: true,
+        label: false,
+        step: 1,
+      });
+    };
+  
+    /**
+     *
+     * @param {Element} sliderInput
+     */
+    const initializeRangeSlider = (sliderInput) => {
+      const min = Number(sliderInput.getAttribute("data-min"));
+      const max = Number(sliderInput.getAttribute("data-max"));
+      const defaultmin = Number(sliderInput.getAttribute("data-min-default"));
+      const defaultmax = Number(sliderInput.getAttribute("data-max-default"));
+  
+      new rSlider({
+        target: sliderInput,
+        values: { min, max },
+        set: [defaultmin, defaultmax],
+        range: true,
+        tooltip: true,
+        scale: true,
+        label: false,
+        step: 1,
+      });
+    };
+  
+    const initializeTheSliders = async () => {
+      const sliders = document.querySelectorAll(`[form-fields-pro-number-slider]`);
+  
+      for (let slider of sliders) {
+        const rangeSlider = slider.getAttribute("allow-range");
+        if (rangeSlider) initializeRangeSlider(slider);
+        else initializeRegularSlider(slider);
+  
+        overrideCss(slider);
+        await sleep();
+      }
+    };
+  
+    await addNumberSliderCss();
+  
+    initializeTheSliders();
+  };
+  
+  window.formFieldsNumberSlider();
+} catch (err) {
+  console.log("Error initializing range sliders: ", err);
+}
+
+/**
+ * INITIALIZE SELECT INPUTS
+ */
+try {
+  window.formFieldsSelect = async () => {
+    const sleep = () =>
+      new Promise((resolve) => {
+        setTimeout(() => resolve(true), 5);
+      });
+  
+    function closest(e, t) {
+      return !e ? false : e === t ? true : closest(e.parentNode, t);
+    }
+  
+    const hideDropdownOnOutsideClick = (selectWrapper, selectList, noItemFoundDiv) => {
+      selectList.addEventListener("click", (e) => {
+        e.stopPropagation();
+      });
+      document.body.addEventListener("click", function (e) {
+        if (!closest(e.target, selectWrapper)) {
+          selectList.style.display = "none";
+          if (noItemFoundDiv) noItemFoundDiv.style.display = "none";
+        }
+      });
+    };
+  
+    /**
+     *
+     * @param {Element} element select list element
+     */
+    const overrideCss = (element) => {
+      const inputName = element.getAttribute("dropdown-name");
+  
+      const formFieldsId = `${inputName}-${Date.now()}`;
+      element.setAttribute("form-fields-id", formFieldsId);
+  
+      const lightTheme = {
+        hoverTextColor: element.getAttribute("data-light-theme-hover-text-color"),
+        hoverBackground: element.getAttribute("data-light-theme-hover-background-color"),
+      };
+  
+      const darkTheme = {
+        hoverTextColor: element.getAttribute("data-dark-theme-hover-text-color"),
+        hoverBackground: element.getAttribute("data-dark-theme-hover-background-color"),
+      };
+  
+      const sheet = new CSSStyleSheet();
+      sheet.replaceSync(`
+        [form-fields-id="${formFieldsId}"] .form-fields-dropdown-item:hover {
+          color: ${lightTheme.hoverTextColor};
+          background: ${lightTheme.hoverBackground}
+        }
+    
+        @media (prefers-color-scheme: dark) {
+          [form-fields-id="${formFieldsId}"] .form-fields-dropdown-item:hover {
+            color: ${darkTheme.hoverTextColor};
+            background: ${darkTheme.hoverBackground}
+          }
+        }
+        `);
+  
+      document.adoptedStyleSheets.push(sheet);
+    };
+  
+    /**
+     *
+     * @param {HTMLInputElement} input
+     * @param {HTMLElement[]} selectItems
+     * @param {HTMLElement} selectList
+     * @param {HTMLElement} noItemFoundDiv
+     */
+    function filterItemsOnInputChange(input, selectItems, selectList, noItemFoundDiv) {
+      input.addEventListener("click", (e) => {
+        if (selectList.style.display === "block") {
+          e.stopPropagation();
+        }
+        // const listDisplayed = selectList.style.display === "block";
+  
+        // if (listDisplayed) selectList.style.display = "none";
+        // else selectList.style.display = "block";
+      });
+  
+      input.addEventListener("input", (e) => {
+        const val = e.target.value;
+  
+        if (val.trim()) {
+          let count = 0;
+          for (let item of selectItems) {
+            if (item.innerText.toLowerCase().includes(val.toLowerCase())) {
+              item.style.display = "block";
+              count++;
+            } else item.style.display = "none";
+          }
+          if (count === 0) {
+            noItemFoundDiv.style.display = "block";
+          } else noItemFoundDiv.style.display = "none";
+        } else {
+          for (let item of selectItems) {
+            item.style.display = "block";
+          }
+          noItemFoundDiv.style.display = "none";
+        }
+      });
+    }
+  
+    /**
+     *
+     * @param {HTMLElement} selectWrapper
+     * @param {HTMLElement} selectList
+     */
+    function hideListOnOutsideClick(selectWrapper, selectList) {
+      selectWrapper.addEventListener("click", (e) => selectWrapper.focus());
+      selectWrapper.addEventListener("blur", (e) => {
+        selectList.style.display = "none";
+      });
+    }
+  
+    /**
+     *
+     * @param {HTMLElement} toggler
+     * @param {HTMLElement} selectList
+     */
+    function showHideListOnTogglerClick(toggler, selectList) {
+      toggler.addEventListener("click", (e) => {
+        const listDisplayed = selectList.style.display === "block";
+  
+        if (listDisplayed) selectList.style.display = "none";
+        else selectList.style.display = "block";
+      });
+    }
+  
+    /**
+     *
+     * @param {{ selectItems: HTMLElement[], selectList: HTMLElement, selectedItemDisplayLabel: HTMLElement, input: HTMLInputElement, isSearchable: boolean}} param0
+     */
+    function setInputValueOnClick({ selectItems, selectList, input, selectedItemDisplayLabel, isSearchable }) {
+      selectItems.forEach((item) => {
+        item.addEventListener("click", () => {
+          const data = item.getAttribute("input-data");
+          input.value = data;
+  
+          selectList.style.display = "none";
+  
+          if (!isSearchable) {
+            selectedItemDisplayLabel.innerHTML = data;
+          }
+        });
+      });
+    }
+  
+    /**
+     *
+     * @param {Element} selectWrapper
+     */
+    const makeTheSelectInteractive = async (selectWrapper) => {
+      const input = selectWrapper.querySelector(`[form-field-dropdown-input]`);
+      const toggler = selectWrapper.querySelector(`[form-field-dropdown-toggler]`);
+      const selectList = selectWrapper.querySelector(`[form-field-dropdown-item-list]`);
+      const selectItems = selectWrapper.querySelectorAll(`[form-field-dropdown-item]`);
+      const selectedItemDisplayLabel = selectWrapper.querySelector(`[form-field-dropdown-toggler-selected-value]`);
+      const isSearchable = selectWrapper.getAttribute("data-searchable");
+      const noItemFoundDiv = selectWrapper.querySelector(`[form-field-searchable-dropdown-no-item-found]`);
+  
+      showHideListOnTogglerClick(toggler, selectList);
+      hideDropdownOnOutsideClick(selectWrapper, selectList, noItemFoundDiv);
+      overrideCss(selectList);
+  
+      setInputValueOnClick({
+        selectItems,
+        input,
+        selectList,
+        toggler,
+        selectedItemDisplayLabel,
+        isSearchable,
+      });
+  
+      if (isSearchable) filterItemsOnInputChange(input, selectItems, selectList, noItemFoundDiv);
+    };
+  
+    // find all select inputs with list
+    const selectWrappers = document.querySelectorAll(`[form-fields-type="select"]`);
+    for (let select of selectWrappers) {
+      makeTheSelectInteractive(select);
+      await sleep();
+    }
+  };
+  
+  window.formFieldsSelect();
+} catch (err) {
+  console.log("Error initializing select inputs: ", err)
+}
