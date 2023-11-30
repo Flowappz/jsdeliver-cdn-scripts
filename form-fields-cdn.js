@@ -2692,7 +2692,8 @@ const formFieldsNumberSlider = async () => {
       }
       `);
 
-    document.adoptedStyleSheets.push(sheet);
+    const sheets = document.adoptedStyleSheets || [];
+    document.adoptedStyleSheets = [...sheets, sheet];
   };
 
   /**
@@ -2818,7 +2819,8 @@ const formFieldsSelect = async () => {
         }
         `);
 
-    document.adoptedStyleSheets.push(sheet);
+    const sheets = document.adoptedStyleSheets || [];
+    document.adoptedStyleSheets = [...sheets, sheet];
   };
 
   /**
