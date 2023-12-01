@@ -1,4 +1,4 @@
-// dropdown codes
+// dropdown codes: purge cache
 window.formFieldsDropdown = () => {
   const selectors = {
     DROPDOWN_TOGGLER: "[form-field-dropdown-toggler]",
