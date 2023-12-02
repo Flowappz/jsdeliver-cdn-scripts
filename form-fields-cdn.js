@@ -1,5 +1,5 @@
 /**
- * FORM FIELDS PRO CDN SCRIPT - v1.1.0
+ * FORM FIELDS PRO CDN SCRIPT - v1.2.0
  */
 
 /**
@@ -2484,18 +2484,34 @@ const formFieldsDateInput = async () => {
       `;
   };
 
+  /**
+   *
+   * @param {HTMLInputElement} datePickerInput
+   * @param {{ show: () => {}}} datePickerInstance
+   */
+  const showDatePickerOnIconClick = (datePickerInput, datePickerInstance) => {
+    const name = datePickerInput.getAttribute("name");
+    const icon = document.querySelector(`[name="${name}"] + .easepick-wrapper + .date-input-icon`);
+
+    if (icon) icon.style.cursor = "pointer";
+
+    icon?.addEventListener("click", () => {
+      datePickerInstance.show();
+    });
+  };
+
   const initializeDatePickers = () => {
     const datePickers = document.querySelectorAll(selectors.DATE_PICKER);
 
     for (let datePicker of datePickers) {
       const config = getCommonConfig(datePicker);
       const css = getCustomCSS(datePicker);
-      new easepick.create({
+      const pickerInstance = new easepick.create({
         ...config,
         date: new Date(),
         css,
       });
-      // overrideCss(datePicker);
+      showDatePickerOnIconClick(datePicker, pickerInstance);
     }
   };
 
@@ -2506,7 +2522,7 @@ const formFieldsDateInput = async () => {
       const config = getCommonConfig(datePicker);
       const css = getCustomCSS(datePicker);
 
-      new easepick.create({
+      const pickerInstance = new easepick.create({
         ...config,
         css,
         plugins: ["RangePlugin"],
@@ -2515,7 +2531,7 @@ const formFieldsDateInput = async () => {
           endDate: new Date(),
         },
       });
-      // overrideCss(datePicker);
+      showDatePickerOnIconClick(datePicker, pickerInstance);
     }
   };
 
