@@ -1,4 +1,8 @@
 /**
+ * FORM FIELDS PRO CDN SCRIPT - v1.1.0
+ */
+
+/**
  * RANGE SLIDER SCRIPT
  */
 !(function () {
@@ -2654,11 +2658,13 @@ const formFieldsNumberSlider = async () => {
     const { backgroundColor: parentBackgroundColor, color: parentTextColor } = getComputedStyle(element.parentElement);
 
     const lightTheme = {
+      maxMinValueTextColor: element.getAttribute("data-light-theme-max-min-text-color") || parentTextColor,
       tooltipTextColor: element.getAttribute("data-light-theme-tooltip-text-color") || parentTextColor,
       sliderColor: element.getAttribute("data-light-theme-slider-color") || parentBackgroundColor,
     };
 
     const darkTheme = {
+      maxMinValueTextColor: element.getAttribute("data-dark-theme-max-min-text-color") || parentTextColor,
       tooltipTextColor: element.getAttribute("data-dark-theme-tooltip-text-color") || parentTextColor,
       sliderColor: element.getAttribute("data-dark-theme-slider-color") || parentBackgroundColor,
     };
@@ -2674,7 +2680,7 @@ const formFieldsNumberSlider = async () => {
       }
   
       [form-fields-id="${formFieldsId}"] + .rs-container .rs-scale span ins {
-        color: ${lightTheme.tooltipTextColor};
+        color: ${lightTheme.maxMinValueTextColor};
       }
   
       @media (prefers-color-scheme: dark) {
@@ -2687,7 +2693,7 @@ const formFieldsNumberSlider = async () => {
         }
   
         [form-fields-id="${formFieldsId}"] + .rs-container .rs-scale span ins {
-          color: ${darkTheme.tooltipTextColor}
+          color: ${darkTheme.maxMinValueTextColor}
         }
       }
       `);
