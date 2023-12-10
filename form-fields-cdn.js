@@ -3119,10 +3119,48 @@ const formFieldsSelectNew = async () => {
     }
   };
 
+  /**
+   *
+   * @param {Element} element select list element
+   */
+  const overrideCss = (element) => {
+    const inputName = element.getAttribute("name");
+    element.id = `${inputName.replace(" ", "")}-${Date.now()}`;
+
+    const lightTheme = {
+      hoverTextColor: element.getAttribute("data-light-theme-hover-text-color"),
+      hoverBackground: element.getAttribute("data-light-theme-hover-background-color"),
+    };
+
+    const darkTheme = {
+      hoverTextColor: element.getAttribute("data-dark-theme-hover-text-color"),
+      hoverBackground: element.getAttribute("data-dark-theme-hover-background-color"),
+    };
+
+    const sheet = new CSSStyleSheet();
+    sheet.replaceSync(`
+        #select2-${element.id}-results li.select2-results__option--highlighted {
+          color: ${lightTheme.hoverTextColor};
+          background: ${lightTheme.hoverBackground}
+        }
+    
+        @media (prefers-color-scheme: dark) {
+          #select2-${element.id}-results li.select2-results__option--highlighted {
+            color: ${darkTheme.hoverTextColor};
+            background: ${darkTheme.hoverBackground}
+          }
+        }
+        `);
+
+    const sheets = document.adoptedStyleSheets || [];
+    document.adoptedStyleSheets = [...sheets, sheet];
+  };
+
   await addSelect2Css();
 
   const selectInputs = document.querySelectorAll(`[form-fields-type="select"]`);
   for (let select of selectInputs) {
+    overrideCss(select);
     const isSearchable = select.getAttribute("data-searchable");
     $(select).select2({
       minimumResultsForSearch: isSearchable ? 0 : Infinity,
