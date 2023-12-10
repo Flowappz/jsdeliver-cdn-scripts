@@ -3113,13 +3113,21 @@ const formFieldsSelectNew = async () => {
     if (res.ok) {
       const cssString = await res.text();
       const style = document.createElement("style");
-      style.innerHTML = `${cssString} ${additionalCss}`;
+      style.innerHTML = `${cssString}`;
 
       document.getElementsByTagName("head")[0].appendChild(style);
     }
   };
 
   await addSelect2Css();
+
+  const selectInputs = document.querySelectorAll(`[form-fields-type="select"]`);
+  for (let select of selectInputs) {
+    const isSearchable = select.getAttribute("data-searchable");
+    $(select).select2({
+      minimumResultsForSearch: isSearchable ? 0 : Infinity,
+    });
+  }
 };
 
 formFieldsSelectNew();
