@@ -3103,3 +3103,23 @@ const formFieldsSelect = async () => {
 // formFieldsSelect();
 
 
+/**
+ * INITIALIZE SELECT INPUTS
+ */
+const formFieldsSelectNew = async () => {
+  const addSelect2Css = async () => {
+    const res = await fetch(`https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css`);
+
+    if (res.ok) {
+      const cssString = await res.text();
+      const style = document.createElement("style");
+      style.innerHTML = `${cssString} ${additionalCss}`;
+
+      document.getElementsByTagName("head")[0].appendChild(style);
+    }
+  };
+
+  await addSelect2Css();
+};
+
+formFieldsSelectNew();
