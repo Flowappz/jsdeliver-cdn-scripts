@@ -3107,13 +3107,63 @@ const formFieldsSelect = async () => {
  * INITIALIZE SELECT INPUTS
  */
 const formFieldsSelectNew = async () => {
+  const additionalCss = `
+  .select2-container {
+    height: 38px;
+  }
+
+  .selection {
+    height: 100%;
+    display: block;
+  }
+
+  .select2-container--default .select2-selection--single {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+  }
+
+  .select2-container .select2-selection--single .select2-selection__rendered {
+    padding: 0;
+  }
+
+  .select2-container--default .select2-selection--single .select2-selection__arrow {
+    position: relative;
+    top: 0;
+    right: 0;
+  }
+
+  .select2-container--default .select2-selection--single .select2-selection__arrow b {
+    border-color: rgb(35, 35, 35) transparent transparent transparent;
+    border-width: 8px 5px 0 5px;
+    margin-top: -3px;
+  }
+
+  .select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow b {
+    border-width: 0 5px 8px 5px;
+    border-color: transparent transparent rgb(35, 35, 35);
+  }
+ 
+  .select2-results__option--selectable {
+    padding: 8px 12px;
+  }
+
+  
+
+  .select2-search--dropdown .select2-search__field {
+    padding: 8px 8px;
+  }
+  `;
+
   const addSelect2Css = async () => {
     const res = await fetch(`https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css`);
 
     if (res.ok) {
       const cssString = await res.text();
       const style = document.createElement("style");
-      style.innerHTML = `${cssString}`;
+      style.innerHTML = `${cssString} ${additionalCss}`;
 
       document.getElementsByTagName("head")[0].appendChild(style);
     }
