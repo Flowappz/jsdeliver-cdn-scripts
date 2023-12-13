@@ -1,5 +1,5 @@
 /**
- * FORM FIELDS PRO CDN SCRIPT - v3.1.0
+ * FORM FIELDS PRO CDN SCRIPT - v3.2.0
  */
 
 /**
@@ -3135,19 +3135,31 @@ const formFieldsSelectNew = async () => {
     right: 0;
   }
 
-  .select2-container--default .select2-selection--single .select2-selection__arrow b {
-    border-color: rgb(35, 35, 35) transparent transparent transparent;
-    border-width: 8px 5px 0 5px;
+  .select2-container--default .select2-selection--single .select2-selection__arrow b,
+  .select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow b {
+    border-color: transparent;
+    border-width: 0;
     margin-top: -3px;
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQiIGhlaWdodD0iOCIgdmlld0JveD0iMCAwIDE0IDgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0xIDFMNyA3TDEzIDEiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo=);
+    height: 10px;
+    width: 20px;
+    background-repeat: no-repeat;
   }
 
-  .select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow b {
-    border-width: 0 5px 8px 5px;
-    border-color: transparent transparent rgb(35, 35, 35);
+  .select2-container--default .select2-selection--single {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 0;
+  }
+
+  .select2-dropdown {
+    border: 1px solid #ccc;
+    border-radius: 0;
   }
  
   .select2-results__option--selectable {
     padding: 8px 12px;
+    height: 38px;
   }
 
   
