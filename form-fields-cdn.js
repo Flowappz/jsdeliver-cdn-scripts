@@ -1,5 +1,5 @@
 /**
- * FORM FIELDS PRO CDN SCRIPT - v3.2.0
+ * FORM FIELDS PRO CDN SCRIPT - v3.2.1
  */
 
 /**
@@ -2516,6 +2516,7 @@ const formFieldsDateInput = async () => {
       format,
       lang,
       zIndex,
+      readonly: false,
     };
   };
 
