@@ -733,9 +733,10 @@ const formFieldsDateInputNew = async () => {
   };
 
   const initializeDatePickers = () => {
-    const datePickers = document.querySelectorAll(selectors.DATE_PICKER);
+    const datePickerInputs = document.querySelectorAll(selectors.DATE_PICKER);
 
-    for (let datePicker of datePickers) {
+    for (let inputElement of datePickerInputs) {
+      const pickerInstance = new Datepicker(inputElement);
       // const config = getCommonConfig(datePicker);
       // const css = getCustomCSS(datePicker);
       // const pickerInstance = new easepick.create({
@@ -773,7 +774,7 @@ const formFieldsDateInputNew = async () => {
       // datePickerPackageCss = await res.text();
       const cssString = await res.text();
       const style = document.createElement("style");
-      style.innerHTML = `${cssString} ${additionalCss}`;
+      style.innerHTML = `${cssString}`;
 
       document.getElementsByTagName("head")[0].appendChild(style);
     }
