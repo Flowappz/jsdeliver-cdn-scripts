@@ -800,7 +800,7 @@ const formFieldsNumberSliderNew = async () => {
       if (rangeSlider) initializeRangeSlider(slider);
       else initializeRegularSlider(slider);
 
-      // overrideCss(slider);
+      overrideCss(slider);
       await sleep();
     }
   };
