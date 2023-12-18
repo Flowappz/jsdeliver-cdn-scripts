@@ -635,7 +635,196 @@ const formFieldsNumberSlider = async () => {
   initializeTheSliders();
 };
 
-formFieldsNumberSlider();
+// formFieldsNumberSlider();
+
+/**
+ * INITIALIZE RANGE SLIDERS
+ */
+const formFieldsNumberSliderNew = async () => {
+  const sleep = () =>
+    new Promise((resolve) => {
+      setTimeout(() => resolve(true), 5);
+    });
+
+  const additionalCss = `
+    .rs-noscale .rs-scale {
+      display: none;
+    }
+    .rs-scale {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+    }
+    .rs-scale span {
+      display: none;
+    }
+    .rs-scale span:first-child, .rs-scale span:last-child {
+      display: initial;
+    }
+    .rs-scale span::before {
+      display: none;
+    }
+    .rs-container .rs-bg, .rs-container .rs-selected {
+      height: 12px;
+      border-radius: 13.5px;
+    }
+  
+    .rs-container .rs-pointer {
+      width: 22px;
+      height: 22px;
+      top: 0.5px;
+      border: none;
+      border-radius: 50%;
+      box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    }
+  
+    .rs-container .rs-selected {
+      border: none;
+      box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    }
+  
+    .rs-container .rs-pointer::after, .rs-container .rs-pointer::before {
+      display: none;
+    }
+  
+    .rs-tooltip {
+      min-width: fit-content;
+      border: none;
+      box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    }
+    `;
+
+  const addNumberSliderCss = async () => {
+    const res = await fetch(`https://cdn.jsdelivr.net/gh/leongersen/noUiSlider@15.7.1/dist/nouislider.min.css`);
+
+    if (res.ok) {
+      const cssString = await res.text();
+      const style = document.createElement("style");
+      style.innerHTML = `${cssString} ${additionalCss}`;
+
+      document.getElementsByTagName("head")[0].appendChild(style);
+    }
+  };
+
+  /**
+   *
+   * @param {Element} element
+   */
+  const overrideCss = (element) => {
+    const inputName = element.getAttribute("name");
+
+    const formFieldsId = `${inputName}-${Date.now()}`;
+    element.setAttribute("form-fields-id", formFieldsId);
+
+    const { backgroundColor: parentBackgroundColor, color: parentTextColor } = getComputedStyle(element.parentElement);
+
+    const lightTheme = {
+      maxMinValueTextColor: element.getAttribute("data-light-theme-max-min-text-color") || parentTextColor,
+      tooltipTextColor: element.getAttribute("data-light-theme-tooltip-text-color") || parentTextColor,
+      sliderColor: element.getAttribute("data-light-theme-slider-color") || parentBackgroundColor,
+    };
+
+    const darkTheme = {
+      maxMinValueTextColor: element.getAttribute("data-dark-theme-max-min-text-color") || parentTextColor,
+      tooltipTextColor: element.getAttribute("data-dark-theme-tooltip-text-color") || parentTextColor,
+      sliderColor: element.getAttribute("data-dark-theme-slider-color") || parentBackgroundColor,
+    };
+
+    const sheet = new CSSStyleSheet();
+    sheet.replaceSync(`
+      [form-fields-id="${formFieldsId}"] + .rs-container .rs-selected {
+        background: ${lightTheme.sliderColor}
+      }
+      [form-fields-id="${formFieldsId}"] + .rs-container .rs-tooltip {
+        color: ${lightTheme.tooltipTextColor};
+        background: ${lightTheme.sliderColor};
+      }
+  
+      [form-fields-id="${formFieldsId}"] + .rs-container .rs-scale span ins {
+        color: ${lightTheme.maxMinValueTextColor};
+      }
+  
+      @media (prefers-color-scheme: dark) {
+        [form-fields-id="${formFieldsId}"] + .rs-container .rs-selected {
+          background: ${darkTheme.sliderColor}
+        }
+        [form-fields-id="${formFieldsId}"] + .rs-container .rs-tooltip {
+          color: ${darkTheme.tooltipTextColor};
+          background: ${darkTheme.sliderColor};
+        }
+  
+        [form-fields-id="${formFieldsId}"] + .rs-container .rs-scale span ins {
+          color: ${darkTheme.maxMinValueTextColor}
+        }
+      }
+      `);
+
+    const sheets = document.adoptedStyleSheets || [];
+    document.adoptedStyleSheets = [...sheets, sheet];
+  };
+
+  /**
+   *
+   * @param {Element} sliderInput
+   */
+  const initializeRegularSlider = (sliderInput) => {
+    const min = Number(sliderInput.getAttribute("data-min"));
+    const max = Number(sliderInput.getAttribute("data-max"));
+    const defaultValue = Number(sliderInput.getAttribute("data-default"));
+
+    new rSlider({
+      target: sliderInput,
+      values: { min, max },
+      set: [defaultValue],
+      range: false,
+      tooltip: true,
+      scale: true,
+      label: false,
+      step: 1,
+    });
+  };
+
+  /**
+   *
+   * @param {Element} sliderInput
+   */
+  const initializeRangeSlider = (sliderInput) => {
+    const min = Number(sliderInput.getAttribute("data-min"));
+    const max = Number(sliderInput.getAttribute("data-max"));
+    const defaultmin = Number(sliderInput.getAttribute("data-min-default"));
+    const defaultmax = Number(sliderInput.getAttribute("data-max-default"));
+
+    new rSlider({
+      target: sliderInput,
+      values: { min, max },
+      set: [defaultmin, defaultmax],
+      range: true,
+      tooltip: true,
+      scale: true,
+      label: false,
+      step: 1,
+    });
+  };
+
+  const initializeTheSliders = async () => {
+    const sliders = document.querySelectorAll(`[form-fields-pro-number-slider]`);
+
+    for (let slider of sliders) {
+      const rangeSlider = slider.getAttribute("allow-range");
+      if (rangeSlider) initializeRangeSlider(slider);
+      else initializeRegularSlider(slider);
+
+      // overrideCss(slider);
+      await sleep();
+    }
+  };
+
+  await addNumberSliderCss();
+
+  initializeTheSliders();
+};
+
+formFieldsNumberSliderNew();
 
 
 /**
