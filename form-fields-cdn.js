@@ -387,6 +387,17 @@ const formFieldsDateInputNew = async () => {
       color: ${lightTheme.selectedDateTextColor};
       background-color: ${lightTheme.selectedDateBackgroundColor};
     }
+
+    [form-fields-id="${formFieldsId}"]  + .datepicker .datepicker-cell.range {
+      color: ${lightTheme.selectedDateTextColor};
+      background-color: ${lightTheme.selectedDateBackgroundColor.replace("rgb", "rgba").replace(")", ", 0.45)")};
+    }
+
+    [form-fields-id="${formFieldsId}"]  + .datepicker .datepicker-cell.range-end:not(.selected), 
+    [form-fields-id="${formFieldsId}"]  + .datepicker .datepicker-cell.range-start:not(.selected) {
+      color: ${lightTheme.selectedDateTextColor};
+      background-color: ${lightTheme.selectedDateBackgroundColor.replace("rgb", "rgba").replace(")", ", 0.7)")};
+    }
   
     @media (prefers-color-scheme: dark) {
       [form-fields-id="${formFieldsId}"]  + .datepicker .datepicker-cell:not(.disabled):hover {
@@ -398,6 +409,17 @@ const formFieldsDateInputNew = async () => {
       [form-fields-id="${formFieldsId}"]  + .datepicker .datepicker-cell.selected:hover {
         color: ${darkTheme.selectedDateTextColor};
         background-color: ${darkTheme.selectedDateBackgroundColor};
+      }
+
+      [form-fields-id="${formFieldsId}"]  + .datepicker .datepicker-cell.range {
+        color: ${darkTheme.selectedDateTextColor};
+        background-color: ${darkTheme.selectedDateBackgroundColor.replace("rgb", "rgba").replace(")", ", 0.45)")};
+      }
+
+      [form-fields-id="${formFieldsId}"]  + .datepicker .datepicker-cell.range-end:not(.selected), 
+      [form-fields-id="${formFieldsId}"]  + .datepicker .datepicker-cell.range-start:not(.selected) {
+        color: ${darkTheme.selectedDateTextColor};
+        background-color: ${darkTheme.selectedDateBackgroundColor.replace("rgb", "rgba").replace(")", ", 0.7)")};
       }
     }
     `);
