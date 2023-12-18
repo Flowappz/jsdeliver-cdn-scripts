@@ -704,10 +704,10 @@ const formFieldsNumberSliderNew = async () => {
 
     const sheet = new CSSStyleSheet();
     sheet.replaceSync(`
-      [form-fields-id="${formFieldsId}"] + .rs-container .rs-selected {
+      [form-fields-id="${formFieldsId}"]  + .noUi-target .noUi-connect {
         background: ${lightTheme.sliderColor}
       }
-      [form-fields-id="${formFieldsId}"] + .rs-container .rs-tooltip {
+      [form-fields-id="${formFieldsId}"] + .noUi-horizontal .noUi-tooltip {
         color: ${lightTheme.tooltipTextColor};
         background: ${lightTheme.sliderColor};
       }
@@ -717,10 +717,10 @@ const formFieldsNumberSliderNew = async () => {
       }
   
       @media (prefers-color-scheme: dark) {
-        [form-fields-id="${formFieldsId}"] + .rs-container .rs-selected {
+        [form-fields-id="${formFieldsId}"]  + .noUi-target .noUi-connect {
           background: ${darkTheme.sliderColor}
         }
-        [form-fields-id="${formFieldsId}"] + .rs-container .rs-tooltip {
+        [form-fields-id="${formFieldsId}"] + .noUi-horizontal .noUi-tooltip {
           color: ${darkTheme.tooltipTextColor};
           background: ${darkTheme.sliderColor};
         }
