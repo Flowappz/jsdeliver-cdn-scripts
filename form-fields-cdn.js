@@ -776,11 +776,11 @@ const formFieldsNumberSliderNew = async () => {
     sliderInput.parentElement.appendChild(container);
 
     noUiSlider.create(container, {
-      start: 40,
+      start: defaultValue,
       connect: "lower",
       range: {
-        min: 0,
-        max: 100,
+        min,
+        max,
       },
     });
   };
@@ -799,11 +799,11 @@ const formFieldsNumberSliderNew = async () => {
     sliderInput.parentElement.appendChild(container);
 
     noUiSlider.create(container, {
-      start: [20, 40],
+      start: [defaultmin, defaultmax],
       connect: [false, true, false],
       range: {
-        min: 0,
-        max: 80,
+        min,
+        max,
       },
     });
   };
