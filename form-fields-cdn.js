@@ -738,13 +738,6 @@ const formFieldsDateInputNew = async () => {
     for (let inputElement of datePickerInputs) {
       const pickerInstance = new Datepicker(inputElement);
       pickerInstance.setDate(new Date());
-      // const config = getCommonConfig(datePicker);
-      // const css = getCustomCSS(datePicker);
-      // const pickerInstance = new easepick.create({
-      //   ...config,
-      //   date: new Date(),
-      //   css,
-      // });
       showDatePickerOnIconClick(inputElement, pickerInstance);
     }
   };
@@ -753,19 +746,10 @@ const formFieldsDateInputNew = async () => {
     const datePickers = document.querySelectorAll(selectors.DATE_RANGE_PICKER);
 
     for (let datePicker of datePickers) {
-      const config = getCommonConfig(datePicker);
-      const css = getCustomCSS(datePicker);
-
-      const pickerInstance = new easepick.create({
-        ...config,
-        css,
-        plugins: ["RangePlugin"],
-        RangePlugin: {
-          startDate: new Date(),
-          endDate: new Date(),
-        },
-      });
-      showDatePickerOnIconClick(datePicker, pickerInstance);
+      const pickerInstance = new DateRangePicker(datePicker);
+      showDatePickerOnIconClick(pickerInstance.inputs[0], pickerInstance.datepickers[0]);
+      showDatePickerOnIconClick(pickerInstance.inputs[1], pickerInstance.datepickers[1]);
+      pickerInstance.datepickers[0].setDate(new Date(), new Date());
     }
   };
 
@@ -783,7 +767,7 @@ const formFieldsDateInputNew = async () => {
 
   await loadDatePickerPackageCSS();
   initializeDatePickers();
-  // initializeDateRangePickers();
+  initializeDateRangePickers();
 };
 
 formFieldsDateInputNew();
