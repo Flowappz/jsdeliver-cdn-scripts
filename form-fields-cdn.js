@@ -647,51 +647,23 @@ const formFieldsNumberSliderNew = async () => {
     });
 
   const additionalCss = `
-    .rs-noscale .rs-scale {
-      display: none;
-    }
-    .rs-scale {
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-    }
-    .rs-scale span {
-      display: none;
-    }
-    .rs-scale span:first-child, .rs-scale span:last-child {
-      display: initial;
-    }
-    .rs-scale span::before {
-      display: none;
-    }
-    .rs-container .rs-bg, .rs-container .rs-selected {
+    .noUi-horizontal {
       height: 12px;
-      border-radius: 13.5px;
     }
-  
-    .rs-container .rs-pointer {
+    
+    .noUi-target {
+      border: 1px solid #ededed;
+      border-radius: 11.5px;
+      box-shadow: none;
+    }
+
+    .noUi-horizontal .noUi-handle {
       width: 22px;
       height: 22px;
-      top: 0.5px;
-      border: none;
+      right: -17px;
+      top: -10px;
       border-radius: 50%;
       box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
-    }
-  
-    .rs-container .rs-selected {
-      border: none;
-      box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
-    }
-  
-    .rs-container .rs-pointer::after, .rs-container .rs-pointer::before {
-      display: none;
-    }
-  
-    .rs-tooltip {
-      min-width: fit-content;
-      border: none;
-      box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
-    }
     `;
 
   const addNumberSliderCss = async () => {
