@@ -778,7 +778,7 @@ const formFieldsNumberSliderNew = async () => {
     noUiSlider.create(container, {
       start: defaultValue,
       connect: "lower",
-      tooltips: [true],
+      tooltips: { to: (val) => Math.round(val) },
       range: {
         min,
         max,
@@ -802,7 +802,7 @@ const formFieldsNumberSliderNew = async () => {
     noUiSlider.create(container, {
       start: [defaultmin, defaultmax],
       connect: [false, true, false],
-      tooltips: [true, true],
+      tooltips: { to: (val) => Math.round(val) },
       range: {
         min,
         max,
