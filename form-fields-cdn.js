@@ -772,15 +772,16 @@ const formFieldsNumberSliderNew = async () => {
     const max = Number(sliderInput.getAttribute("data-max"));
     const defaultValue = Number(sliderInput.getAttribute("data-default"));
 
-    new rSlider({
-      target: sliderInput,
-      values: { min, max },
-      set: [defaultValue],
-      range: false,
-      tooltip: true,
-      scale: true,
-      label: false,
-      step: 1,
+    const container = document.createElement("div");
+    sliderInput.parentElement.appendChild(container);
+
+    noUiSlider.create(container, {
+      start: 40,
+      connect: "lower",
+      range: {
+        min: 0,
+        max: 100,
+      },
     });
   };
 
@@ -794,15 +795,16 @@ const formFieldsNumberSliderNew = async () => {
     const defaultmin = Number(sliderInput.getAttribute("data-min-default"));
     const defaultmax = Number(sliderInput.getAttribute("data-max-default"));
 
-    new rSlider({
-      target: sliderInput,
-      values: { min, max },
-      set: [defaultmin, defaultmax],
-      range: true,
-      tooltip: true,
-      scale: true,
-      label: false,
-      step: 1,
+    const container = document.createElement("div");
+    sliderInput.parentElement.appendChild(container);
+
+    noUiSlider.create(container, {
+      start: [20, 40],
+      connect: [false, true, false],
+      range: {
+        min: 0,
+        max: 80,
+      },
     });
   };
 
