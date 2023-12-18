@@ -661,9 +661,19 @@ const formFieldsNumberSliderNew = async () => {
       width: 22px;
       height: 22px;
       right: -17px;
-      top: -10px;
+      top: -6px;
       border-radius: 50%;
       box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    }
+
+    .noUi-handle:after, .noUi-handle:before {
+      display: none;
+    }
+
+    .noUi-tooltip {
+      border: none;
+      box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    }
     `;
 
   const addNumberSliderCss = async () => {
