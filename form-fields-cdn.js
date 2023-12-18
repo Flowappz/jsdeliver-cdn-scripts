@@ -737,6 +737,7 @@ const formFieldsDateInputNew = async () => {
 
     for (let inputElement of datePickerInputs) {
       const pickerInstance = new Datepicker(inputElement);
+      pickerInstance.setDate(new Date());
       // const config = getCommonConfig(datePicker);
       // const css = getCustomCSS(datePicker);
       // const pickerInstance = new easepick.create({
