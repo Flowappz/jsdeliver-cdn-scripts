@@ -581,7 +581,210 @@ const formFieldsDateInput = async () => {
   initializeDateRangePickers();
 };
 
-formFieldsDateInput();
+// formFieldsDateInput();
+
+/**
+ * INITIALIZE DATE PICKERS
+ */
+const formFieldsDateInputNew = async () => {
+  let datePickerPackageCss = "";
+
+  const selectors = {
+    DATE_PICKER: "[form-fields-pro-date-picker]",
+    DATE_RANGE_PICKER: "[form-fields-pro-date-range-picker]",
+  };
+
+  /**
+   *
+   * @param {Element} element
+   */
+  const getCommonConfig = (element) => {
+    const grid = Number(element.getAttribute("data-columns"));
+    const calendars = Number(element.getAttribute("data-months"));
+    const firstDay = Number(element.getAttribute("data-firstDay"));
+    const format = element.getAttribute("data-format");
+    const lang = element.getAttribute("data-language");
+    const zIndex = element.getAttribute("data-zIndex");
+
+    return {
+      element,
+      // css: ["https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.1/dist/index.css"],
+      grid,
+      calendars,
+      firstDay,
+      format,
+      lang,
+      zIndex,
+      readonly: false,
+    };
+  };
+
+  /**
+   *
+   * @param {Element} element
+   */
+  const getCustomCSS = (element) => {
+    const { backgroundColor: parentBackgroundColor, color: parentTextColor } = getComputedStyle(element.parentElement);
+
+    const lightTheme = {
+      selectedDateTextColor: element.getAttribute("data-light-theme-selected-date-text-color") || parentTextColor,
+      selectedDateBackgroundColor:
+        element.getAttribute("data-light-theme-selected-date-background-color") || parentBackgroundColor,
+      todayColor: element.getAttribute("data-light-theme-today-color") || parentTextColor,
+    };
+
+    const darkTheme = {
+      selectedDateTextColor: element.getAttribute("data-dark-theme-selected-date-text-color") || parentTextColor,
+      selectedDateBackgroundColor:
+        element.getAttribute("data-dark-theme-selected-date-background-color") || parentBackgroundColor,
+      todayColor: element.getAttribute("data-dark-theme-today-color") || parentTextColor,
+    };
+
+    // const sheet = new CSSStyleSheet();
+    // sheet.replaceSync(`
+    const sheet = `
+      .container {
+        font-family: inherit;
+      }
+  
+      .calendar>.days-grid>.day.today {
+        color: ${lightTheme.todayColor}
+      }
+  
+      .calendar>.days-grid>.day.selected, 
+      .container.range-plugin .calendar>.days-grid>.day.end, 
+      .container.range-plugin .calendar>.days-grid>.day.start {
+        color: ${lightTheme.selectedDateTextColor};
+        background-color: ${lightTheme.selectedDateBackgroundColor};
+      }
+  
+      .container.range-plugin .calendar>.days-grid>.day.start:after {
+        border-left-color: ${lightTheme.selectedDateBackgroundColor}; 
+      }
+  
+      .container.range-plugin .calendar>.days-grid>.day.end:after {
+        border-right-color: ${lightTheme.selectedDateBackgroundColor}; 
+      }
+  
+      .calendar>.days-grid>.day:hover {
+        border-color: ${lightTheme.selectedDateBackgroundColor}
+      }
+  
+      .container.range-plugin .calendar>.days-grid>.day.in-range {
+        color: ${lightTheme.selectedDateTextColor};
+        background-color: ${lightTheme.selectedDateBackgroundColor.replace("rgb", "rgba").replace(")", ", 0.65)")}; 
+      }
+  
+  
+  
+      @media (prefers-color-scheme: dark) {
+        .calendar>.days-grid>.day.today {
+          color: ${darkTheme.todayColor}
+        }
+  
+        .calendar>.days-grid>.day.selected,
+        .container.range-plugin .calendar>.days-grid>.day.end, 
+        .container.range-plugin .calendar>.days-grid>.day.start {
+          color: ${darkTheme.selectedDateTextColor};
+          background-color: ${darkTheme.selectedDateBackgroundColor};
+        }
+  
+        .calendar>.days-grid>.day:hover {
+          border-color: ${darkTheme.selectedDateBackgroundColor}
+        }
+  
+        .container.range-plugin .calendar>.days-grid>.day.start:after {
+          border-left-color: ${darkTheme.selectedDateBackgroundColor}; 
+        }
+  
+        .container.range-plugin .calendar>.days-grid>.day.end:after {
+          border-right-color: ${darkTheme.selectedDateBackgroundColor}; 
+        }
+  
+        .container.range-plugin .calendar>.days-grid>.day.in-range {
+          color: ${darkTheme.selectedDateTextColor};
+          background-color: ${darkTheme.selectedDateBackgroundColor.replace("rgb", "rgba").replace(")", ", 0.65)")}; 
+        }
+      }`;
+    // `);
+    // datePicker.shadowRoot.adoptedStyleSheets = [sheet];
+
+    return `
+      ${datePickerPackageCss}
+  
+      ${sheet}
+      `;
+  };
+
+  /**
+   *
+   * @param {HTMLInputElement} datePickerInput
+   * @param {{ show: () => {}}} datePickerInstance
+   */
+  const showDatePickerOnIconClick = (datePickerInput, datePickerInstance) => {
+    const name = datePickerInput.getAttribute("name");
+    const icon = document.querySelector(`[name="${name}"] + .easepick-wrapper + .date-input-icon`);
+
+    if (icon) icon.style.cursor = "pointer";
+
+    icon?.addEventListener("click", () => {
+      datePickerInstance.show();
+    });
+  };
+
+  const initializeDatePickers = () => {
+    const datePickers = document.querySelectorAll(selectors.DATE_PICKER);
+
+    for (let datePicker of datePickers) {
+      // const config = getCommonConfig(datePicker);
+      // const css = getCustomCSS(datePicker);
+      // const pickerInstance = new easepick.create({
+      //   ...config,
+      //   date: new Date(),
+      //   css,
+      // });
+      // showDatePickerOnIconClick(datePicker, pickerInstance);
+    }
+  };
+
+  const initializeDateRangePickers = () => {
+    const datePickers = document.querySelectorAll(selectors.DATE_RANGE_PICKER);
+
+    for (let datePicker of datePickers) {
+      const config = getCommonConfig(datePicker);
+      const css = getCustomCSS(datePicker);
+
+      const pickerInstance = new easepick.create({
+        ...config,
+        css,
+        plugins: ["RangePlugin"],
+        RangePlugin: {
+          startDate: new Date(),
+          endDate: new Date(),
+        },
+      });
+      showDatePickerOnIconClick(datePicker, pickerInstance);
+    }
+  };
+
+  const loadDatePickerPackageCSS = async () => {
+    const res = await fetch("https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/css/datepicker.min.css");
+    if (res.ok) {
+      // datePickerPackageCss = await res.text();
+      const cssString = await res.text();
+      const style = document.createElement("style");
+      style.innerHTML = `${cssString} ${additionalCss}`;
+
+      document.getElementsByTagName("head")[0].appendChild(style);
+    }
+  };
+
+  await loadDatePickerPackageCSS();
+  initializeDatePickers();
+  // initializeDateRangePickers();
+};
+
+formFieldsDateInputNew();
 
 /**
  * INITIALIZE USER IP INPUTS
