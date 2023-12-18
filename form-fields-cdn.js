@@ -438,6 +438,8 @@ const formFieldsDateInputNew = async () => {
 
     for (let datePicker of datePickers) {
       const pickerInstance = new DateRangePicker(datePicker);
+      overrideCss(pickerInstance.inputs[0]);
+      overrideCss(pickerInstance.inputs[1]);
       showDatePickerOnIconClick(pickerInstance.inputs[0], pickerInstance.datepickers[0]);
       showDatePickerOnIconClick(pickerInstance.inputs[1], pickerInstance.datepickers[1]);
       pickerInstance.datepickers[0].setDate(new Date(), new Date());
