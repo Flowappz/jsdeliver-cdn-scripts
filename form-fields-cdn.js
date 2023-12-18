@@ -393,7 +393,7 @@ const formFieldsDateInputNew = async () => {
         color: ${darkTheme.selectedDateTextColor};
         background-color: ${darkTheme.selectedDateBackgroundColor.replace("rgb", "rgba").replace(")", ", 0.65)")}; 
       }
-      
+
       [form-fields-id="${formFieldsId}"]  + .datepicker .datepicker-cell.selected, 
       [form-fields-id="${formFieldsId}"]  + .datepicker .datepicker-cell.selected:hover {
         color: ${darkTheme.selectedDateTextColor};
@@ -401,35 +401,6 @@ const formFieldsDateInputNew = async () => {
       }
     }
     `);
-
-    const sheet1 = new CSSStyleSheet();
-    sheet1.replaceSync(`
-      [form-fields-id="${formFieldsId}"]  + .noUi-target .noUi-connect {
-        background: ${lightTheme.sliderColor}
-      }
-      [form-fields-id="${formFieldsId}"] + .noUi-horizontal .noUi-tooltip {
-        color: ${lightTheme.tooltipTextColor};
-        background: ${lightTheme.sliderColor};
-      }
-  
-      [form-fields-id="${formFieldsId}"] + .rs-container .rs-scale span ins {
-        color: ${lightTheme.maxMinValueTextColor};
-      }
-  
-      @media (prefers-color-scheme: dark) {
-        [form-fields-id="${formFieldsId}"]  + .noUi-target .noUi-connect {
-          background: ${darkTheme.sliderColor}
-        }
-        [form-fields-id="${formFieldsId}"] + .noUi-horizontal .noUi-tooltip {
-          color: ${darkTheme.tooltipTextColor};
-          background: ${darkTheme.sliderColor};
-        }
-  
-        [form-fields-id="${formFieldsId}"] + .rs-container .rs-scale span ins {
-          color: ${darkTheme.maxMinValueTextColor}
-        }
-      }
-      `);
 
     const sheets = document.adoptedStyleSheets || [];
     document.adoptedStyleSheets = [...sheets, sheet];
