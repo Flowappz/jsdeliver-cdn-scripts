@@ -1,5 +1,5 @@
 /**
- * FORM FIELDS PRO CDN SCRIPT - v4.0.0
+ * FORM FIELDS PRO CDN SCRIPT - v4.1.0
  */
 
 /**
@@ -841,6 +841,7 @@ const formFieldsNumberSliderNew = async () => {
 
     const slider = noUiSlider.create(container, {
       start: defaultValue,
+      step: 1,
       connect: "lower",
       tooltips: { to: (val) => Math.round(val) },
       range: {
@@ -870,6 +871,7 @@ const formFieldsNumberSliderNew = async () => {
 
     const slider = noUiSlider.create(container, {
       start: [defaultmin, defaultmax],
+      step: 1,
       connect: [false, true, false],
       tooltips: { to: (val) => Math.round(val) },
       range: {
