@@ -723,12 +723,12 @@ const formFieldsDateInputNew = async () => {
    */
   const showDatePickerOnIconClick = (datePickerInput, datePickerInstance) => {
     const name = datePickerInput.getAttribute("name");
-    const icon = document.querySelector(`[name="${name}"] + .easepick-wrapper + .date-input-icon`);
+    const icon = document.querySelector(`[name="${name}"] + .datepicker + .date-input-icon`);
 
     if (icon) icon.style.cursor = "pointer";
 
     icon?.addEventListener("click", () => {
-      datePickerInstance.show();
+      if (!datePickerInstance.active) datePickerInstance.show();
     });
   };
 
@@ -744,7 +744,7 @@ const formFieldsDateInputNew = async () => {
       //   date: new Date(),
       //   css,
       // });
-      // showDatePickerOnIconClick(datePicker, pickerInstance);
+      showDatePickerOnIconClick(inputElement, pickerInstance);
     }
   };
 
