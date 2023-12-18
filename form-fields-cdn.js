@@ -351,6 +351,92 @@ const formFieldsDateInputNew = async () => {
 
   /**
    *
+   * @param {Element} element
+   */
+  const overrideCss = (element) => {
+    const inputName = element.getAttribute("name");
+
+    const formFieldsId = `${inputName}-${Date.now()}`;
+    element.setAttribute("form-fields-id", formFieldsId);
+
+    const { backgroundColor: parentBackgroundColor, color: parentTextColor } = getComputedStyle(element.parentElement);
+
+    const lightTheme = {
+      selectedDateTextColor: element.getAttribute("data-light-theme-selected-date-text-color") || parentTextColor,
+      selectedDateBackgroundColor:
+        element.getAttribute("data-light-theme-selected-date-background-color") || parentBackgroundColor,
+      todayColor: element.getAttribute("data-light-theme-today-color") || parentTextColor,
+    };
+
+    const darkTheme = {
+      selectedDateTextColor: element.getAttribute("data-dark-theme-selected-date-text-color") || parentTextColor,
+      selectedDateBackgroundColor:
+        element.getAttribute("data-dark-theme-selected-date-background-color") || parentBackgroundColor,
+      todayColor: element.getAttribute("data-dark-theme-today-color") || parentTextColor,
+    };
+
+    const sheet = new CSSStyleSheet();
+    sheet.replaceSync(`
+    [form-fields-id="${formFieldsId}"]  + .datepicker .datepicker-cell:not(.disabled):hover {
+      color: ${lightTheme.selectedDateTextColor};
+      background-color: ${lightTheme.selectedDateBackgroundColor.replace("rgb", "rgba").replace(")", ", 0.65)")}; 
+    }
+
+    [form-fields-id="${formFieldsId}"]  + .datepicker .datepicker-cell.selected, 
+    [form-fields-id="${formFieldsId}"]  + .datepicker .datepicker-cell.selected:hover {
+      color: ${lightTheme.selectedDateTextColor};
+      background-color: ${lightTheme.selectedDateBackgroundColor};
+    }
+  
+    @media (prefers-color-scheme: dark) {
+      [form-fields-id="${formFieldsId}"]  + .datepicker .datepicker-cell:not(.disabled):hover {
+        color: ${darkTheme.selectedDateTextColor};
+        background-color: ${darkTheme.selectedDateBackgroundColor.replace("rgb", "rgba").replace(")", ", 0.65)")}; 
+      }
+      
+      [form-fields-id="${formFieldsId}"]  + .datepicker .datepicker-cell.selected, 
+      [form-fields-id="${formFieldsId}"]  + .datepicker .datepicker-cell.selected:hover {
+        color: ${darkTheme.selectedDateTextColor};
+        background-color: ${darkTheme.selectedDateBackgroundColor};
+      }
+    }
+    `);
+
+    const sheet1 = new CSSStyleSheet();
+    sheet1.replaceSync(`
+      [form-fields-id="${formFieldsId}"]  + .noUi-target .noUi-connect {
+        background: ${lightTheme.sliderColor}
+      }
+      [form-fields-id="${formFieldsId}"] + .noUi-horizontal .noUi-tooltip {
+        color: ${lightTheme.tooltipTextColor};
+        background: ${lightTheme.sliderColor};
+      }
+  
+      [form-fields-id="${formFieldsId}"] + .rs-container .rs-scale span ins {
+        color: ${lightTheme.maxMinValueTextColor};
+      }
+  
+      @media (prefers-color-scheme: dark) {
+        [form-fields-id="${formFieldsId}"]  + .noUi-target .noUi-connect {
+          background: ${darkTheme.sliderColor}
+        }
+        [form-fields-id="${formFieldsId}"] + .noUi-horizontal .noUi-tooltip {
+          color: ${darkTheme.tooltipTextColor};
+          background: ${darkTheme.sliderColor};
+        }
+  
+        [form-fields-id="${formFieldsId}"] + .rs-container .rs-scale span ins {
+          color: ${darkTheme.maxMinValueTextColor}
+        }
+      }
+      `);
+
+    const sheets = document.adoptedStyleSheets || [];
+    document.adoptedStyleSheets = [...sheets, sheet];
+  };
+
+  /**
+   *
    * @param {HTMLInputElement} datePickerInput
    * @param {{ show: () => {}}} datePickerInstance
    */
@@ -371,6 +457,7 @@ const formFieldsDateInputNew = async () => {
     for (let inputElement of datePickerInputs) {
       const pickerInstance = new Datepicker(inputElement);
       pickerInstance.setDate(new Date());
+      overrideCss(inputElement);
       showDatePickerOnIconClick(inputElement, pickerInstance);
     }
   };
