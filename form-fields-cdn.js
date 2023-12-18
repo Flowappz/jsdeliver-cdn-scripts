@@ -775,7 +775,7 @@ const formFieldsNumberSliderNew = async () => {
     const container = document.createElement("div");
     sliderInput.parentElement.appendChild(container);
 
-    noUiSlider.create(container, {
+    const slider = noUiSlider.create(container, {
       start: defaultValue,
       connect: "lower",
       tooltips: { to: (val) => Math.round(val) },
@@ -783,6 +783,11 @@ const formFieldsNumberSliderNew = async () => {
         min,
         max,
       },
+    });
+
+    slider.on("update", (values) => {
+      values = values.map((v) => Math.round(v)).join(",");
+      sliderInput.value = values;
     });
   };
 
@@ -799,7 +804,7 @@ const formFieldsNumberSliderNew = async () => {
     const container = document.createElement("div");
     sliderInput.parentElement.appendChild(container);
 
-    noUiSlider.create(container, {
+    const slider = noUiSlider.create(container, {
       start: [defaultmin, defaultmax],
       connect: [false, true, false],
       tooltips: { to: (val) => Math.round(val) },
@@ -807,6 +812,11 @@ const formFieldsNumberSliderNew = async () => {
         min,
         max,
       },
+    });
+
+    slider.on("update", (values) => {
+      values = values.map((v) => Math.round(v)).join(",");
+      sliderInput.value = values;
     });
   };
 
