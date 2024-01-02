@@ -46,6 +46,8 @@ const formFieldsDateInput = async () => {
     DATE_RANGE_PICKER: "[form-fields-pro-date-range-picker]",
   };
 
+  const datePickerState = {};
+
   /**
    *
    * @param {Element} element
@@ -258,12 +260,36 @@ const formFieldsDateInput = async () => {
     return div;
   };
 
+  /**
+   *
+   * @param {HTMLInputElement} inputElement
+   */
+  const preventFormSubmitOnFirstEnterToHideDatePicker = (inputElement) => {
+    const inputName = inputElement.getAttribute("name");
+
+    $(inputElement).on("show.daterangepicker", () => {
+      datePickerState[inputName] = true;
+    });
+
+    $(inputElement).on("hide.daterangepicker", (e) => {
+      datePickerState[inputName] = false;
+    });
+
+    inputElement.addEventListener("keypress", (e) => {
+      if (e.key === "Enter" && !datePickerState[inputName]) {
+        e.preventDefault();
+        datePickerState[inputName] = true;
+      }
+    });
+  };
+
   const initializeDatePickers = () => {
     const datePickerInputs = document.querySelectorAll(selectors.DATE_PICKER);
 
     for (let inputElement of datePickerInputs) {
       const pickerDropdownWrapperEl = createPickerDropdownWrapperElement();
       inputElement.parentElement.appendChild(pickerDropdownWrapperEl);
+
       $(inputElement).daterangepicker({
         singleDatePicker: true,
         showDropdowns: true,
@@ -272,6 +298,7 @@ const formFieldsDateInput = async () => {
       });
       overrideCss(inputElement);
       showDatePickerOnIconClick(inputElement);
+      preventFormSubmitOnFirstEnterToHideDatePicker(inputElement);
     }
   };
 
@@ -290,6 +317,7 @@ const formFieldsDateInput = async () => {
       });
       overrideCss(inputElement);
       showDatePickerOnIconClick(inputElement);
+      preventFormSubmitOnFirstEnterToHideDatePicker(inputElement);
     }
   };
 
