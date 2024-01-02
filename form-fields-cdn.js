@@ -288,7 +288,7 @@ const formFieldsDateInput = async () => {
   };
 
   const loadDatePickerPackageCSS = async () => {
-    const res = await fetch("https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/css/datepicker.min.css");
+    const res = await fetch("https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css");
     if (res.ok) {
       // datePickerPackageCss = await res.text();
       const cssString = await res.text();
@@ -301,7 +301,7 @@ const formFieldsDateInput = async () => {
 
   await loadDatePickerPackageCSS();
   initializeDatePickers();
-  initializeDateRangePickers();
+  // initializeDateRangePickers();
 };
 
 formFieldsDateInput();
