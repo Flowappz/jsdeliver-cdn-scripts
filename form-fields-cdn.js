@@ -38,7 +38,7 @@
 /**
  * INITIALIZE DATE PICKERS
  */
-const formFieldsDateInputNew = async () => {
+const formFieldsDateInput = async () => {
   let datePickerPackageCss = "";
 
   const selectors = {
@@ -304,7 +304,7 @@ const formFieldsDateInputNew = async () => {
   initializeDateRangePickers();
 };
 
-formFieldsDateInputNew();
+formFieldsDateInput();
 
 /**
  * INITIALIZE USER IP INPUTS
@@ -349,11 +349,10 @@ const formFieldsUserIp = async () => {
 
 formFieldsUserIp();
 
-
 /**
  * INITIALIZE RANGE SLIDERS
  */
-const formFieldsNumberSliderNew = async () => {
+const formFieldsNumberSlider = async () => {
   const sleep = () =>
     new Promise((resolve) => {
       setTimeout(() => resolve(true), 5);
@@ -535,13 +534,12 @@ const formFieldsNumberSliderNew = async () => {
   initializeTheSliders();
 };
 
-formFieldsNumberSliderNew();
-
+formFieldsNumberSlider();
 
 /**
  * INITIALIZE SELECT INPUTS
  */
-const formFieldsSelectNew = async () => {
+const formFieldsSelect = async () => {
   const additionalCss = `
   .select2-container {
     height: 38px;
@@ -665,4 +663,4 @@ const formFieldsSelectNew = async () => {
   }
 };
 
-formFieldsSelectNew();
+formFieldsSelect();
