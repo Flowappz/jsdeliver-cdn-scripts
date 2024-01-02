@@ -262,16 +262,25 @@ const formFieldsDateInput = async () => {
     });
   };
 
+  const createPickerDropdownWrapperElement = () => {
+    const div = document.createElement("div");
+    div.style.position = "absolute";
+    div.style.width = "100vw";
+
+    return div;
+  };
+
   const initializeDatePickers = () => {
     const datePickerInputs = document.querySelectorAll(selectors.DATE_PICKER);
 
     for (let inputElement of datePickerInputs) {
+      const pickerDropdownWrapperEl = createPickerDropdownWrapperElement();
+      inputElement.parentElement.appendChild(pickerDropdownWrapperEl);
       $(inputElement).daterangepicker({
         singleDatePicker: true,
         showDropdowns: true,
-        autoApply: true,
         startDate: new Date(),
-        parentEl: inputElement.parentElement,
+        parentEl: pickerDropdownWrapperEl,
       });
       // overrideCss(inputElement);
       showDatePickerOnIconClick(inputElement);
@@ -279,15 +288,25 @@ const formFieldsDateInput = async () => {
   };
 
   const initializeDateRangePickers = () => {
-    const datePickers = document.querySelectorAll(selectors.DATE_RANGE_PICKER);
+    const datePickerInputs = document.querySelectorAll(selectors.DATE_RANGE_PICKER);
 
-    for (let datePicker of datePickers) {
-      const pickerInstance = new DateRangePicker(datePicker);
-      overrideCss(pickerInstance.inputs[0]);
-      overrideCss(pickerInstance.inputs[1]);
-      showDatePickerOnIconClick(pickerInstance.inputs[0], pickerInstance.datepickers[0]);
-      showDatePickerOnIconClick(pickerInstance.inputs[1], pickerInstance.datepickers[1]);
-      pickerInstance.datepickers[0].setDate(new Date(), new Date());
+    for (let inputElement of datePickerInputs) {
+      const pickerDropdownWrapperEl = createPickerDropdownWrapperElement();
+      inputElement.parentElement.appendChild(pickerDropdownWrapperEl);
+
+      $(inputElement).daterangepicker({
+        startDate: new Date(),
+        endDate: new Date(),
+        showDropdowns: true,
+        parentEl: pickerDropdownWrapperEl,
+      });
+      showDatePickerOnIconClick(inputElement);
+      // const pickerInstance = new DateRangePicker(datePicker);
+      // overrideCss(pickerInstance.inputs[0]);
+      // overrideCss(pickerInstance.inputs[1]);
+      // showDatePickerOnIconClick(pickerInstance.inputs[0], pickerInstance.datepickers[0]);
+      // showDatePickerOnIconClick(pickerInstance.inputs[1], pickerInstance.datepickers[1]);
+      // pickerInstance.datepickers[0].setDate(new Date(), new Date());
     }
   };
 
@@ -305,7 +324,7 @@ const formFieldsDateInput = async () => {
 
   await loadDatePickerPackageCSS();
   initializeDatePickers();
-  // initializeDateRangePickers();
+  initializeDateRangePickers();
 };
 
 formFieldsDateInput();
