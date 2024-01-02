@@ -196,49 +196,37 @@ const formFieldsDateInput = async () => {
 
     const sheet = new CSSStyleSheet();
     sheet.replaceSync(`
-    [form-fields-id="${formFieldsId}"]  + .datepicker .datepicker-cell:not(.disabled):hover {
+    [form-fields-id="${formFieldsId}"]  + div + div .daterangepicker td.available:hover {
       color: ${lightTheme.selectedDateTextColor};
       background-color: ${lightTheme.selectedDateBackgroundColor.replace("rgb", "rgba").replace(")", ", 0.65)")}; 
     }
 
-    [form-fields-id="${formFieldsId}"]  + .datepicker .datepicker-cell.selected, 
-    [form-fields-id="${formFieldsId}"]  + .datepicker .datepicker-cell.selected:hover {
-      color: ${lightTheme.selectedDateTextColor};
-      background-color: ${lightTheme.selectedDateBackgroundColor};
-    }
-
-    [form-fields-id="${formFieldsId}"]  + .datepicker .datepicker-cell.range {
+    [form-fields-id="${formFieldsId}"]  + div + div .daterangepicker td.in-range {
       color: ${lightTheme.selectedDateTextColor};
       background-color: ${lightTheme.selectedDateBackgroundColor.replace("rgb", "rgba").replace(")", ", 0.45)")};
     }
 
-    [form-fields-id="${formFieldsId}"]  + .datepicker .datepicker-cell.range-end:not(.selected), 
-    [form-fields-id="${formFieldsId}"]  + .datepicker .datepicker-cell.range-start:not(.selected) {
+    [form-fields-id="${formFieldsId}"]  + div + div .daterangepicker td.active, 
+    [form-fields-id="${formFieldsId}"]  + div + div .daterangepicker td.active:hover {
       color: ${lightTheme.selectedDateTextColor};
-      background-color: ${lightTheme.selectedDateBackgroundColor.replace("rgb", "rgba").replace(")", ", 0.7)")};
+      background-color: ${lightTheme.selectedDateBackgroundColor};
     }
   
     @media (prefers-color-scheme: dark) {
-      [form-fields-id="${formFieldsId}"]  + .datepicker .datepicker-cell:not(.disabled):hover {
+      [form-fields-id="${formFieldsId}"]  + div + div .daterangepicker td.available:hover {
         color: ${darkTheme.selectedDateTextColor};
         background-color: ${darkTheme.selectedDateBackgroundColor.replace("rgb", "rgba").replace(")", ", 0.65)")}; 
       }
 
-      [form-fields-id="${formFieldsId}"]  + .datepicker .datepicker-cell.selected, 
-      [form-fields-id="${formFieldsId}"]  + .datepicker .datepicker-cell.selected:hover {
-        color: ${darkTheme.selectedDateTextColor};
-        background-color: ${darkTheme.selectedDateBackgroundColor};
-      }
-
-      [form-fields-id="${formFieldsId}"]  + .datepicker .datepicker-cell.range {
+      [form-fields-id="${formFieldsId}"]  + div + div .daterangepicker td.in-range {
         color: ${darkTheme.selectedDateTextColor};
         background-color: ${darkTheme.selectedDateBackgroundColor.replace("rgb", "rgba").replace(")", ", 0.45)")};
       }
 
-      [form-fields-id="${formFieldsId}"]  + .datepicker .datepicker-cell.range-end:not(.selected), 
-      [form-fields-id="${formFieldsId}"]  + .datepicker .datepicker-cell.range-start:not(.selected) {
+      [form-fields-id="${formFieldsId}"]  + div + div .daterangepicker td.active, 
+      [form-fields-id="${formFieldsId}"]  + div + div .daterangepicker td.active:hover {
         color: ${darkTheme.selectedDateTextColor};
-        background-color: ${darkTheme.selectedDateBackgroundColor.replace("rgb", "rgba").replace(")", ", 0.7)")};
+        background-color: ${darkTheme.selectedDateBackgroundColor};
       }
     }
     `);
@@ -282,7 +270,7 @@ const formFieldsDateInput = async () => {
         startDate: new Date(),
         parentEl: pickerDropdownWrapperEl,
       });
-      // overrideCss(inputElement);
+      overrideCss(inputElement);
       showDatePickerOnIconClick(inputElement);
     }
   };
@@ -300,13 +288,8 @@ const formFieldsDateInput = async () => {
         showDropdowns: true,
         parentEl: pickerDropdownWrapperEl,
       });
+      overrideCss(inputElement);
       showDatePickerOnIconClick(inputElement);
-      // const pickerInstance = new DateRangePicker(datePicker);
-      // overrideCss(pickerInstance.inputs[0]);
-      // overrideCss(pickerInstance.inputs[1]);
-      // showDatePickerOnIconClick(pickerInstance.inputs[0], pickerInstance.datepickers[0]);
-      // showDatePickerOnIconClick(pickerInstance.inputs[1], pickerInstance.datepickers[1]);
-      // pickerInstance.datepickers[0].setDate(new Date(), new Date());
     }
   };
 
