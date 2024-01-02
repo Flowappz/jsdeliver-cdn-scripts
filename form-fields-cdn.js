@@ -250,16 +250,15 @@ const formFieldsDateInput = async () => {
   /**
    *
    * @param {HTMLInputElement} datePickerInput
-   * @param {{ show: () => {}}} datePickerInstance
    */
-  const showDatePickerOnIconClick = (datePickerInput, datePickerInstance) => {
+  const showDatePickerOnIconClick = (datePickerInput) => {
     const name = datePickerInput.getAttribute("name");
-    const icon = document.querySelector(`[name="${name}"] + .datepicker + .date-input-icon`);
+    const icon = document.querySelector(`[name="${name}"] + .date-input-icon`);
 
     if (icon) icon.style.cursor = "pointer";
 
     icon?.addEventListener("click", () => {
-      if (!datePickerInstance.active) datePickerInstance.show();
+      datePickerInput.click();
     });
   };
 
@@ -267,10 +266,15 @@ const formFieldsDateInput = async () => {
     const datePickerInputs = document.querySelectorAll(selectors.DATE_PICKER);
 
     for (let inputElement of datePickerInputs) {
-      const pickerInstance = new Datepicker(inputElement);
-      pickerInstance.setDate(new Date());
-      overrideCss(inputElement);
-      showDatePickerOnIconClick(inputElement, pickerInstance);
+      $(inputElement).daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true,
+        autoApply: true,
+        startDate: new Date(),
+        parentEl: inputElement.parentElement,
+      });
+      // overrideCss(inputElement);
+      showDatePickerOnIconClick(inputElement);
     }
   };
 
