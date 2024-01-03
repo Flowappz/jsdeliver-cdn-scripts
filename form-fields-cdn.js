@@ -327,6 +327,19 @@ const formFieldsDateInput = async () => {
       outline: 0;
       border-color: #3898ec;
     }
+
+    .cancelBtn, .applyBtn {
+      width: fit-content;
+      background: rgb(239, 239, 239);
+      border-color: rgb(239, 239, 239);
+      padding: 8px 4px;
+    }
+
+    .applyBtn {
+      background: rgb(0, 123, 255);
+      color: white;
+      border-color: rgb(0, 123, 123);
+    }
     `;
     const res = await fetch("https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css");
     if (res.ok) {
