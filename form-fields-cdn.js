@@ -1,5 +1,5 @@
 /**
- * FORM FIELDS PRO CDN SCRIPT - v4.3.2
+ * FORM FIELDS PRO CDN SCRIPT - v4.3.3
  */
 
 /**
@@ -325,6 +325,13 @@ const formFieldsDateInput = async () => {
     const additionalCss = `
     .daterangepicker {
       font-family: inherit;
+      border-radius: 0;
+    }
+
+    .daterangepicker select.yearselect,
+    .daterangepicker select.monthselect {
+      border-radius: 0;
+      border-color: #ccc;
     }
 
     input.form-fields-dropdown-wrapper:focus-visible {
@@ -336,13 +343,13 @@ const formFieldsDateInput = async () => {
       width: fit-content;
       background: rgb(239, 239, 239);
       border-color: rgb(239, 239, 239);
-      padding: 8px 4px;
+      padding: 8px 12px !important;
     }
 
     .applyBtn {
-      background: rgb(0, 123, 255);
+      background: black;
       color: white;
-      border-color: rgb(0, 123, 123);
+      border-color: black;
     }
     `;
     const res = await fetch("https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css");
