@@ -1,5 +1,5 @@
 /**
- * FORM FIELDS PRO CDN SCRIPT - v4.3.1
+ * FORM FIELDS PRO CDN SCRIPT - v4.3.2
  */
 
 /**
@@ -323,6 +323,10 @@ const formFieldsDateInput = async () => {
 
   const loadDatePickerPackageCSS = async () => {
     const additionalCss = `
+    .daterangepicker {
+      font-family: inherit;
+    }
+
     input.form-fields-dropdown-wrapper:focus-visible {
       outline: 0;
       border-color: #3898ec;
