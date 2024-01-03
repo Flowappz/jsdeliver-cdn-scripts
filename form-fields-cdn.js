@@ -322,12 +322,18 @@ const formFieldsDateInput = async () => {
   };
 
   const loadDatePickerPackageCSS = async () => {
+    const additionalCss = `
+    input.form-fields-dropdown-wrapper:focus-visible {
+      outline: 0;
+      border-color: #3898ec;
+    }
+    `;
     const res = await fetch("https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css");
     if (res.ok) {
       // datePickerPackageCss = await res.text();
       const cssString = await res.text();
       const style = document.createElement("style");
-      style.innerHTML = `${cssString}`;
+      style.innerHTML = `${cssString} ${additionalCss}`;
 
       document.getElementsByTagName("head")[0].appendChild(style);
     }
