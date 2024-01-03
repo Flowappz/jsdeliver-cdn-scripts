@@ -629,10 +629,13 @@ const formFieldsSelect = async () => {
     height: 38px;
   }
 
-  
-
   .select2-search--dropdown .select2-search__field {
     padding: 8px 8px;
+  }
+
+  .select2-container--default .select2-search--dropdown .select2-search__field:focus-visible {
+    outline: 0;
+    border-color: #3898ec;
   }
   `;
 
