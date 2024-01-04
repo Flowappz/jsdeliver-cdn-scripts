@@ -1,5 +1,5 @@
 /**
- * FORM FIELDS PRO CDN SCRIPT - v4.3.4
+ * FORM FIELDS PRO CDN SCRIPT - v4.3.5
  */
 
 /**
@@ -256,6 +256,7 @@ const formFieldsDateInput = async () => {
     const div = document.createElement("div");
     div.style.position = "absolute";
     div.style.left = "0";
+    div.style.width = "100%";
 
     return div;
   };
@@ -350,6 +351,13 @@ const formFieldsDateInput = async () => {
       background: black;
       color: white;
       border-color: black;
+    }
+
+    @media (max-width: 485px) {
+      .daterangepicker .drp-selected {
+        width: 100%;
+        margin-bottom: 8px;
+      }
     }
     `;
     const res = await fetch("https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css");
