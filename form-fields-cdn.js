@@ -1,5 +1,5 @@
 /**
- * FORM FIELDS PRO CDN SCRIPT - v4.3.3
+ * FORM FIELDS PRO CDN SCRIPT - v4.3.4
  */
 
 /**
@@ -255,7 +255,7 @@ const formFieldsDateInput = async () => {
   const createPickerDropdownWrapperElement = () => {
     const div = document.createElement("div");
     div.style.position = "absolute";
-    div.style.width = "100vw";
+    div.style.left = "0";
 
     return div;
   };
