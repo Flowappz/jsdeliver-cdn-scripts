@@ -2,6 +2,11 @@
  * FORM FIELDS PRO CDN SCRIPT - v4.4.0
  */
 
+
+const EMAIL_PATTERN_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const URL_PATTERN_REGEX =
+  /^(?:(?:https?|ftp):\/\/)?(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-zA-Z\u00a1-\uffff0-9]-*)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]-*)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/;
+
 /**
  * SELECT2 JQUERY LIBRARY SCRIPT
  */
@@ -9488,53 +9493,6 @@ $(document).ready(async function () {
   });
 });
 
-// Advance Email Field
-$(document).ready(function () {
-  const inputElements = $('input[data-email="form-field-pro-email"]');
-  const mailFormat = /^[A-Za-z._\-0-9]*[@][A-Za-z]*[.][a-z]{2,8}$/;
-
-  inputElements.each(function () {
-    const $this = $(this);
-    const $nextElement = $this.next(".form-fields-data-validation-message");
-
-    $this.on("keyup", function () {
-      const inputValue = $this.val();
-
-      if (!mailFormat.test(inputValue) && inputValue !== "") {
-        $nextElement.text($this.data("invalid-error-msg"));
-      } else if (inputValue === "") {
-        $nextElement.text($this.data("empty-error-msg"));
-      } else {
-        $nextElement.text("");
-      }
-    });
-  });
-
-  // $("form").submit(async function (e) {
-  //   e.preventDefault();
-
-  //   let form = $(this);
-  //   let hasEmptyField = false;
-
-  //   await form.find('input[data-email="form-field-pro-email"]').each(function () {
-  //     if ($(this).val().trim() === "") {
-  //       hasEmptyField = true;
-  //       const $nextElement = $(this).next(".email-error-message");
-  //       $nextElement.text($(this).data("empty-error-msg"));
-  //     }
-  //   });
-
-  //   if (hasEmptyField) {
-  //     // $(this).off("submit");
-  //     // console.log("Form validation failed");
-  //   } else {
-  //     // $(this).off("submit").submit();
-  //     // console.log("Form submitted successfully");
-  //   }
-  // });
-  // })
-});
-
 // net promoter score
 $(document).ready(function () {
   const netPromoterElement = $('[data-field-name="net-promoter-score"]');
@@ -9851,3 +9809,32 @@ function getFormFieldsInputData(form) {
 }
 
 addCustomFormSubmissionLogic();
+
+// Validate field
+function validateFieldData(field, value, pattern, errorMessage) {
+  const formFieldsWrapper = getParentFormFieldsWrapperDiv(field);
+  const validationMessageNode = formFieldsWrapper?.querySelector(".form-fields-data-validation-message");
+
+  if (pattern.test(value)) return true;
+
+  validationMessageNode.innerHTML = errorMessage;
+  return false;
+}
+
+// URL validation
+
+const urlFields = document.querySelectorAll('.form-fields-wrapper input[name="url"]');
+urlFields.forEach((field) => {
+  field.addEventListener('input', e => {
+    validateFieldData(field, e.target.value, URL_PATTERN_REGEX, "Enter a valid URL");
+  });
+});
+
+// Email validation
+const emailFields = document.querySelectorAll("#form-field-pro-email");
+emailFields.forEach((field) => {
+  const message = field ? field.getAttribute("data-invalid-error-msg") : "";
+  field.addEventListener('input', e => {
+    validateFieldData(field, e.target.value, EMAIL_PATTERN_REGEX, message);
+  });
+});
