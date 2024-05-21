@@ -1,5 +1,5 @@
 /**
- * FORM FIELDS PRO CDN SCRIPT - v4.4.0
+ * FORM FIELDS PRO CDN SCRIPT - v4.4.1
  */
 
 
@@ -9700,7 +9700,7 @@ function getParentFormFieldsWrapperDiv(element) {
 function validateData(form) {
   const requiredFormFieldsInputFields = form.querySelectorAll(`.form-fields-wrapper [required]`);
 
-  let allChecksPassed = true;
+  let allChecksPassed = validateAllFields();
 
   for (let input of requiredFormFieldsInputFields) {
     const formFieldsWrapper = getParentFormFieldsWrapperDiv(input);
@@ -9815,7 +9815,10 @@ function validateFieldData(field, value, pattern, errorMessage) {
   const formFieldsWrapper = getParentFormFieldsWrapperDiv(field);
   const validationMessageNode = formFieldsWrapper?.querySelector(".form-fields-data-validation-message");
 
-  if (pattern.test(value)) return true;
+  if (pattern.test(value)) {
+    validationMessageNode.innerHTML = "";
+    return true;
+  }
 
   validationMessageNode.innerHTML = errorMessage;
   return false;
@@ -9823,18 +9826,36 @@ function validateFieldData(field, value, pattern, errorMessage) {
 
 // URL validation
 
-const urlFields = document.querySelectorAll('.form-fields-wrapper input[name="url"]');
+const urlFields = document.querySelectorAll('.form-fields-wrapper input[type="url"]');
 urlFields.forEach((field) => {
-  field.addEventListener('input', e => {
+  field.addEventListener("input", (e) => {
     validateFieldData(field, e.target.value, URL_PATTERN_REGEX, "Enter a valid URL");
   });
 });
 
 // Email validation
-const emailFields = document.querySelectorAll("#form-field-pro-email");
+const emailFields = document.querySelectorAll('.form-fields-wrapper input[type="email"]');
 emailFields.forEach((field) => {
   const message = field ? field.getAttribute("data-invalid-error-msg") : "";
-  field.addEventListener('input', e => {
+  field.addEventListener("input", (e) => {
     validateFieldData(field, e.target.value, EMAIL_PATTERN_REGEX, message);
   });
 });
+
+function validateAllFields() {
+  const urlFields = document.querySelectorAll('.form-fields-wrapper input[type="url"]');
+  const emailFields = document.querySelectorAll('.form-fields-wrapper input[type="email"]');
+
+  for (let f of urlFields) {
+    const valid = validateFieldData(f, f.value, URL_PATTERN_REGEX, "Please enter a valid url");
+    if (!valid) return false;
+  }
+
+  for (let f of emailFields) {
+    const message = f.getAttribute("data-invalid-error-msg") || "Please enter a valid email";
+    const valid = validateFieldData(f, f.value, EMAIL_PATTERN_REGEX, message);
+    if (!valid) return false;
+  }
+
+  return true;
+}
