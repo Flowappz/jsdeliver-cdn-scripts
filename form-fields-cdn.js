@@ -9709,6 +9709,8 @@ function validateData(form) {
     if (!input.value) {
       allChecksPassed = false;
       validationMessageNode.innerText = "This field is required";
+    }else if(!allChecksPassed){
+      validateAllFields()
     } else validationMessageNode.innerText = "";
   }
 
