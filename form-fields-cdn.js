@@ -9616,6 +9616,32 @@ $(document).ready(function () {
   document.getElementsByTagName("head")[0].appendChild(style);
 });
 
+// Validate field
+function validateFieldData(field, pattern, errorMessage) {
+  const formFieldsWrapper = getParentFormFieldsWrapperDiv(field);
+  const validationMessageNode = formFieldsWrapper?.querySelector(".form-fields-data-validation-message");
+
+  field.addEventListener('input', e => {
+    validationMessageNode.innerHTML = pattern.test(e.target.value) ? '' : errorMessage;
+  });
+}
+
+// URL validation
+const urlPattern = /^(?:(?:https?|ftp):\/\/)?(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-zA-Z\u00a1-\uffff0-9]-*)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]-*)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/;
+const urlFields = document.querySelectorAll('.form-fields-wrapper input[name="url"]');
+urlFields.forEach(field => {
+  validateFieldData(field, urlPattern, "Enter a valid URL");
+});
+
+// Email validation
+const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const emailFields = document.querySelectorAll('#form-field-pro-email');
+emailFields.forEach(field => {
+  const message = field ? field.getAttribute('data-invalid-error-msg') : ''
+
+  validateFieldData(field, emailPattern, message);
+});
+
 /**
  * ----
  * PREVENT DEFAULT FORM SUBMISSION
