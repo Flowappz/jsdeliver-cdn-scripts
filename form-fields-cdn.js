@@ -1,5 +1,6 @@
 /**
  * FORM FIELDS PRO CDN SCRIPT - v4.4.1
+ * ** CONDITIONAL LOGIC - v0.0.1 **
  */
 
 
@@ -9871,3 +9872,24 @@ function validateAllFields() {
 
   return true;
 }
+
+/**
+ * ----
+ * CONDITIONAL LOGIC - START
+ * ----
+ */
+
+/**
+ * 
+ * @param {HTMLElement} element 
+ */
+function toggleDisplay(element) {
+  if (element.style.display === "none") element.style.display = "initial";
+  else element.style.display = "none";
+}
+
+/**
+ * ----
+ * CONDITIONAL LOGIC - END
+ * ----
+ */
