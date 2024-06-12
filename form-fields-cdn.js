@@ -9922,6 +9922,22 @@ function syncFormState() {
 }
 
 /**
+ *
+ * @param {HTMLElement} element
+ */
+function reactToCurrentFormStateBasedOnConditionalLogic(element) {}
+
+/**
+ * @typedef {object} TRuleset
+ *
+ * @property {string} inputName
+ * @property {"HAS_ANY_VALUE" | "HAS_NO_VALUE" | "IS_EQUAL" | "NOT_EQUAL" | "CONTAINS" | "IS_GREATER_THAN" | "IS_LESS_THAN"} compareLogic
+ * @property {string} compareValue
+ */
+
+
+
+/**
  * ----
  * CONDITIONAL LOGIC - END
  * ----
