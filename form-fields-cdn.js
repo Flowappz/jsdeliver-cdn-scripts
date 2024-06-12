@@ -8172,6 +8172,11 @@ const URL_PATTERN_REGEX =
 });
 //# sourceMappingURL=/sm/f07d8d7b2652873f485707eab4f3d300bf1f6f3b42912e189c8933b1b9b3dfde.map
 
+const sleep = () =>
+  new Promise((resolve) => {
+    setTimeout(() => resolve(true), 5);
+  });
+
 /**
  * INITIALIZE DATE PICKERS
  */
@@ -8562,11 +8567,6 @@ formFieldsUserIp();
  * INITIALIZE RANGE SLIDERS
  */
 const formFieldsNumberSlider = async () => {
-  const sleep = () =>
-    new Promise((resolve) => {
-      setTimeout(() => resolve(true), 5);
-    });
-
   const additionalCss = `
     .noUi-horizontal {
       height: 12px;
@@ -9622,8 +9622,8 @@ function validateFieldData(field, pattern, errorMessage) {
   const formFieldsWrapper = getParentFormFieldsWrapperDiv(field);
   const validationMessageNode = formFieldsWrapper?.querySelector(".form-fields-data-validation-message");
 
-  field.addEventListener('input', e => {
-    validationMessageNode.innerHTML = pattern.test(e.target.value) ? '' : errorMessage;
+  field.addEventListener("input", (e) => {
+    validationMessageNode.innerHTML = pattern.test(e.target.value) ? "" : errorMessage;
   });
 }
 
@@ -9720,8 +9720,8 @@ function validateData(form) {
     if (!input.value) {
       allChecksPassed = false;
       validationMessageNode.innerText = "This field is required";
-    }else if(!allChecksPassed){
-      validateAllFields()
+    } else if (!allChecksPassed) {
+      validateAllFields();
     } else validationMessageNode.innerText = "";
   }
 
@@ -9885,6 +9885,8 @@ const conditionalLogicFields = document.querySelectorAll("[conditional-logic]");
 
 function initializeConditionalLogic() {
   conditionalLogicFields.forEach((field) => toggleDisplay(field));
+
+  observeInputChangesAndFireConditionalLogic();
 }
 
 initializeConditionalLogic();
@@ -9896,6 +9898,27 @@ initializeConditionalLogic();
 function toggleDisplay(element) {
   if (element.style.display === "none") element.style.display = "initial";
   else element.style.display = "none";
+}
+
+async function observeInputChangesAndFireConditionalLogic() {
+  syncFormState();
+
+  await sleep(450);
+  return observeInputChangesAndFireConditionalLogic();
+}
+
+function syncFormState() {
+  const allInputFields = [
+    ...document.querySelectorAll(`input.w-input`),
+    ...document.querySelectorAll("[form-fields-data-input]"),
+  ];
+
+  allInputFields.forEach((input) => {
+    const name = input.getAttribute("name");
+    const value = input.value;
+
+    FORM_STATE[name] = value;
+  });
 }
 
 /**
