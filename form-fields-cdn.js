@@ -9879,21 +9879,24 @@ function validateAllFields() {
  * ----
  */
 
-/**
- * 
- * @param {HTMLElement} element 
- */
-function toggleDisplay(element) {
-  if (element.style.display === "none") element.style.display = "initial";
-  else element.style.display = "none";
-}
-
+/** */
+const FORM_STATE = {};
 const conditionalLogicFields = document.querySelectorAll("[conditional-logic]");
+
 function initializeConditionalLogic() {
   conditionalLogicFields.forEach((field) => toggleDisplay(field));
 }
 
 initializeConditionalLogic();
+
+/**
+ *
+ * @param {HTMLElement} element
+ */
+function toggleDisplay(element) {
+  if (element.style.display === "none") element.style.display = "initial";
+  else element.style.display = "none";
+}
 
 /**
  * ----
