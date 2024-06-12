@@ -9935,8 +9935,34 @@ function reactToCurrentFormStateBasedOnConditionalLogic(element) {}
  * @property {string} compareValue
  */
 
+/**
+ *
+ * @param {TRuleset} ruleset
+ * @returns {boolean}
+ */
+function resolveConditionalLogicRuleset(ruleset) {
+  const { inputName, compareLogic, compareValue } = ruleset;
+  const inputValue = FORM_STATE[inputName] || "";
 
-
+  switch (compareLogic) {
+    case "HAS_ANY_VALUE":
+      return inputValue.length > 0;
+    case "HAS_NO_VALUE":
+      return inputValue.length === 0;
+    case "CONTAINS":
+      return inputValue.toLowerCase().includes(compareValue.toLowerCase());
+    case "IS_EQUAL":
+      return inputValue == compareValue;
+    case "NOT_EQUAL":
+      return inputValue != compareValue;
+    case "IS_GREATER_THAN":
+      return inputValue > compareValue;
+    case "IS_LESS_THAN":
+      return inputValue < compareValue;
+    default:
+      return false;
+  }
+}
 /**
  * ----
  * CONDITIONAL LOGIC - END
