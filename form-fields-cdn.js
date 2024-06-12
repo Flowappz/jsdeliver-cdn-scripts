@@ -9888,6 +9888,13 @@ function toggleDisplay(element) {
   else element.style.display = "none";
 }
 
+const conditionalLogicFields = document.querySelectorAll("[conditional-logic]");
+function initializeConditionalLogic() {
+  conditionalLogicFields.forEach((field) => toggleDisplay(field));
+}
+
+initializeConditionalLogic();
+
 /**
  * ----
  * CONDITIONAL LOGIC - END
