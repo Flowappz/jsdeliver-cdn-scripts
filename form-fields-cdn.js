@@ -9894,14 +9894,17 @@ initializeConditionalLogic();
 /**
  *
  * @param {HTMLElement} element
+ * @param {boolean} show
  */
-function toggleDisplay(element) {
-  if (element.style.display === "none") element.style.display = "initial";
+function toggleDisplay(element, show = false) {
+  if (show) element.style.display = "initial";
   else element.style.display = "none";
 }
 
 async function observeInputChangesAndFireConditionalLogic() {
   syncFormState();
+
+  conditionalLogicFields.forEach((field) => reactToCurrentFormStateBasedOnConditionalLogic(field));
 
   await sleep(450);
   return observeInputChangesAndFireConditionalLogic();
@@ -9925,7 +9928,14 @@ function syncFormState() {
  *
  * @param {HTMLElement} element
  */
-function reactToCurrentFormStateBasedOnConditionalLogic(element) {}
+function reactToCurrentFormStateBasedOnConditionalLogic(element) {
+  /** @type {TRuleset[][]} */
+  const ruleGroups = JSON.parse(element.getAttribute("conditional-logic"));
+
+  const result = ruleGroups.some((ruleGroup) => ruleGroup.every((rule) => resolveConditionalLogicRuleset(rule)));
+
+  toggleDisplay(element, result);
+}
 
 /**
  * @typedef {object} TRuleset
