@@ -9827,13 +9827,13 @@ function validateFieldData(field, value, pattern, errorMessage) {
   const formFieldsWrapper = getParentFormFieldsWrapperDiv(field);
   const validationMessageNode = formFieldsWrapper?.querySelector(".form-fields-data-validation-message");
 
-  if (pattern.test(value)) {
-    validationMessageNode.innerHTML = "";
-    return true;
+  if (!pattern.test(value) && value.length > 0) {
+    validationMessageNode.innerHTML = errorMessage;
+    return false;
   }
 
-  validationMessageNode.innerHTML = errorMessage;
-  return false;
+  validationMessageNode.innerHTML = "";
+  return true;
 }
 
 // URL validation
