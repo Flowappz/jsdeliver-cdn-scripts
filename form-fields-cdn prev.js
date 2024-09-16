@@ -1,5 +1,5 @@
 /**
- * FORM FIELDS PRO CDN SCRIPT - v4.5.2
+ * FORM FIELDS PRO CDN SCRIPT - v4.5.1
  */
 
 
@@ -8517,6 +8517,7 @@ const formFieldsDateInput = async () => {
   initializeDateRangePickers();
 };
 
+formFieldsDateInput();
 
 /**
  * INITIALIZE USER IP INPUTS
@@ -8559,6 +8560,7 @@ const formFieldsUserIp = async () => {
   collectUserIp();
 };
 
+formFieldsUserIp();
 
 /**
  * INITIALIZE RANGE SLIDERS
@@ -8740,6 +8742,7 @@ const formFieldsNumberSlider = async () => {
   initializeTheSliders();
 };
 
+formFieldsNumberSlider();
 
 /**
  * INITIALIZE SELECT INPUTS
@@ -8872,9 +8875,8 @@ const formFieldsSelect = async () => {
   }
 };
 
-/**
- * INITIALIZE PHONE NUMBER INPUTS
- */
+formFieldsSelect();
+
 //All script -> created by sakil ahmed
 
 // Number input field with country code
@@ -9134,7 +9136,7 @@ const countries = [
   { name: "Zimbabwe", code: "ZW", phone: 263 },
 ];
 
-async function formFieldsPhoneNumberInput() {
+$(document).ready(function () {
   const wrapperDiv = $('[data-form-field-pro="number-input-with-country-code"]');
 
   const lightTheme = {
@@ -9270,11 +9272,10 @@ async function formFieldsPhoneNumberInput() {
 
   options.on("click", selectOption);
   searchBox.on("input", searchCountry);
+});
 
-  await addThirdPartyScriptForPhoneNumberInput();
-}
-
-async function addThirdPartyScriptForPhoneNumberInput() {
+// new phone number input test
+$(document).ready(async function () {
   const addPhoneNumberInputScript = async () => {
     const res = await fetch(`https://cdn.jsdelivr.net/npm/intl-tel-input@21.2.7/build/js/intlTelInput.min.js`);
 
@@ -9323,12 +9324,11 @@ async function addThirdPartyScriptForPhoneNumberInput() {
   }
 
   $(".itl").css("display", "block");
-}
+});
 
-/**
- * INITIALIZE COLOR PICKER INPUTS
- */
-async function formFieldsColorPickerInput() {
+// Color picker input field
+
+$(document).ready(async function () {
   // https://cdn.jsdelivr.net/npm/spectrum-colorpicker2/dist/spectrum.min.js
   // add color picker library script
 
@@ -9388,40 +9388,39 @@ async function formFieldsColorPickerInput() {
 
     selectedInput.siblings().attr("value", color);
   });
-}
+});
 
-/**
- * INITIALIZE FILE UPLOADER INPUTS
- */
-async function formFieldsFileUploadInput() {
+// File Uploader
+
+$(document).ready(async function () {
   const customStyle = `
-  .dropzone{
-  background-color:transparent !important;
-  }
-  .dropzone .dz-message{
-          margin: 0;
-      }
-      .dz-message-content{
-          margin: 0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 5px;
-      }
-      .dz-message-link{
-          text-decoration: underline;
-      }
-      
-         .dropzone .dz-preview.dz-image-preview{
-          background-color: transparent;
-      }
+    .dropzone{
+    background-color:transparent !important;
+    }
+    .dropzone .dz-message{
+            margin: 0;
+        }
+        .dz-message-content{
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        .dz-message-link{
+            text-decoration: underline;
+        }
+        
+           .dropzone .dz-preview.dz-image-preview{
+            background-color: transparent;
+        }
 
-      .dropzone .dz-preview .dz-remove{
-          color: #000000;
-          text-decoration: none;
-      }
-      
-  `;
+        .dropzone .dz-preview .dz-remove{
+            color: #000000;
+            text-decoration: none;
+        }
+        
+    `;
 
   const addDropzoneCss = async () => {
     const res = await fetch(`https://unpkg.com/dropzone@5.9.3/dist/min/dropzone.min.css`);
@@ -9492,12 +9491,10 @@ async function formFieldsFileUploadInput() {
       $element.find(".dz-message-content svg, .dz-message-link").css("color", attrs.data_default_color);
     }
   });
-}
+});
 
-/**
- * INITIALIZE NET PROMOTER INPUTS
- */
-async function formFieldsNetPromoterScoreInput() {
+// net promoter score
+$(document).ready(function () {
   const netPromoterElement = $('[data-field-name="net-promoter-score"]');
 
   let lightTheme = {};
@@ -9576,49 +9573,48 @@ async function formFieldsNetPromoterScoreInput() {
   style.innerHTML = customStyle;
 
   document.getElementsByTagName("head")[0].appendChild(style);
-}
+});
 
-/**
- * INITIALIZE LIKERT SCALE INPUTS
- */
-async function formFieldsLikertScaleInput() {
+// Likert Scale field
+
+$(document).ready(function () {
   const customStyle = `
-  [data-field="likert-scale-field-radio"] {
-   opacity: 0;
-   visibility: hidden;
-   height: 0 !important;
-   margin: 0;
-   width: 0 !important;
-}
+           [data-field="likert-scale-field-radio"] {
+            opacity: 0;
+            visibility: hidden;
+            height: 0 !important;
+            margin: 0;
+            width: 0 !important;
+        }
 
-[data-field="likert-scale-field-radio"]:checked,
-[data-field="likert-scale-field-radio"]:not(:checked) + label{
-  width: 20px;
-   height: 20px;
-   display: inline-block;
-   border: 1px solid #000;
-   border-radius: 50%;
-   margin-bottom:0 !important;
-}
+        [data-field="likert-scale-field-radio"]:checked,
+        [data-field="likert-scale-field-radio"]:not(:checked) + label{
+           width: 20px;
+            height: 20px;
+            display: inline-block;
+            border: 1px solid #000;
+            border-radius: 50%;
+            margin-bottom:0 !important;
+        }
 
-[data-field="likert-scale-field-radio"]:checked + label{
-   width: 20px;
-   height: 20px;
-   display: inline-block;
-   border: 1px solid #000;
-   border-radius: 50%;
-   background-image: url('data:image/svg+xml,<svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.3333 1L4.54167 8.79167L1 5.25" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>');
-   background-repeat:no-repeat;
-   background-position: center;
-   margin-bottom:0 !important;
-}
-
-`;
+        [data-field="likert-scale-field-radio"]:checked + label{
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            border: 1px solid #000;
+            border-radius: 50%;
+            background-image: url('data:image/svg+xml,<svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.3333 1L4.54167 8.79167L1 5.25" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+            background-repeat:no-repeat;
+            background-position: center;
+            margin-bottom:0 !important;
+        }
+    
+    `;
   const style = document.createElement("style");
   style.innerHTML = customStyle;
 
   document.getElementsByTagName("head")[0].appendChild(style);
-}
+});
 
 // Validate field
 function validateFieldData(field, pattern, errorMessage) {
@@ -9644,6 +9640,8 @@ function preventWebflowDefaultFormSubmission() {
     });
   }
 }
+
+preventWebflowDefaultFormSubmission();
 
 /**
  * Custom form submisson handler
@@ -9822,6 +9820,8 @@ function getFormFieldsInputData(form) {
   return data;
 }
 
+addCustomFormSubmissionLogic();
+
 // Validate field
 function validateFieldData(field, value, pattern, errorMessage) {
   const formFieldsWrapper = getParentFormFieldsWrapperDiv(field);
@@ -9888,6 +9888,7 @@ function initializeConditionalLogic() {
   observeInputChangesAndFireConditionalLogic();
 }
 
+initializeConditionalLogic();
 
 /**
  *
@@ -9976,45 +9977,3 @@ function resolveConditionalLogicRuleset(ruleset) {
  * CONDITIONAL LOGIC - END
  * ----
  */
-
-async function initializeFormFieldsPro() {
-  const siteId = document.querySelector("html").getAttribute("data-wf-site");
-  const url = window.location.href;
-  if (isUsingWebflowDomain(url) || (await hasValidLicenseKey(siteId))) {
-    makeTheFormInteractive();
-  }
-}
-
-function isUsingWebflowDomain(url) {
-  return /.*\.webflow\..*/gim.test(url);
-}
-
-async function hasValidLicenseKey(siteId) {
-  const res = await fetch(
-    `https://cache-service-staging.up.railway.app/api/license?siteId=${siteId}&appName=form-fields-pro`
-  );
-  if (res.ok) {
-    data = await res.json();
-
-    return data.active;
-  }
-  return false;
-}
-
-async function makeTheFormInteractive() {
-  formFieldsDateInput();
-  formFieldsUserIp();
-  formFieldsNumberSlider();
-  formFieldsSelect();
-  formFieldsPhoneNumberInput();
-  formFieldsColorPickerInput();
-  formFieldsFileUploadInput();
-  formFieldsNetPromoterScoreInput();
-  formFieldsLikertScaleInput();
-
-  preventWebflowDefaultFormSubmission();
-  addCustomFormSubmissionLogic();
-  initializeConditionalLogic();
-}
-
-initializeFormFieldsPro();
