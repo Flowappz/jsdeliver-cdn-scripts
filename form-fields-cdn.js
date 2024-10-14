@@ -11419,89 +11419,96 @@ async function handleFormSubmit(form) {
   });
 
   const siteId = document.querySelector("html").getAttribute("data-wf-site");
-  // checking the submission to notion status
-  const isSubmittingToNotionResponse = await fetch(
-    `http://localhost:3000/api/sites/getSubmittingToNotionStatus?siteId=${siteId}`,
-    {
-      method: "GET",
-    }
-  );
-  console.log("is submitting", isSubmittingToNotionResponse);
 
-  // Parse the JSON response
-  const isSubmittingToNotion = await isSubmittingToNotionResponse.json();
-  console.log(
-    "notion submitting status",
-    isSubmittingToNotion.isSubmittingToNotion
-  );
-
-  if (!isSubmittingToNotion.isSubmittingToNotion) {
-    const response = await fetch(`https://webflow.com/api/v1/form/${siteId}`, {
-      method: "POST",
-      body: payload,
-    });
-    submitButton.value = submitButtonOriginalLabel;
-    const formId = form.id;
-
-    const redirectUrl = form.getAttribute("redirect");
-    if (redirectUrl) window.location.href = redirectUrl;
-    else if (response.ok) {
-      document.querySelector(`#${formId} ~ .w-form-done`).style.display =
-        "block";
-      form.style.display = "none";
-    } else {
-      document.querySelector(`#${formId} ~ .w-form-fail`).style.display =
-        "block";
-      form.style.display = "none";
-    }
-  } else {
-    const notionPayload = new URLSearchParams({
-      ...webflowInputs,
-      ...formFieldsInputs,
-    });
-
-    const parsedData = {};
-
-    notionPayload.forEach((value, key) => {
-      const formattedKey = key.replace(/^fields\[(.*)\]$/, "$1");
-      parsedData[formattedKey] = value;
-    });
-
-    const response = await fetch(
-      "http://localhost:3000/api/sites/formSubmissionToNotion",
-      {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          siteId: siteId,
-          data: parsedData,
-        }),
-      }
+  try {
+    // Checking the submission to Notion status
+    const isSubmittingToNotionResponse = await fetch(
+      `http://localhost:3000/api/sites/getSubmittingToNotionStatus?siteId=${siteId}`,
+      { method: "GET" }
     );
-    if (!response.ok) {
-       await fetch(`https://webflow.com/api/v1/form/${siteId}`, {
-        method: "POST",
-        body: payload,
+
+    const isSubmittingToNotion = await isSubmittingToNotionResponse.json();
+    console.log(
+      "Notion submitting status",
+      isSubmittingToNotion.isSubmittingToNotion
+    );
+
+    if (!isSubmittingToNotion.isSubmittingToNotion) {
+      const response = await fetch(
+        `https://webflow.com/api/v1/form/${siteId}`,
+        {
+          method: "POST",
+          body: payload,
+        }
+      );
+
+      submitButton.value = submitButtonOriginalLabel;
+      const formId = form.id;
+
+      const redirectUrl = form.getAttribute("redirect");
+      if (redirectUrl) {
+        window.location.href = redirectUrl;
+      } else if (response.ok) {
+        document.querySelector(`#${formId} ~ .w-form-done`).style.display =
+          "block";
+        form.style.display = "none";
+      } else {
+        document.querySelector(`#${formId} ~ .w-form-fail`).style.display =
+          "block";
+        form.style.display = "none";
+      }
+    } else {
+      const notionPayload = new URLSearchParams({
+        ...webflowInputs,
+        ...formFieldsInputs,
       });
 
-    console.log("response", response);
-    submitButton.value = submitButtonOriginalLabel;
-    const formId = form.id;
+      const parsedData = {};
+      notionPayload.forEach((value, key) => {
+        const formattedKey = key.replace(/^fields\[(.*)\]$/, "$1");
+        parsedData[formattedKey] = value;
+      });
 
-    const redirectUrl = form.getAttribute("redirect");
-    if (redirectUrl) window.location.href = redirectUrl;
-    else if (response.ok) {
-      document.querySelector(`#${formId} ~ .w-form-done`).style.display =
-        "block";
-      form.style.display = "none";
-    } else {
-      document.querySelector(`#${formId} ~ .w-form-fail`).style.display =
-        "block";
-      form.style.display = "none";
+      const notionResponse = await fetch(
+        "http://localhost:3000/api/sites/formSubmissionToNotion",
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            siteId: siteId,
+            data: parsedData,
+          }),
+        }
+      );
+      let webflowResponse = {};
+      if (!notionResponse.ok) {
+        webflowResponse = await fetch(
+          `https://webflow.com/api/v1/form/${siteId}`,
+          { method: "POST", body: payload }
+        );
+      }
+      submitButton.value = submitButtonOriginalLabel;
+      const formId = form.id;
+
+      const redirectUrl = form.getAttribute("redirect");
+      if (redirectUrl) {
+        window.location.href = redirectUrl;
+      } else if (notionResponse.ok || webflowResponse.ok) {
+        document.querySelector(`#${formId} ~ .w-form-done`).style.display =
+          "block";
+        form.style.display = "none";
+      } else {
+        document.querySelector(`#${formId} ~ .w-form-fail`).style.display =
+          "block";
+        form.style.display = "none";
+      }
     }
+  } catch (error) {
+    console.error("Error during form submission:", error);
+    submitButton.value = submitButtonOriginalLabel;
   }
 }
 
